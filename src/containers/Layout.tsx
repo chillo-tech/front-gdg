@@ -10,9 +10,9 @@ function Layout({ children }: { children: any }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="w-full h-screen relative bg-slate-200 flex flex-col justify-between items-center">
+      <section className="w-full min-h-screen relative bg-slate-200 flex flex-col justify-between items-center">
         <Header />
-        <main>{children}</main>
+        <main className='w-[70%] mx-auto'>{children}</main>
         <Footer />
       </section>
     </>
