@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  front-gdg:
+    container_name: front-gdg
+    image: simachille/front-gdg:latest
+    restart: always
+    ports:
+      - "85:3000"
+
+    networks:
+      - applications-network
+networks:
+  applications-network:
+    external: true
+    name: applications-network
