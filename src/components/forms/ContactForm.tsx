@@ -7,9 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import Input from './inputs/Input';
 import Select from './inputs/Select';
-import { CIVILITIES, TERMES_PROPOSITIONS } from 'utils/constants';
+import { CIVILITIES, TERMES_PROPOSITIONS } from '@/utils';
 import TextArea from './inputs/TextArea';
-import Button from 'components/buttons/Button';
+import Button from '@/components/buttons/Button';
 
 type Props = {
   className?: string;

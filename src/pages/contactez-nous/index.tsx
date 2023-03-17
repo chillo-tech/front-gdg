@@ -1,8 +1,8 @@
-import ContactForm from 'components/forms/ContactForm';
-import Layout from 'containers/Layout';
+import ContactForm from '@/components/forms/ContactForm';
+import Layout from '@/containers/Layout';
 import Head from 'next/head';
 import React from 'react';
-import { APP_NAME } from 'utils/constants';
+import { APP_NAME } from '@/utils/constants';
 
 const ContactPage = () => {
   return (
