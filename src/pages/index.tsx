@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import { APP_DESCRIPTION, APP_NAME } from 'utils/constants'
-import Layout from 'containers/Layout'
+import { APP_DESCRIPTION, APP_NAME } from '@/utils/constants'
+import Layout from '@/containers/Layout'
 
 export default function Home() {
   return (
