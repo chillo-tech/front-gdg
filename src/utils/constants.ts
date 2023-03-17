@@ -1,8 +1,3 @@
-/**
- * Constants used everywhere in the projet
- */
-
-import { option } from "components/forms/inputs/Select";
 
 
 export const APP_NAME = 'Front GDG';
@@ -24,7 +19,7 @@ export const ROUTE_CONTACT = '/contactez-nous';
 export const INITIAL_STATE = {}
 
 //Forms datas
-export const  CIVILITIES: option[] = [
+export const  CIVILITIES: any[] = [
     {
         value: 'monsieur',
         label: 'M.',
@@ -39,7 +34,7 @@ export const  CIVILITIES: option[] = [
     },
 ]
 
-export const  TERMES_PROPOSITIONS: option[] = [
+export const  TERMES_PROPOSITIONS: any[] = [
     {
         value: true,
         label: 'Oui',
