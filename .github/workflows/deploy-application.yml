@@ -29,8 +29,7 @@ jobs:
     needs: create-folder
     steps:
       - uses: actions/checkout@master
-      - 
-        name: copy file via ssh password
+      - name: copy file via ssh password
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.PROD_APPLICATIONS_HOST }}
@@ -50,16 +49,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       
-      -
-        name: Login to DockerHub
+      - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
