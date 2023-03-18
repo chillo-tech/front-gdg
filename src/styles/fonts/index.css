@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: local('HelveticaNeue'),
+    url('./HelveticaNeue/HelveticaNeue-MediumExt.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+main,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+span {
+  font-family: 'HelveticaNeue', 'system-ui', 'sans-serif';
+}

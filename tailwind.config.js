@@ -2,21 +2,25 @@
 module.exports = {
   content: [
     // Or if using `src` directory:
-    "./src/**/*.{js,ts,jsx,tsx}"
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontFamily: {
+      body: ['HelveticaNeue', 'sans-serif'],
+    },
     extend: {
+      backgroundImage: {
+        header: "url('/assets/images/bg-header.png')",
+      },
       container: {
         center: true,
       },
       colors: {
-        'app-yellow': '#ffd75e',
-        'app-brown': '#ffd75e',
+        'app-yellow': '#FFD75E',
+        'app-brown': '#42210B',
         'app-black': '#292929',
-      }
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
-}
+  plugins: [require('@tailwindcss/forms')],
+};

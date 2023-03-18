@@ -4,19 +4,22 @@ import Link from 'next/link';
 
 type Props = {
   href: string;
+  active?: boolean;
   className?: string;
   children: any;
 };
 
-function NavLink({ href, className, children }: Props) {
+function NavLink({active, href, className, children }: Props) {
   return (
-    <div
+    <Link
       className={classNames(
-        'uppercase text-lg border-b-4 hover:border-white border-transparent',
+        'uppercase font-semibold text-lg hover:text-app-yellow',
+        active ? 'text-app-yellow' : 'text-app-black',
         className
-      )}>
-      <Link href={href}>{children}</Link>
-    </div>
+      )}
+      href={href}>
+      {children}
+    </Link>
   );
 }
 
