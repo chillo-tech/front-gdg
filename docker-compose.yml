@@ -9,8 +9,8 @@ services:
       - "85:3000"
 
     networks:
-      - applications-network
+      - gdg-network
 networks:
-  applications-network:
+  gdg-network:
     external: true
-    name: applications-network
+    name: gdg-network
