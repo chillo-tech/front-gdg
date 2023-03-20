@@ -17,7 +17,8 @@ function ButtonCall({ className }: Props) {
     <button
       onClick={call}
       className={classNames(
-        'md:hidden flex cursor-pointer items-center justify-center h-24 w-full absolute bottom-0 left-0 bg-app-yellow text-white text-md',
+        'flex absolute bottom-0 left-0 cursor-pointer px-2 h-24 w-full items-center justify-center bg-app-yellow text-white text-md',
+        'md:relative md:w-fit md:h-full md:pt-4',
         className
       )}>
       <span className="mr-2 rounded-full p-2 border-2 border-white">

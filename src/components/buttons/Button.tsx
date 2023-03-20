@@ -15,12 +15,12 @@ function Button({ title, type = 'button', className }: Props) {
         className={classNames(
           `
                 w-full
-                mt-5
-                bg-stone-900
+                bg-app-yellow
                 text-white
                 rounded
                 border border-gray-600
-                p-3
+                py-2
+                px-6
                 transition
                 hover:bg-opacity-90
                 `,

@@ -4,6 +4,7 @@ import { FieldError } from 'react-hook-form/dist/types';
 
 type Props = {
   className?: string;
+  contentClassName?: string;
   placeholder: string;
   type: string;
   label?: string;
@@ -14,6 +15,7 @@ type Props = {
 
 function Input({
   className,
+  contentClassName,
   label,
   type,
   name,
@@ -27,20 +29,26 @@ function Input({
         'md:flex items-baseline gap-4 mb-2 my-4',
         className
       )}>
-      <label className="text-black" htmlFor={name}>
-        {label}
-      </label>
-      <div>
+      {label ? (
+        <label className="text-black" htmlFor={name}>
+          {label}
+        </label>
+      ) : null}
+
+      <div className='w-full'>
         <input
           type={type}
           id={name}
           placeholder={placeholder}
-          className={
-            'w-full px-4 py-2 bg-transparent rounded-md border-2 border-gray-600 appearance-none focus:outline-none focus:ring-0'
-          }
+          className={classNames(
+            'w-full px-4 py-2 bg-transparent rounded-md border-2 border-gray-600 appearance-none focus:outline-none focus:ring-0',
+            contentClassName
+          )}
           {...register(name)}
         />
-        <p className='text-red-500 text-center' >{error ? error.message : ''}</p>
+        {error?.message ? (
+          <p className="text-red-500 text-center">{error.message}</p>
+        ) : null}
       </div>
     </div>
   );

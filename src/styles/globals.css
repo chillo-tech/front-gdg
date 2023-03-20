@@ -2,5 +2,6 @@
 @tailwind components;
 
 @import url("./fonts/index.css");
+@import url("./custom.css");
 
 @tailwind utilities;
