@@ -1,4 +1,4 @@
-const base = "id,libelle,souslibelle,ordre";
+const base = "id,libelle,sous_libelle,ordre";
 
 const MENU =  `${base}`;
 
