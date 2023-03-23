@@ -5,26 +5,26 @@ type Props = {
   className?: string;
   title: string;
   type?: 'button' | 'submit' | 'reset';
+  onClick?: any;
 };
 
-function Button({ title, type = 'button', className }: Props) {
+function Button({ title, type = 'button', className, onClick }: Props) {
   return (
     <div>
       <button
+        onClick={onClick ? onClick : () => {}}
         type={type}
         className={classNames(
-          `
-                w-full
-                bg-app-yellow
+          `     w-full
                 text-white
-                rounded
-                border border-gray-600
+                rounded-md
+                border-0
                 py-2
                 px-6
                 transition
-                hover:bg-opacity-90
+                hover:bg-opacity-80
                 `,
-          className
+          className ? className : 'bg-app-green'
         )}>
         {title}
       </button>

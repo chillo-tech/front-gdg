@@ -3,7 +3,15 @@ import Header from './Header';
 import React from 'react';
 import Head from 'next/head';
 
-function Layout({ children }: { children: any }) {
+function Layout({
+  children,
+  headerTitle,
+  headerChildren,
+}: {
+  children: any;
+  headerTitle: string;
+  headerChildren?: any;
+}) {
   return (
     <>
       <Head>
@@ -11,8 +19,8 @@ function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="w-full min-h-screen relative bg-slate-200 flex flex-col justify-between items-center">
-        <Header />
-        <main className='w-[70%] mx-auto'>{children}</main>
+        <Header headerTitle={headerTitle}>{headerChildren ? headerChildren : null}</Header>
+        <main className="w-full pt-8 md:pt-28 bg-white">{children}</main>
         <Footer />
       </section>
     </>

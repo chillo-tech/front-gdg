@@ -19,7 +19,6 @@ const schema = yup
     email: yup
       .string()
       .email('Veuillez entrer un email correct.')
-      .required('Ce champ est requis.'),
   })
   .required();
 
@@ -80,20 +79,20 @@ const Footer = () => {
           <span className="text-md w-full text-[#FFFFFF80]">
             Connectez vous pour recevoir plus de notification
           </span>
-          <div className="flex items-center w-full border-b-2 border-[#FFFFFF40] pb-2">
+          <div className="flex items-end md:items-center gap-2 w-full border-b-2 border-[#FFFFFF40] my-2 pb-2">
             <Input
               type="email"
-              className='flex-1'
+              className='flex-1 mb-0 md:mb-0 my-0'
               contentClassName="rounded-none border-none text-white placeholder-white px-0"
               error={errors?.email}
               name="email"
               placeholder="Votre email"
               register={register}
             />
-            <Button type='submit' title='Envoyer' />
+            <Button className='bg-app-yellow' type='submit' title='Envoyer' />
           </div>
         </div>
-        <div className="flex flex-col items-center w-full border-t-2 border-[#FFFFFF80] pt-6">
+        <div className="flex flex-col items-center w-full border-t-2 border-[#FFFFFF80] pt-4">
           <div className="h-full w-44 flex items-end">
             <img
               src="/assets/images/logo-blanc.png"

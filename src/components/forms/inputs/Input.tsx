@@ -1,11 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import { FieldError } from 'react-hook-form/dist/types';
+import { FieldError, UseFormWatch } from 'react-hook-form/dist/types';
+import { AnyAaaaRecord } from 'dns';
+import { FormSchema } from '../CustomForm';
 
 type Props = {
   className?: string;
   contentClassName?: string;
   placeholder: string;
+  value?: string;
   type: string;
   label?: string;
   name: string;
@@ -17,38 +20,37 @@ function Input({
   className,
   contentClassName,
   label,
+  value,
   type,
   name,
   placeholder,
   error,
   register,
 }: Props) {
+
   return (
     <div
       className={classNames(
-        'md:flex items-baseline gap-4 mb-2 my-4',
+        'flex-1 md:flex items-baseline gap-4 mt-4 mb-0 md:mb-8',
         className
       )}>
-      {label ? (
-        <label className="text-black" htmlFor={name}>
-          {label}
+      <div className="w-full relative">
+        <label className="text-black opacity-25 absolute -top-3 text-xs" htmlFor={name}>
+          {value ? placeholder : ''}
         </label>
-      ) : null}
-
-      <div className='w-full'>
         <input
           type={type}
           id={name}
           placeholder={placeholder}
           className={classNames(
-            'w-full px-4 py-2 bg-transparent rounded-md border-2 border-gray-600 appearance-none focus:outline-none focus:ring-0',
+            'w-full text-left px-0 py-2 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-app-yellow',
             contentClassName
           )}
           {...register(name)}
         />
-        {error?.message ? (
-          <p className="text-red-500 text-center">{error.message}</p>
-        ) : null}
+        <p className="text-red-500 text-sm text-center absolute -bottom-6">
+          {error?.message}
+        </p>
       </div>
     </div>
   );

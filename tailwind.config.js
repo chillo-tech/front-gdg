@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         header: "url('/assets/images/bg-header.png')",
+        contact: "url('/assets/images/bg-contact.png')",
       },
       container: {
         center: true,
@@ -19,6 +20,9 @@ module.exports = {
         'app-yellow': '#FFD75E',
         'app-brown': '#42210B',
         'app-black': '#292929',
+        'app-beige': '#FFD75E26',
+        'app-green': '#3ACB3A',
+        'app-gray': '#eeeeee'
       },
     },
   },
