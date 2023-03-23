@@ -8,24 +8,24 @@ import SpaceCard from '../space-card';
 function Spaces() {
   const [spaces, setSpaces] = useState([]);
   useQuery<any>({
-    queryKey: ['Spaces'],
+    queryKey: ['nos_espaces'],
     onSuccess: (data) => {
       setSpaces(data.data.data);
     },
     queryFn: () =>
       fetchData({
         path: 'espace',
-        limit: 4,
         fields: PARTIAL_SPACES,
       }),
   });
   return (
-    <section className='bg-app-light-yellow pt-24 pb-10'>
+    <section className='bg-app-light-yellow pt-10 md:pt-24 pb-10'>
       <div className="container">
         <h1 className='text-app-black text-4xl font-bold text-center md:text-left'>Nos espaces</h1>
         {spaces && spaces.length ? (
-                  <section className='flex shrink gap-5 justify-between py-9'>
+                  <section className='flex flex-col md:flex-row shrink gap-5 justify-between py-9'>
                     {spaces
+                      .filter((item: any) => item.prix.length)
                       .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
                       .map((item: any, index: any) => <SpaceCard data={item} key={`space-${index}`}/>)}
                   </section>

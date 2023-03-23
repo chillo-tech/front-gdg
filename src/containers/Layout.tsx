@@ -1,7 +1,11 @@
 import Footer from './Footer';
 import Header from './Header';
-import React from 'react';
+import React, { useContext } from 'react';
 import Head from 'next/head';
+import { useQuery } from 'react-query';
+import { fetchData } from '@/services';
+import { ENTREPRISE } from '@/utils';
+import { ApplicationContext } from '@/context/ApplicationContext';
 
 function Layout({
   children,
@@ -12,6 +16,21 @@ function Layout({
   headerTitle: string;
   headerChildren?: any;
 }) {
+  const context = useContext(ApplicationContext);
+  const {updateData} = context;
+
+  useQuery<any>({
+    queryKey: ['entreprisessss'],
+    queryFn: () =>
+      fetchData({
+        path: 'etablissement',
+        fields: ENTREPRISE,
+      }),
+    onSuccess: (data) => {
+      updateData({entreprise: data.data.data[0]});
+    }
+  });
+
   return (
     <>
       <Head>
@@ -20,7 +39,7 @@ function Layout({
       </Head>
       <section className="w-full min-h-screen relative bg-slate-200 flex flex-col justify-between items-center">
         <Header headerTitle={headerTitle}>{headerChildren ? headerChildren : null}</Header>
-        <main className="w-full pt-8 md:pt-28 bg-white">{children}</main>
+        <main className="w-full bg-white">{children}</main>
         <Footer />
       </section>
     </>

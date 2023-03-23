@@ -1,14 +1,13 @@
-import { INITIAL_STATE } from '../utils/constants';
+import { UPDATE_DATA,INITIAL_STATE } from '@/utils';
 
 const ApplicationReducer = (state: any = INITIAL_STATE, action: any) => {
   const { type, data } = action || {};
   switch (type) {
-    //TODO: handle type
-    case 'TEST':
-      console.log(type + ' ' + data);
-      break;
+    case UPDATE_DATA:
+      return { ...state, ...data}
+    default:
+      return state;
   }
-  return state;
 };
 
 export { ApplicationReducer };

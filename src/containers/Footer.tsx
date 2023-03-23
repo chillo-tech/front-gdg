@@ -1,6 +1,5 @@
-import React from 'react';
-import FooterLink from '@/components/FooterLink';
-import { CONTACT_PHONE_NUMBER, ROUTE_ACCUEIL } from '@/utils';
+import React, { useContext } from 'react';
+import { CONTACT_PHONE_NUMBER,  } from '@/utils';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { HiPhone } from 'react-icons/hi';
@@ -10,6 +9,7 @@ import { useRouter } from 'next/router';
 import Input from '@/components/forms/inputs/Input';
 import Button from '@/components/buttons/Button';
 import Image from 'next/image';
+import { ApplicationContext } from '@/context/ApplicationContext';
 
 export type Email = {
   email: string;
@@ -48,37 +48,35 @@ const Footer = () => {
     resolver: yupResolver(schema),
   });
 
-  const call = async () => {
-    if (typeof window !== 'undefined') {
-      window.open(CONTACT_PHONE_NUMBER.url);
-    }
-  };
-
+  const {state:{menus, entreprise}} = useContext(ApplicationContext);
   return (
     <footer className="w-full flex flex-col items-center justify-center pt-6 md:pb-10 bg-app-black text-white">
-      <div className="flex flex-col gap-4 items-center w-[95%] md:w-[80%] h-[85%] pt-10 md:pt-2">
-        <div className="md:flex w-full justify-center items-center">
-          <FooterLink href={ROUTE_ACCUEIL}>Accueil</FooterLink>
-          <FooterLink href={ROUTE_ACCUEIL}>Votre gite</FooterLink>
-          <FooterLink href={ROUTE_ACCUEIL}>Réservation</FooterLink>
-          <FooterLink href={ROUTE_ACCUEIL}>Nous connaître</FooterLink>
-          <FooterLink href={ROUTE_ACCUEIL}>Contact</FooterLink>
-          <button
-            onClick={call}
-            className={
-              'flex cursor-pointer h-20 w-full items-center justify-center text-white text-md'
-            }>
-            <span className="mr-2 rounded-full p-2 border-2 border-white">
-              <HiPhone />
-            </span>
-            <Link href={CONTACT_PHONE_NUMBER.url}>
-              {CONTACT_PHONE_NUMBER.label}
-            </Link>
-          </button>
-        </div>
+      <div className="container flex items-center justify-center">
+        {menus ? (
+          <ul className='flex flex-col md:flex-row items-center justify-center'>
+            {
+              menus.map((menu: any) => 
+                <li key={`footer-${menu.id}-item`}><Link className='block py-1 px-5 text-[#FFFFFF80] hover:text-app-gray' href={`${menu.slug}`}>{menu.libelle}</Link></li>)}
+          {
+            (entreprise && entreprise.contact) ? (
+            <li>
+              <Link href={`tel:${entreprise.contact[0].item.telephone}`} className="py-5 flex items-center justify-center">
+                <span className="mr-2 rounded-full p-2 border-2 border-white">
+                  <HiPhone />
+                </span>
+                {entreprise.contact[0].item.telephone}
+              </Link>
+            </li>
+            ) : null
+          }
+          
+          </ul>
+        ): null}
+      </div>
+      <div className="flex flex-col gap-4 items-center w-[95%] md:w-[80%] h-[85%] md:pt-2">
         <div className="flex flex-col flex-1 w-full md:w-[70%] my-4">
           <span className="text-md w-full text-[#FFFFFF80]">
-            Connectez vous pour recevoir plus de notification
+            Connectez vous pour recevoir nos actualités
           </span>
           <div className="flex items-end md:items-center gap-2 w-full border-b-2 border-[#FFFFFF40] my-2 pb-2">
             <Input
@@ -103,18 +101,14 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <button
-        onClick={call}
-        className={
-          'flex md:hidden cursor-pointer px-2 mt-8 h-20 w-full bg-app-yellow items-center justify-center text-white text-md'
-        }>
+      {(entreprise && entreprise.contact) ? (
+      <Link href={`tel:${entreprise.contact[0].item.telephone}`} className="flex items-center justify-center bg-app-yellow w-full py-2 mt-2 md:hidden">
         <span className="mr-2 rounded-full p-2 border-2 border-white">
           <HiPhone />
         </span>
-        <Link href={CONTACT_PHONE_NUMBER.url}>
-          {CONTACT_PHONE_NUMBER.label}
-        </Link>
-      </button>
+        {entreprise.contact[0].item.telephone}
+      </Link>
+      ): null }
     </footer>
   );
 };

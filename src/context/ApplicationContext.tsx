@@ -1,9 +1,10 @@
-import { createContext, useMemo, useReducer } from 'react';
-import { INITIAL_STATE } from '@/utils/constants';
+import { createContext, useCallback, useMemo, useReducer } from 'react';
+import { INITIAL_STATE, UPDATE_DATA } from '@/utils/constants';
 import { ApplicationReducer } from './ApplicationReducer';
 
 interface AppContextInterface {
   state: any;
+  updateData: (data: any) => void
 }
 
 type Props = {
@@ -15,15 +16,17 @@ export const ApplicationContext = createContext<AppContextInterface>(
 function ApplicationContextWrapper({ children }: Props) {
   const [state, dispatch] = useReducer(ApplicationReducer, INITIAL_STATE);
 
-  const authContext = useMemo(
+  const updateData = useCallback((data: {}) => dispatch({type: UPDATE_DATA, data}),[]);
+  const appContext = useMemo(
     () => ({
       state,
+      updateData
     }),
-    [state]
+    [state, updateData]
   );
 
   return (
-    <ApplicationContext.Provider value={{ ...authContext }}>
+    <ApplicationContext.Provider value={{ ...appContext }}>
       {children}
     </ApplicationContext.Provider>
   );

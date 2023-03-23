@@ -18,6 +18,7 @@ export const ROUTE_RESET_PASSWORD = '/reset-password';
 
 //Initial State
 export const INITIAL_STATE = {};
+export const UPDATE_DATA = "UPDATE_DATA";
 
 //Forms datas
 export const CIVILITIES: any[] = [
