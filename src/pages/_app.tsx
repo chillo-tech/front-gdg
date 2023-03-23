@@ -8,8 +8,8 @@ export default function App({ Component, pageProps }: AppProps) {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: 3600000, //1jour
-        cacheTime: 3600000, //1jour
+        staleTime: 0, //1jour
+        cacheTime: 0, //1jour
       },
       mutations: {
         

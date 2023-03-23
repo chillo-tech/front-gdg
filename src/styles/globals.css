@@ -1,7 +1,15 @@
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
 
 @import url("./fonts/index.css");
 @import url("./custom.css");
 
-@tailwind utilities;
+@layer base {
+  .outline-yellow-button {
+    @apply border border-app-yellow rounded-lg text-app-yellow p-1 text-center hover:bg-app-yellow hover:text-app-black;
+  }
+  .yellow-button {
+    @apply border border-app-yellow rounded-lg bg-[#FFD75E40] text-app-yellow p-1 text-center;
+  }
+}
