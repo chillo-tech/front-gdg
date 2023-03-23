@@ -1,5 +1,5 @@
 import { createContext, useMemo, useReducer } from 'react';
-import { INITIAL_STATE } from 'utils/constants';
+import { INITIAL_STATE } from '@/utils/constants';
 import { ApplicationReducer } from './ApplicationReducer';
 
 interface AppContextInterface {
