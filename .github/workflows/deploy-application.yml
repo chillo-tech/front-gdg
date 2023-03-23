@@ -20,8 +20,8 @@ jobs:
         username: ${{ secrets.PROD_APPLICATIONS_USERNAME }}
         key: ${{ secrets.PROD_APPLICATIONS_SSH_PRIVATE_KEY }}
         script: |
-          sudo mkdir -p /opt/applications/${{ secrets.COMPANY }}/${{ secrets.PROJECT }}
-          sudo chmod ugo+rwx /opt/applications/${{ secrets.COMPANY }}/${{ secrets.PROJECT }}
+          sudo mkdir -p /opt/applications/${{ secrets.COMPANY }}/front-gdg
+          sudo chmod ugo+rwx /opt/applications/${{ secrets.COMPANY }}/front-gdg
 
   copy-configs:
     name: "copy configs"
@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.PROD_APPLICATIONS_USERNAME }}
           key: ${{ secrets.PROD_APPLICATIONS_SSH_PRIVATE_KEY }}
           source: "docker-compose.yml"
-          target: "/opt/applications/${{ secrets.COMPANY }}/${{ secrets.PROJECT }}"
+          target: "/opt/applications/${{ secrets.COMPANY }}/front-gdg"
 
   dockerize:
     runs-on: ubuntu-latest
@@ -75,7 +75,7 @@ jobs:
         username: ${{ secrets.PROD_APPLICATIONS_USERNAME }}
         key: ${{ secrets.PROD_APPLICATIONS_SSH_PRIVATE_KEY }}
         script: |
-          docker compose -f /opt/applications/${{ secrets.COMPANY }}/${{ secrets.PROJECT }}/docker-compose.yml stop
-          docker compose -f /opt/applications/${{ secrets.COMPANY }}/${{ secrets.PROJECT }}/docker-compose.yml rm -f
-          docker rmi simachille/${{ secrets.PROJECT }}:latest
-          sudo docker compose -f /opt/applications/${{ secrets.COMPANY }}/${{ secrets.PROJECT }}/docker-compose.yml up -d
+          docker compose -f /opt/applications/${{ secrets.COMPANY }}/front-gdg/docker-compose.yml stop
+          docker compose -f /opt/applications/${{ secrets.COMPANY }}/front-gdg/docker-compose.yml rm -f
+          docker rmi simachille/front-gdg:latest
+          sudo docker compose -f /opt/applications/${{ secrets.COMPANY }}/front-gdg/docker-compose.yml up -d
