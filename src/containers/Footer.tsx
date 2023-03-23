@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import Input from '@/components/forms/inputs/Input';
 import Button from '@/components/buttons/Button';
+import Image from 'next/image';
 
 export type Email = {
   email: string;
@@ -54,7 +55,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="w-full flex flex-col h-[40rem] md:h-96 items-center justify-center bg-app-black text-white">
+    <footer className="w-full flex flex-col items-center justify-center pt-6 md:pb-10 bg-app-black text-white">
       <div className="flex flex-col gap-4 items-center w-[95%] md:w-[80%] h-[85%] pt-10 md:pt-2">
         <div className="md:flex w-full justify-center items-center">
           <FooterLink href={ROUTE_ACCUEIL}>Accueil</FooterLink>
@@ -94,7 +95,8 @@ const Footer = () => {
         </div>
         <div className="flex flex-col items-center w-full border-t-2 border-[#FFFFFF80] pt-4">
           <div className="h-full w-44 flex items-end">
-            <img
+            <Image
+            width={150} height={120}
               src="/assets/images/logo-blanc.png"
               alt="logo Gite de la Gare"
             />

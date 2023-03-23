@@ -16,6 +16,7 @@ import {
 import ButtonCall from '@/components/buttons/ButtonCall';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import Image from 'next/image';
 
 type Props = {
   headerTitle: string;
@@ -46,14 +47,9 @@ const Header = ({ children, headerTitle }: Props) => {
         <div className={classNames( pathname === ROUTE_ACCUEIL ? 'bg-header' : 'bg-contact' ,"relative flex flex-col justify-center items-center w-full h-screen bg-center bg-no-repeat bg-cover")}>
           <div className="bg-[rgba(255,255,255,0.92)] absolute top-0 left-0 flex items-center justify-center w-full px-10 h-24 bg-blend-darken">
             <div className="text-center h-full flex flex-1 gap-1 items-end pb-4 justify-center">
-              <div className="h-full w-24 flex items-end">
-                <img src="/assets/images/logo.png" alt="logo Gite de la Gare" />
+              <div className="h-full w-24 flex flex-1 items-end">
+                <Image height={120} width={150} src="/assets/images/logo.png" alt="logo Gite de la Gare" />
               </div>
-              <span className="text-sm leading-4 text-left w-full text-app-brown font-semibold">
-                LE GITE DE
-                <br />
-                LA GARE
-              </span>
             </div>
             <div className="text-center h-full flex flex-3 items-end justify-end pr-2">
               <nav

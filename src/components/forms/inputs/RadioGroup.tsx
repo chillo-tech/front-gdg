@@ -39,12 +39,13 @@ function RadioGroup({
               'w-full flex flex-col gap-4 px-4 py-2 bg-transparent appearance-none focus:outline-none focus:ring-0'
             }>
             {values.map((option: option, index: number) => (
-              <div className="w-full flex justify-start gap-4 items-center">
+              <div
+                key={`c-${name}-${index}`}
+                className="w-full flex justify-start gap-4 items-center">
                 <input
                   {...register(name)}
                   type="radio"
                   className="cursor-pointer focus:outline-none focus:ring-0 checked:bg-app-green rounded-sm checked:text-app-green"
-                  key={`c-${name}-${index}`}
                   name={name}
                   id={`c-${name}-${index}`}
                   value={option.value}
