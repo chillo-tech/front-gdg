@@ -20,7 +20,7 @@ function Layout({
   const {updateData} = context;
 
   useQuery<any>({
-    queryKey: ['entreprisessss'],
+    queryKey: ['entrepries'],
     queryFn: () =>
       fetchData({
         path: 'etablissement',
