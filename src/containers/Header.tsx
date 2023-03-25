@@ -50,7 +50,7 @@ const Header = ({ children, headerTitle }: Props) => {
   });
   return (
     <>
-      {menus && menus.length ? (
+      {menus && menus.length || true ? (
         <div className={classNames( pathname === ROUTE_ACCUEIL ? 'bg-header' : 'bg-contact' ,"relative flex flex-col justify-center items-center w-full h-screen bg-center bg-no-repeat bg-cover")}>
           <div className="bg-[rgba(255,255,255,0.92)] absolute top-0 left-0 flex items-center justify-center w-full px-10 h-24 bg-blend-darken">
             <div className="text-center h-full flex flex-1 gap-1 items-end pb-4 justify-center">
@@ -120,7 +120,7 @@ const Header = ({ children, headerTitle }: Props) => {
                 className="rounded-full p-2 absolute top-[5%] border-2 border-app-black">
                 <RxCross1 />
               </button>
-              {menus ? (
+              {menus && false ? (
                 <>
                   {menus
                     .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
@@ -138,7 +138,7 @@ const Header = ({ children, headerTitle }: Props) => {
                   <NavLink
                     active={ROUTE_ACCUEIL === pathname}
                     href={ROUTE_ACCUEIL}>
-                    Accueil
+                    Accueil*
                   </NavLink>
                   <NavLink
                     active={ROUTE_VOTRE_GITE === pathname}
