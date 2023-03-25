@@ -38,7 +38,7 @@ function TextArea({
           rows={rows}
           {...register(name)}
           placeholder={placeholder}
-          className="w-full py-4 text-left px-0 resize-none outline-none
+          className="scrollbar-hide w-full py-4 text-left px-0 resize-none outline-none
                         bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-app-yellow"></textarea>
         <p className="text-red-500 text-left">{error ? error.message : ''}</p>
       </div>

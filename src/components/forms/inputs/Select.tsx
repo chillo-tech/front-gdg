@@ -28,17 +28,16 @@ function Select({
   register,
 }: Props) {
   return (
-    <div
-      className={classNames('md:flex items-baseline gap-4 mb-2 my-4', className)}>
-      <label className="text-black" htmlFor={name}>
-        {label}
-      </label>
-      <div>
-        <div className="flex relative gap-[1px] items-center pr-5">
+    <div className={classNames('md:flex w-full items-baseline gap-4 my-6 md:my-2', className)}>
+      <div className='w-full'>
+        <label className="text-black font-semibold" htmlFor={name}>
+          {label}
+        </label>
+        <div className="flex w-full relative gap-[1px] items-center pr-5">
           <select
             id={name}
             className={
-              'w-full px-4 py-2 bg-transparent rounded-md border-2 border-gray-600 appearance-none focus:outline-none focus:ring-0'
+              'w-full text-black opacity-60 px-0 py-4 md:py-2 border-0 border-b-2 md:border-b-0 border-gray-400 appearance-none focus:border-app-yellow focus:outline-none focus:ring-0'
             }
             {...register(name)}>
             <option disabled selected value={''}>
@@ -50,7 +49,6 @@ function Select({
               </option>
             ))}
           </select>
-          <BiDownArrow className='absolute right-1 mr-5' color='#00000033' />
         </div>
         <p className="text-red-500 text-center">{error ? error.message : ''}</p>
       </div>

@@ -47,8 +47,8 @@ const Header = ({ children, headerTitle }: Props) => {
         <div className={classNames( pathname === ROUTE_ACCUEIL ? 'bg-header' : 'bg-contact' ,"relative flex flex-col justify-center items-center w-full h-screen bg-center bg-no-repeat bg-cover")}>
           <div className="bg-[rgba(255,255,255,0.92)] absolute top-0 left-0 flex items-center justify-center w-full px-10 h-24 bg-blend-darken">
             <div className="text-center h-full flex flex-1 gap-1 items-end pb-4 justify-center">
-              <div className="h-full w-24 flex flex-1 items-end">
-                <Image height={120} width={150} src="/assets/images/logo.png" alt="logo Gite de la Gare" />
+              <div className="h-full w-36 md:w-28 flex flex-1 items-end">
+                <Image height={130} width={160} src="/assets/images/logo.png" alt="logo Gite de la Gare" />
               </div>
             </div>
             <div className="text-center h-full flex flex-3 items-end justify-end pr-2">
@@ -159,7 +159,7 @@ const Header = ({ children, headerTitle }: Props) => {
             </nav>
           </div>
           <div
-            className="flex flex-col gap-4 w-11/12 md:w-5/6 rounded-3xl p-2 h-[50%] justify-center items-center backdrop-blur-sm"
+            className="flex flex-col gap-4 w-11/12 md:w-5/6 rounded-3xl p-2 mt-20 pt-8 pb-16 h-[80%] md:h-[55%] justify-center items-center backdrop-blur-sm"
             style={{ background: '#42210B73 0% 0% no-repeat padding-box' }}>
             <h1 className="text-5xl break-before-avoid text-center w-full text-white font-bold">
               {headerTitle}
