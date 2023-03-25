@@ -17,12 +17,14 @@ module.exports = {
         center: true,
       },
       colors: {
+        'app-light-yellow': '#FFD75E26',
         'app-yellow': '#FFD75E',
         'app-brown': '#42210B',
         'app-black': '#292929',
         'app-beige': '#FFD75E26',
         'app-green': '#3ACB3A',
-        'app-gray': '#eeeeee'
+        'app-gray': '#eeeeee',
+        'app-white': '#F6F6F6'
       },
     },
   },
