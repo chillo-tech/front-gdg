@@ -4,6 +4,7 @@ import Head from 'next/head';
 import React from 'react';
 import { APP_NAME, HEADER_CONTACT } from '@/utils/constants';
 import SubTitle from '@/components/texts/SubTitle';
+import Temoignages from '@/containers/Temoignages';
 
 const ContactPage = () => {
   return (
@@ -13,14 +14,14 @@ const ContactPage = () => {
       <Head>
         <title> {APP_NAME} | Contactez-nous</title>
       </Head>
-      <div className="flex w-full h-full pb-8 md:pb-32">
-        <div></div>
+      <div className="flex w-full h-full pt-10 md:pt-28 pb-8 md:pb-32">
         <ContactForm
           title="Contactez nous"
           messageTitle="Objet du message"
           action={(data: any) => console.log(data)}
         />
       </div>
+        <Temoignages />
     </Layout>
   );
 };

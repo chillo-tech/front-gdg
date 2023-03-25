@@ -13,7 +13,7 @@ function NousConnaitre() {
       <Head>
         <title> {APP_NAME} | Nous Connaître</title>
       </Head>
-      <div className="flex flex-col mb-8 md:mb-28 items-center font-thin text-center">
+      <div className="flex flex-col pt-10 md:pt-28 mb-8 md:mb-28 items-center font-thin text-center">
         <h1 className="w-full text-4xl">Qui sommes nous?</h1>
         <span className="ml-28 mt-4 h-[0.15rem] w-40 bg-app-black"></span>
       </div>

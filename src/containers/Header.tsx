@@ -61,7 +61,7 @@ const Header = ({ children, headerTitle }: Props) => {
             <div className="text-center h-full flex flex-3 items-end justify-end pr-2">
               <nav
                 className={`hidden md:flex justify-end h-full items-center gap-5`}>
-                {menus ? (
+                {menus && false ? (
                   <>
                     {menus
                       .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
