@@ -30,14 +30,14 @@ function Select({
   return (
     <div className={classNames('md:flex w-full items-baseline gap-4 my-6 md:my-2', className)}>
       <div className='w-full'>
-        <label className="text-black font-semibold" htmlFor={name}>
+        <label className="text-app-black font-semibold" htmlFor={name}>
           {label}
         </label>
         <div className="flex w-full relative gap-[1px] items-center pr-5">
           <select
             id={name}
             className={
-              'w-full text-black opacity-60 px-0 py-4 md:py-2 border-0 border-b-2 md:border-b-0 border-gray-400 appearance-none focus:border-app-yellow focus:outline-none focus:ring-0'
+              'w-full text-app-black opacity-60 px-0 py-4 md:py-2 border-0 border-b-2 md:border-b-0 border-gray-400 appearance-none focus:border-app-yellow focus:outline-none focus:ring-0'
             }
             {...register(name)}>
             <option disabled selected value={''}>

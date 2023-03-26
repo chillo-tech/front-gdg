@@ -29,7 +29,7 @@ function TextArea({
       )}>
       <div className="w-full">
         <label
-          className="text-black"
+          className="text-app-black"
           htmlFor={name}>
           {label}
         </label>

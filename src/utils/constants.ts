@@ -140,3 +140,14 @@ export const PAYMENT_METHOD = {
     value: 'BUY_ON_GITE',
   },
 };
+
+//Gite 
+export type GitePreview = {
+  pictureURL: string;
+  name: string;
+  rate: number;
+  address: string;
+  pricePerNight: number;
+  status: 'available' | 'unavailable';
+  shouldBePaidInAdvance: boolean;
+}

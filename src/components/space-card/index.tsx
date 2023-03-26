@@ -12,7 +12,7 @@ function SpaceCard({data}: any) {
             wrapperClasses="rounded-lg overflow-hidden h-full" 
           />) : null
       }
-      <div className="left-0 top-0 flex flex-col justify-end absolute py-4 px-6 bg-black/40 w-full h-full rounded-lg text-app-white">
+      <div className="left-0 top-0 flex flex-col justify-end absolute py-4 px-6 bg-app-black/40 w-full h-full rounded-lg text-app-white">
         <h3 className='text-xl font-semibold'>{data.libelle}</h3>
         <div>
           <h4 className="font-extrabold text-3xl my-1">{data.prix[0].prix_id.valeur} &euro;</h4>

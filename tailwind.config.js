@@ -24,7 +24,9 @@ module.exports = {
         'app-beige': '#FFD75E26',
         'app-green': '#3ACB3A',
         'app-gray': '#eeeeee',
-        'app-white': '#F6F6F6'
+        'app-white': '#F6F6F6',
+        'app-small-black': '#29292955',
+        'app-xs-black': '#29292924',
       },
     },
   },

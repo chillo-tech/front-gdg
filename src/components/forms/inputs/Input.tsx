@@ -35,7 +35,7 @@ function Input({
         className
       )}>
       <div className="w-full relative">
-        <label className="text-black opacity-25 absolute -top-3 text-xs" htmlFor={name}>
+        <label className="text-app-black opacity-25 absolute -top-3 text-xs" htmlFor={name}>
           {value ? placeholder : ''}
         </label>
         <input
