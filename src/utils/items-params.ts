@@ -3,7 +3,9 @@ const prix = "prix.prix_id.valeur,prix.prix_id.date";
 const image = `
     images.directus_files_id.id,
     images.directus_files_id.title,
-    images.directus_files_id.description
+    images.directus_files_id.description,
+    images.directus_files_id.*
+
     `;
 const adresse = `
   adresse.item.code_postal,

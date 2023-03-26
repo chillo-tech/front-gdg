@@ -14,7 +14,7 @@ export default function Home() {
         <title>{APP_NAME}</title>
         <meta name="description" content={APP_DESCRIPTION} />
       </Head>
-
+      <Description />
       <Spaces />
       <NousTrouver />
       <AvisUtilisateurs />
