@@ -1,3 +1,4 @@
+import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 import SubTitle from '@/components/texts/SubTitle';
 import Layout from '@/containers/Layout';
 import Temoignages from '@/containers/Temoignages';
@@ -47,7 +48,7 @@ function NousConnaitre() {
           ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
         </p>
       </div>
-      <Temoignages />
+      <AvisUtilisateurs />
     </Layout>
   );
 }

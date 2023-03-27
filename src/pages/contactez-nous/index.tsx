@@ -5,6 +5,7 @@ import React from 'react';
 import { APP_NAME, HEADER_CONTACT } from '@/utils/constants';
 import SubTitle from '@/components/texts/SubTitle';
 import Temoignages from '@/containers/Temoignages';
+import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 
 const ContactPage = () => {
   return (
@@ -21,7 +22,7 @@ const ContactPage = () => {
           action={(data: any) => console.log(data)}
         />
       </div>
-        <Temoignages />
+      <AvisUtilisateurs />
     </Layout>
   );
 };

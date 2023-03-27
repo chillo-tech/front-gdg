@@ -23,15 +23,15 @@ function AvisUtilisateurs() {
                     //.sort((a: any, b:any) => a.moyenne > b.moyenne ? -1 : 1)
                     .slice(0, 4).map((avis: any, index: number) => (
                         <article
-                            key={`adresse-${avis.item.id}-${index}`}
+                            key={`adresse-${avis.item?.id}-${index}`}
                             className="bg-app-white flex flex-col mb-3 text-xl shadow-md justify-between rounded-xl p-5 border border-gray-200"
                         >
-                          <RenderHtmlContent content={avis.item.commentaire} classes="text-lg"/>
+                          <RenderHtmlContent content={avis?.item?.commentaire} classes="text-lg"/>
                           <div className="flex flex-col mt-3">
                             <Rating rate={5} />
                             <div className='text-left font-extralight text-md'>
-                              {avis?.item.prenom}
-                              <span className='uppercase ml-1'>{avis?.item.nom}</span>
+                              {avis?.item?.prenom}
+                              <span className='uppercase ml-1'>{avis?.item?.nom}</span>
                             </div>
                           </div> 
                         </article>

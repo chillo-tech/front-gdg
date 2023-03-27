@@ -6,6 +6,7 @@ import Temoignages from '@/containers/Temoignages';
 import { APP_NAME, GitePreview, HEADER_VOTRE_GITE } from '@/utils';
 import Head from 'next/head';
 import Card from '@/components/gite-card/Card';
+import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 
 //Only for front-end developpement purpose
 const dummyData: GitePreview[] = [
@@ -87,7 +88,7 @@ function VotreGite() {
           })}
         </div>
       </div>
-      <Temoignages />
+      <AvisUtilisateurs />
     </Layout>
   );
 }
