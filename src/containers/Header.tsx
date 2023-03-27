@@ -25,7 +25,10 @@ type Props = {
 };
 
 const Header = ({ children, headerTitle }: Props) => {
-  const {updateData, state: {entreprise}} = useContext(ApplicationContext);
+  const {
+    updateData,
+    state: { entreprise },
+  } = useContext(ApplicationContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const [menus, setMenus] = React.useState([]);
   const [pathname, setPathname] = React.useState(ROUTE_ACCUEIL);
@@ -45,17 +48,26 @@ const Header = ({ children, headerTitle }: Props) => {
       }),
     onSuccess: (data) => {
       setMenus(data.data.data);
-      updateData({menus: data.data.data});
-    }
+      updateData({ menus: data.data.data });
+    },
   });
   return (
     <>
       {menus && menus.length ? (
-        <div className={classNames( pathname === ROUTE_ACCUEIL ? 'bg-header' : 'bg-contact' ,"relative flex flex-col justify-center items-center w-full h-screen bg-center bg-no-repeat bg-cover")}>
-          <div className="bg-[rgba(255,255,255,0.92)] absolute top-0 left-0 flex items-center justify-center w-full px-10 bg-blend-darken">
+        <div
+          className={classNames(
+            pathname === ROUTE_ACCUEIL ? 'bg-header' : 'bg-contact',
+            'relative flex flex-col justify-center items-center w-full h-screen bg-center bg-no-repeat bg-cover'
+          )}>
+          <div className="bg-[rgba(255,255,255,0.92)] absolute top-0 left-0 flex items-center justify-center w-full px-10 h-24 bg-blend-darken">
             <div className="text-center h-full flex flex-1 gap-1 items-end pb-4 justify-center">
               <div className="h-full w-36 md:w-28 flex flex-1 items-end">
-                <Image height={130} width={160} src="/assets/images/logo.png" alt="logo Gite de la Gare" />
+                <Image
+                  height={130}
+                  width={160}
+                  src="/assets/images/logo.png"
+                  alt="logo Gite de la Gare"
+                />
               </div>
             </div>
             <div className="text-center h-full flex flex-3 items-end justify-end pr-2">
@@ -63,34 +75,38 @@ const Header = ({ children, headerTitle }: Props) => {
                 className={`hidden md:flex justify-end h-full items-center gap-5`}>
                 {menus && false ? (
                   <>
-                     {menus ? (
-                        <ul className='flex flex-col md:flex-row items-center justify-center'>
-                          {
-                            menus
-                            .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
-                            .map((menu: any) => 
-                              <li key={`footer-${menu.id}-item`}>
-                                <Link className='block py-1 px-5 text-[#FFFFFF80] hover:text-app-gray' href={`${menu.slug}`}>{menu.libelle}</Link>
-                                <NavLink
-                                  active={`${menu.slug}` === pathname}
-                                  href={`${menu.slug}`}>
-                                  {menu.libelle}
-                                </NavLink>
-                              </li>
-                              )}
-                                {
-                                  (entreprise && entreprise.contact) ? (
-                                    <Link href={`tel:${entreprise.contact[0].item.telephone}`} 
-                                      className="bg-app-yellow px-3 py-5 flex items-center justify-center text-app-white">
-                                      <span className="mr-2 rounded-full p-2 border-2 border-white">
-                                        <HiPhone />
-                                      </span>
-                                      {entreprise.contact[0].item.telephone}
-                                    </Link>
-                                  ) : null
-                                }
-                        </ul>
-                      ): null}
+                    {menus ? (
+                      <ul className="flex flex-col md:flex-row items-center justify-center">
+                        {menus
+                          .sort((a: any, b: any) =>
+                            a.ordre > b.ordre ? 1 : -1
+                          )
+                          .map((menu: any) => (
+                            <li key={`footer-${menu.id}-item`}>
+                              <Link
+                                className="block py-1 px-5 text-[#FFFFFF80] hover:text-app-gray"
+                                href={`${menu.slug}`}>
+                                {menu.libelle}
+                              </Link>
+                              <NavLink
+                                active={`${menu.slug}` === pathname}
+                                href={`${menu.slug}`}>
+                                {menu.libelle}
+                              </NavLink>
+                            </li>
+                          ))}
+                        {entreprise && entreprise.contact ? (
+                          <Link
+                            href={`tel:${entreprise.contact[0].item.telephone}`}
+                            className="bg-app-yellow px-3 py-5 flex items-center justify-center text-app-white">
+                            <span className="mr-2 rounded-full p-2 border-2 border-white">
+                              <HiPhone />
+                            </span>
+                            {entreprise.contact[0].item.telephone}
+                          </Link>
+                        ) : null}
+                      </ul>
+                    ) : null}
                   </>
                 ) : (
                   <>
@@ -121,6 +137,7 @@ const Header = ({ children, headerTitle }: Props) => {
                     </NavLink>
                   </>
                 )}
+                <ButtonCall />
               </nav>
               <button
                 onClick={toggle}
