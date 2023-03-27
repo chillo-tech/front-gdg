@@ -27,6 +27,7 @@ module.exports = {
         'app-white': '#F6F6F6',
         'app-small-black': '#29292955',
         'app-xs-black': '#29292924',
+        'app-sm-white': '#F6F6F6'
       },
     },
   },

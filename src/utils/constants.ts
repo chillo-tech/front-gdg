@@ -143,6 +143,8 @@ export const PAYMENT_METHOD = {
 
 //Gite 
 export type GitePreview = {
+  notReserved?: boolean;
+  className?: string;
   pictureURL: string;
   name: string;
   rate: number;
