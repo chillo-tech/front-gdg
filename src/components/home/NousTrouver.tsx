@@ -11,15 +11,15 @@ function NousTrouver() {
     {(entreprise?.adresse)? (
       <section className="bg-white overflow-hidden md:py-20 relative">
           <div className="container">
-              <div className="flex justify-center grid gap-2 lg:grid-cols-2 relative">
-              <div className="p-8 z-1 hidden lg:block bg-white rounded-3xl shadow-lg shadow-indigo mx-20" style={{zIndex: 1}}>
+              <div className="flex items-stretch grid gap-2 lg:grid-cols-2 relative">
+              <div className="p-8 z-1 hidden lg:block bg-white rounded-3xl shadow-lg shadow-indigo" style={{zIndex: 1}}>
                       <RenderHtmlContent content={entreprise.abstrait}/>
                       <p className='mt-2'>Retrouvez nous au </p>
                           {
                               entreprise?.adresse.map((adresse: any, index: number) => (
                                   <p
                                       key={`adresse-${adresse.item.id}-${index}`}
-                                      className="flex items-center text-bold font-bold"
+                                      className="flex items-center font-extrabold text-xl"
                                   >
                                       {`${adresse.item.rue}, ${adresse.item.code_postal} ${adresse.item.ville}`}
                                   </p>

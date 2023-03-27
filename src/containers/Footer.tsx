@@ -55,21 +55,22 @@ const Footer = () => {
         {menus ? (
           <ul className='flex flex-col md:flex-row items-center justify-center'>
             {
-              menus.map((menu: any) => 
+              menus
+              .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
+              .map((menu: any) => 
                 <li key={`footer-${menu.id}-item`}><Link className='block py-1 px-5 text-[#FFFFFF80] hover:text-app-gray' href={`${menu.slug}`}>{menu.libelle}</Link></li>)}
-          {
-            (entreprise && entreprise.contact) ? (
-            <li>
-              <Link href={`tel:${entreprise.contact[0].item.telephone}`} className="py-5 flex items-center justify-center">
-                <span className="mr-2 rounded-full p-2 border-2 border-white">
-                  <HiPhone />
-                </span>
-                {entreprise.contact[0].item.telephone}
-              </Link>
-            </li>
-            ) : null
-          }
-          
+                  {
+                    (entreprise && entreprise.contact) ? (
+                    <li>
+                      <Link href={`tel:${entreprise.contact[0].item.telephone}`} className="py-5 flex items-center justify-center">
+                        <span className="mr-2 rounded-full p-2 border-2 border-white">
+                          <HiPhone />
+                        </span>
+                        {entreprise.contact[0].item.telephone}
+                      </Link>
+                    </li>
+                    ) : null
+                  }
           </ul>
         ): null}
       </div>
