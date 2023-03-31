@@ -122,7 +122,7 @@ function DetailsGite({ slug }: { slug: string }) {
       <div className="flex flex-col py-14 items-center font-thin text-center">
         <h2 className="w-full text-4xl">Constitution du gite</h2>
       </div>
-      <div className="w-3/4 grid gap-4 pb-20 grid-cols-12 mx-auto">
+      <div className="w-3/4 grid gap-4 pb-20 grid-cols-6 md:grid-cols-12 mx-auto">
         {gite?.titresDeValeur.map((titreDeValeur: string) => {
           return (
             <div className="col-span-3 text-center">
