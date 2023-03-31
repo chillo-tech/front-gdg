@@ -53,7 +53,7 @@ const Header = ({ children, headerTitle }: Props) => {
   });
   return (
     <>
-      {menus && menus.length ? (
+      {menus && menus.length || true ? (
         <div
           className={classNames(
             pathname === ROUTE_ACCUEIL ? 'bg-header' : 'bg-contact',

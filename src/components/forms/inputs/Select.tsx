@@ -37,7 +37,7 @@ function Select({
           <select
             id={name}
             className={
-              'w-full text-app-black opacity-60 px-0 py-4 md:py-2 border-0 border-b-2 md:border-b-0 border-gray-400 appearance-none focus:border-app-yellow focus:outline-none focus:ring-0'
+              'w-full cursor-pointer text-app-black opacity-60 px-0 py-4 md:py-2 border-0 border-b-2 md:border-b-0 border-gray-400 appearance-none focus:border-app-yellow focus:outline-none focus:ring-0'
             }
             {...register(name)}>
             <option disabled selected value={''}>

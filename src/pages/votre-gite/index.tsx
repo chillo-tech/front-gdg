@@ -2,7 +2,6 @@ import React from 'react';
 import SubTitle from '@/components/texts/SubTitle';
 import Layout from '@/containers/Layout';
 import SearchBar from '@/containers/SearchBar';
-import Temoignages from '@/containers/Temoignages';
 import { APP_NAME, GitePreview, HEADER_VOTRE_GITE } from '@/utils';
 import Head from 'next/head';
 import Card from '@/components/gite-card/Card';
@@ -54,6 +53,15 @@ const dummyData: GitePreview[] = [
     rate: 2.5,
     shouldBePaidInAdvance: false,
     status: 'unavailable',
+  },
+  {
+    name: 'Nom du gite 6',
+    address: 'Adresse du gite 6',
+    pictureURL: '/assets/images/bg-header.png',
+    pricePerNight: 100,
+    rate: 5,
+    shouldBePaidInAdvance: true,
+    status: 'available',
   },
 ];
 

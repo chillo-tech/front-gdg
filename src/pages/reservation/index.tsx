@@ -71,6 +71,7 @@ function Reservation() {
           dummyData.map((gite, index) => (
             <GiteCard
               address={gite.address}
+              notReserved={false}
               name={gite.name}
               pictureURL={gite.pictureURL}
               pricePerNight={gite.pricePerNight}

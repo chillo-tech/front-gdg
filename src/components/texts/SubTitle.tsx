@@ -13,7 +13,7 @@ function SubTitle({ subtitle }: SubTitleProps) {
       <>
         {subtitle?.previousPages?.map((previousPage, index) => {
           return (
-            <Link key={index} href={previousPage.href} className="text-[#FFD75E80]">
+            <Link key={index} href={previousPage.href} className="text-app-dark-yellow hover:text-app-yellow">
               {previousPage.title}
               {index + 1 !== subtitle?.previousPages?.length ? (
                 <IoIosArrowForward className="inline mx-2" />

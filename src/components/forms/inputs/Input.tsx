@@ -31,7 +31,7 @@ function Input({
   return (
     <div
       className={classNames(
-        'flex-1 md:flex items-baseline gap-4 mt-4 mb-0 md:mb-8',
+        'flex-1 md:flex items-baseline cursor-pointer gap-4 mt-4 mb-0 md:mb-8',
         className
       )}>
       <div className="w-full relative">

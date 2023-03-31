@@ -1,10 +1,11 @@
 import React from 'react';
 import { BsCheck } from 'react-icons/bs';
-import { GitePreview } from '@/utils';
+import { GitePreview, ROUTE_VOTRE_GITE, slugify } from '@/utils';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Button from '../buttons/Button';
 import RatingStar from '../RatingStar';
+import Link from 'next/link';
 
 function GiteCard({
   className,
@@ -20,7 +21,9 @@ function GiteCard({
   return (
     <div
       className={classNames(
-        `rounded-lg overflow-hidden flex items-stretch border border-app-gray shadow-lg justify-between ${!notReserved ? 'h-64 md:h-48' : 'h-48'} w-full ${className}`
+        `rounded-lg overflow-hidden flex items-stretch border border-app-gray shadow-lg justify-between ${
+          !notReserved ? 'h-64 md:h-48' : 'h-48'
+        } w-full ${className}`
       )}>
       <div className={classNames('w-1/3 h-full')}>
         <Image
@@ -37,7 +40,11 @@ function GiteCard({
         )}>
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div>
-            <h3 className="text-app-black font-semibold text-xl">{name}</h3>
+            <Link
+              className="text-app-black font-semibold text-xl"
+              href={`${ROUTE_VOTRE_GITE}/${slugify(name)}`}>
+              {name}
+            </Link>
             <RatingStar classNames={notReserved ? 'my-2' : ''} rate={rate} />
             <span className="text-app-small-black">{address}</span>
           </div>
@@ -57,7 +64,10 @@ function GiteCard({
             <div className="flex md:flex-col justify-between md:justify-start text-xs md:text-base">
               <span className="text-app-small-black">
                 Statut :{' '}
-                <strong className="text-app-green opacity-100">
+                <strong
+                  className={`${
+                    status === 'available' ? 'text-app-green' : 'text-app-brown'
+                  } opacity-100`}>
                   {status === 'available' ? 'Disponible' : 'Indisponible'}
                 </strong>
               </span>

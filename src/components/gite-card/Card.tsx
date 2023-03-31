@@ -1,4 +1,5 @@
-import { GitePreview } from '@/utils';
+import { GitePreview, ROUTE_VOTRE_GITE, slugify } from '@/utils';
+import Link from 'next/link';
 import React from 'react';
 import GiteCard from '.';
 import Button from '../buttons/Button';
@@ -13,6 +14,7 @@ function Card({
   shouldBePaidInAdvance,
   status,
 }: GitePreview) {
+
   return (
     <>
       <div
@@ -23,7 +25,7 @@ function Card({
           style={{
             background: `transparent linear-gradient(180deg, #29292900 0%, #292929 100%) 0% 0% no-repeat padding-box`,
           }}>
-          <h3>{name}</h3>
+          <Link href={`${ROUTE_VOTRE_GITE}/${slugify(name)}`}>{name}</Link>
           <RatingStar rate={rate} />
           <span className="text-app-sm-white text-sm opacity-60">
             {address}

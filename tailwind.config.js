@@ -18,6 +18,7 @@ module.exports = {
       },
       colors: {
         'app-light-yellow': '#FFD75E26',
+        'app-dark-yellow': '#FFD75E80',
         'app-yellow': '#FFD75E',
         'app-brown': '#42210B',
         'app-black': '#292929',
