@@ -71,7 +71,7 @@ function DetailsGite({ slug }: { slug: string }) {
         </title>
       </Head>
       <div className="flex flex-col items-center justify-start gap-8 w-full h-screen py-8 bg-app-light-yellow text-app-black">
-        <div className="flex w-3/4 justify-end gap-5">
+        <div className="flex w-11/12 md:w-3/4 justify-end gap-5">
           <button>
             <BsArrowLeftShort
               className={`w-7 h-7 rounded-full text-app-yellow hover:text-white hover:bg-app-yellow border-2 border-app-yellow`}
@@ -84,16 +84,16 @@ function DetailsGite({ slug }: { slug: string }) {
           </button>
         </div>
         <div
-          className={`flex-1 w-3/4 border-4 border-white overflow-hidden rounded-mdbg-center bg-cover bg-no-repeat`}
+          className={`flex-1 w-11/12 md:w-3/4 border-4 border-white overflow-hidden rounded-mdbg-center bg-cover bg-no-repeat`}
           style={{ backgroundImage: `url(${gite.pictureURL})` }}></div>
         <div className="w-full text-center">
           <span className="text-md text-app-brown opacity-50">
             {gite.address}
           </span>
-          <div className="flex justify-center my-2 gap-4 items-center">
-            <span className="h-[2px] w-40 bg-app-yellow rounded block"></span>
+          <div className="flex justify-center my-2 mx-4 gap-4 items-center">
+            <span className="h-[2px] w-20 md:w-40 bg-app-yellow rounded block"></span>
             <h3 className="font-bold text-3xl">${gite.pricePerNight} /nuit</h3>
-            <span className="h-[2px] w-40 bg-app-yellow rounded block"></span>
+            <span className="h-[2px] w-20 md:w-40 bg-app-yellow rounded block"></span>
           </div>
           <span className="text-md text-app-black opacity-50">
             Nombre de chambre: 03
@@ -122,7 +122,7 @@ function DetailsGite({ slug }: { slug: string }) {
       <div className="flex flex-col py-14 items-center font-thin text-center">
         <h2 className="w-full text-4xl">Constitution du gite</h2>
       </div>
-      <div className="w-3/4 grid gap-4 pb-20 grid-cols-6 md:grid-cols-12 mx-auto">
+      <div className="w-11/12 md:w-3/4 grid gap-4 pb-20 grid-cols-6 md:grid-cols-12 mx-auto">
         {gite?.titresDeValeur.map((titreDeValeur: string) => {
           return (
             <div className="col-span-3 text-center">
