@@ -123,9 +123,9 @@ function DetailsGite({ slug }: { slug: string }) {
         <h2 className="w-full text-4xl">Constitution du gite</h2>
       </div>
       <div className="w-11/12 md:w-3/4 grid gap-4 pb-20 grid-cols-6 md:grid-cols-12 mx-auto">
-        {gite?.titresDeValeur.map((titreDeValeur: string) => {
+        {gite?.titresDeValeur.map((titreDeValeur: string, index: number) => {
           return (
-            <div className="col-span-3 text-center">
+            <div key={`titre-${index}`} className="col-span-3 text-center">
               <BsCheck
                 className={`w-4 h-4 mb-1 inline-block mr-2 rounded-full text-white bg-app-green`}
               />
