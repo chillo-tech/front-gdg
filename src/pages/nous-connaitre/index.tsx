@@ -1,7 +1,6 @@
 import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 import SubTitle from '@/components/texts/SubTitle';
 import Layout from '@/containers/Layout';
-import Temoignages from '@/containers/Temoignages';
 import { APP_NAME, HEADER_NOUS_CONNAITRE } from '@/utils';
 import Head from 'next/head';
 import React from 'react';
