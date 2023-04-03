@@ -3,10 +3,17 @@ const prix = "prix.prix_id.valeur,prix.prix_id.date";
 const image = `
     images.directus_files_id.id,
     images.directus_files_id.title,
-    images.directus_files_id.description,
-    images.directus_files_id.*
-
+    images.directus_files_id.description
     `;
+const loisirs = `
+  loisirs.id,
+  loisirs.description,
+  loisirs.distance,
+  loisirs.libelle,
+  loisirs.images.id,
+  loisirs.images.title,
+  loisirs.images.description
+`;
 const adresse = `
   adresse.item.code_postal,
   adresse.item.latitude,
@@ -26,7 +33,7 @@ revue.item.nom,
 revue.item.prenom
 `;
 const MENU =  `${base},slug`;
-const ENTREPRISE =  `id,nom,abstrait,description,*,${adresse},${contact},${image},${revue}`;
+const ENTREPRISE =  `id,nom,abstrait,description,${loisirs},${adresse},${contact},${image},${revue}`;
 const PARTIAL_SPACES = `${base},${image},${prix}`;
 
 export {MENU, PARTIAL_SPACES, ENTREPRISE};

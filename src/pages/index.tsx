@@ -6,6 +6,7 @@ import SearchBar from '@/containers/SearchBar';
 import Description from '@/components/home/Description';
 import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 import NousTrouver from '@/components/home/NousTrouver';
+import Loisirs from '@/components/home/Loisirs';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
           <meta name="description" content={APP_DESCRIPTION} />
         </>
       </Head>
+      <Loisirs />
       <Description />
       <Spaces />
       <NousTrouver />

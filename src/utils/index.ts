@@ -5,9 +5,9 @@ export const slugify = (text: string): string => {
   return text
     .toLowerCase()
     .trim()
-    .replaceAll(/[é,è,ê]/g, 'e')
-    .replaceAll('à', 'a')
-    .replace('î', 'i')
+    .replace(/[é,è,ê]/g, 'e')
+    .replace(/[à]/g, 'a')
+    .replace(/[î]/g, 'i')
     .split(' ')
     .join('-');
 };

@@ -16,6 +16,7 @@ function Spaces() {
       fetchData({
         path: 'espace',
         fields: PARTIAL_SPACES,
+        limit: 6
       }),
   });
   return (
@@ -27,6 +28,7 @@ function Spaces() {
                     {spaces
                       .filter((item: any) => item.prix.length)
                       .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
+                      .slice(0,4)
                       .map((item: any, index: any) => <SpaceCard data={item} key={`space-${index}`}/>)}
                   </section>
                 )
