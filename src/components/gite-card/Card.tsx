@@ -1,7 +1,6 @@
 import { GitePreview, ROUTE_VOTRE_GITE, slugify } from '@/utils';
 import Link from 'next/link';
 import React from 'react';
-import GiteCard from '.';
 import Button from '../buttons/Button';
 import RatingStar from '../RatingStar';
 
@@ -10,9 +9,7 @@ function Card({
   address,
   name,
   pricePerNight,
-  rate,
-  shouldBePaidInAdvance,
-  status,
+  rate
 }: GitePreview) {
 
   return (
@@ -37,17 +34,6 @@ function Card({
             onClick={() => {}}
           />
         </div>
-      </div>
-      <div className="md:hidden col-span-12 w-full px-3">
-        <GiteCard
-          address={address}
-          name={name}
-          pictureURL={pictureURL}
-          pricePerNight={pricePerNight}
-          rate={rate}
-          shouldBePaidInAdvance={shouldBePaidInAdvance}
-          status={status}
-        />
       </div>
     </>
   );

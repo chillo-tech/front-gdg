@@ -8,6 +8,7 @@ import Card from '@/components/gite-card/Card';
 import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 import { useQuery } from 'react-query';
 import { fetchData } from '@/services';
+import GiteCard from '@/components/gite-card';
 
 function VotreGite() {
   const [spaces, setSpaces] = useState([]);
@@ -53,6 +54,27 @@ function VotreGite() {
                   status={gite?.status}
                   key={`gite-${index}`}
                 />
+              );
+            })}
+          {/* Version Mobile */}
+          {spaces
+            ?.filter((item: any) => item.prix.length)
+            .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
+            .map((gite: any, index: number) => {
+              return (
+                <div
+                  key={`gite-${index}`}
+                  className="md:hidden col-span-12 w-full px-3">
+                  <GiteCard
+                    address={gite?.address}
+                    name={gite?.libelle}
+                    pictureURL={gite?.images[0]?.directus_files_id}
+                    pricePerNight={gite?.prix[0]?.prix_id?.valeur}
+                    rate={gite?.rate}
+                    shouldBePaidInAdvance={gite?.shouldBePaidInAdvance}
+                    status={gite?.status}
+                  />
+                </div>
               );
             })}
         </div>
