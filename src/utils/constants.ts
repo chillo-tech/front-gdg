@@ -112,7 +112,7 @@ export const HEADER_NOUS_CONNAITRE: HeaderSubTitle = {
   ],
 };
 export const HEADER_VOTRE_GITE: HeaderSubTitle = {
-  title: 'Votre gite',
+  title: 'Nos Chambres',
   previousPages: [
     {
       title: 'Accueil',
@@ -128,7 +128,7 @@ export const HEADER_VOTRE_GITE_DETAILS: HeaderSubTitle = {
       href: ROUTE_ACCUEIL,
     },
     {
-      title: 'Votre gite',
+      title: 'Nos Chambres',
       href: ROUTE_VOTRE_GITE,
     },
   ],

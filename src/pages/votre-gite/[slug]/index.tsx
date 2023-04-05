@@ -18,7 +18,7 @@ function DetailsGite({ slug }: { slug: string }) {
   useEffect(() => {
     setgite({
       name: `${toTitle(slug)}`,
-      address: 'http://localhost',
+      address: `${slug}`,
       pictureURL: '/assets/images/bg-header.png',
       pricePerNight: 90,
       rate: 4,
@@ -52,7 +52,7 @@ function DetailsGite({ slug }: { slug: string }) {
       ...HEADER_VOTRE_GITE_DETAILS,
       title: toTitle(slug.replaceAll('-', ' ')),
     });
-  }, []);
+  }, [slug]);
 
   if (!HEADER_DETAILS?.title || !gite) return null; // TODO: Loader
 
@@ -148,6 +148,7 @@ function DetailsGite({ slug }: { slug: string }) {
 
 export async function getServerSideProps(context: any) {
   const { params } = context;
+  console.log(params);
   return {
     props: {
       ...params,

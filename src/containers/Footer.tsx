@@ -58,7 +58,7 @@ const Footer = () => {
               menus
               .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
               .map((menu: any) => 
-                <li key={`footer-${menu.id}-item`}><Link className='block py-1 px-5 text-[#FFFFFF80] hover:text-app-gray' href={`${menu.slug}`}>{menu.libelle}</Link></li>)}
+                <li key={`footer-${menu.id}-item`}><Link className='block py-1 px-5 text-[#FFFFFF80] hover:text-app-gray' href={`/${menu.slug}`}>{menu.libelle}</Link></li>)}
                   {
                     (entreprise && entreprise.contact) ? (
                     <li>

@@ -80,7 +80,7 @@ const Header = ({ children, headerTitle }: Props) => {
                     <NavLink
                       key={`nav-${menu.id}-item`}
                       active={parseURL(menu.slug).route === pathname}
-                      href={`${menu.slug}`}>
+                      href={`/${menu.slug}`}>
                       {menu.libelle}
                     </NavLink>
                   ))}
