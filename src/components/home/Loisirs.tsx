@@ -16,7 +16,7 @@ function Loisirs() {
                 Loisirs et commodités
               </h2>
             </div>
-            <div className="container gap-6 grid grid-cols-4 justify-between">
+            <div className="container gap-6 grid px-2 md:grid-cols-4 justify-between">
             
               {entreprise.loisirs.map((loisir: any) => (
                 <article key={`gdg-loisir-${loisir.id}`}>
