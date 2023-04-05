@@ -1,16 +1,16 @@
 import React from 'react';
 import { HiPhone } from 'react-icons/hi';
 import classNames from 'classnames';
-import { CONTACT_PHONE_NUMBER } from '@/utils';
 import Link from 'next/link';
 
 type Props = {
   className?: string;
+  tel: string;
 };
 
-function ButtonCall({ className }: Props) {
+function ButtonCall({ className, tel }: Props) {
   const call = async () => {
-    window.open(CONTACT_PHONE_NUMBER.url);
+    window.open(`tel:${tel}`);
   };
 
   return (
@@ -25,7 +25,7 @@ function ButtonCall({ className }: Props) {
         <HiPhone />
       </span>
 
-      <Link href={CONTACT_PHONE_NUMBER.url}>{CONTACT_PHONE_NUMBER.label}</Link>
+      <Link href={`tel:${tel}`}>{tel}</Link>
     </button>
   );
 }

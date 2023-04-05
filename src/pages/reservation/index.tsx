@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReservationForm from '@/components/forms/CustomForm';
 import SubTitle from '@/components/texts/SubTitle';
 import Layout from '@/containers/Layout';
-import { APP_NAME, GitePreview, HEADER_RESERVATION } from '@/utils';
+import {
+  APP_NAME,
+  GitePreview,
+  HEADER_RESERVATION,
+  PARTIAL_SPACES,
+} from '@/utils';
 import Head from 'next/head';
 import GiteCard from '@/components/gite-card';
+import { useQuery } from 'react-query';
+import { fetchData } from '@/services';
 
 //Only for front-end developpement purpose
 const dummyData: GitePreview[] = [
@@ -56,6 +63,20 @@ const dummyData: GitePreview[] = [
 ];
 
 function Reservation() {
+  const [spaces, setSpaces] = useState([]);
+  useQuery<any>({
+    queryKey: ['nos_espaces'],
+    onSuccess: (data) => {
+      setSpaces(data.data.data);
+    },
+    queryFn: () =>
+      fetchData({
+        path: 'espace',
+        fields: PARTIAL_SPACES,
+        limit: 6,
+      }),
+  });
+
   return (
     <Layout
       headerTitle={HEADER_RESERVATION.title}
@@ -67,28 +88,35 @@ function Reservation() {
         <h1 className="w-full text-4xl">Votre sélection</h1>
       </div>
       <div className="flex flex-col gap-6 items-center w-11/12 md:w-10/12 mx-auto pb-8">
-        {dummyData?.length ? (
-          dummyData.map((gite, index) => (
-            <GiteCard
-              address={gite.address}
-              notReserved={false}
-              name={gite.name}
-              pictureURL={gite.pictureURL}
-              pricePerNight={gite.pricePerNight}
-              rate={gite.rate}
-              shouldBePaidInAdvance={gite.shouldBePaidInAdvance}
-              status={gite.status}
-              key={`gite-${index}`}
-            />
-          ))
-        ) : (
-          <div>Nothing to show</div>
-        )}
+        {spaces
+          ?.filter((item: any) => item.prix.length)
+          .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
+          .map((gite: any, index: number) => {
+            return (
+              <GiteCard
+                address={gite?.address}
+                notReserved={false}
+                name={gite?.libelle}
+                pictureURL={gite?.images[0]?.directus_files_id}
+                pricePerNight={gite?.prix[0]?.prix_id?.valeur}
+                rate={gite?.rate}
+                shouldBePaidInAdvance={gite?.shouldBePaidInAdvance}
+                status={gite?.status}
+                key={`gite-${index}`}
+              />
+            );
+          })}
         <div className="w-full text-center py-10 h-full flex justify-center items-center">
           <span className="text-app-small-black flex justify-between items-center gap-10 text-lg">
             Total :{' '}
             <strong className="inline-block text-3xl font-extrabold text-app-black">
-              ${dummyData.reduce((sum, value) => sum + value.pricePerNight, 0)}
+              {spaces.reduce((sum: number, gite: any) => {
+                console.log(gite?.prix[0]?.prix_id?.valeur);
+                let value: number = +gite?.prix[0]?.prix_id?.valeur;
+                if (!value) return sum;
+                return sum + value;
+              }, 0)}{' '}
+              &euro;
             </strong>
           </span>
         </div>

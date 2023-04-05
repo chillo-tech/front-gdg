@@ -19,7 +19,7 @@ function Card({
     <>
       <div
         className={`hidden md:flex md:flex-col relative bg-blend-multiply col-span-4 h-96 rounded-lg text-white overflow-hidden bg-center bg-cover bg-no-repeat`}
-        style={{ backgroundImage: `url(${pictureURL})` }}>
+        style={{ backgroundImage: `url(${process.env.API_URL}${pictureURL})` }}>
         <div
           className="z-50 w-full h-full flex flex-col justify-end items-center pb-6"
           style={{
@@ -30,7 +30,7 @@ function Card({
           <span className="text-app-sm-white text-sm opacity-60">
             {address}
           </span>
-          <h3 className="font-bold mt-2 text-3xl">${pricePerNight} /nuit</h3>
+          <h3 className="font-bold mt-2 text-3xl">{pricePerNight} &euro; /nuit</h3>
           <Button
             title="Réserver maintenant"
             className="mt-4 border-2 border-app-yellow rounded-md text-app-yellow hover:bg-app-yellow hover:text-white"

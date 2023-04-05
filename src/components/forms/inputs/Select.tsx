@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { FieldError } from 'react-hook-form/dist/types';
-import { BiDownArrow } from 'react-icons/bi';
 
 export type option = {
   value: any;
@@ -40,7 +39,7 @@ function Select({
               'w-full cursor-pointer text-app-black opacity-60 px-0 py-4 md:py-2 border-0 border-b-2 md:border-b-0 border-gray-400 appearance-none focus:border-app-yellow focus:outline-none focus:ring-0'
             }
             {...register(name)}>
-            <option disabled selected value={''}>
+            <option disabled selected>
               {placeholder}
             </option>
             {values.map((option: option, index: number) => (

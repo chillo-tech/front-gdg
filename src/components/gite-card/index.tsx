@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Button from '../buttons/Button';
 import RatingStar from '../RatingStar';
 import Link from 'next/link';
+import ImageDisplay from '../image-display';
 
 function GiteCard({
   className,
@@ -26,13 +27,11 @@ function GiteCard({
         } w-full ${className}`
       )}>
       <div className={classNames('w-1/3 h-full')}>
-        <Image
-          width={400}
-          height={400}
-          src={pictureURL}
-          className="w-full h-full"
-          alt={`Photo : ${name}`}
-        />
+        {pictureURL && (
+          <ImageDisplay
+            image={pictureURL}
+          />
+        )}
       </div>
       <div
         className={classNames(
@@ -55,7 +54,7 @@ function GiteCard({
                   ? 'text-app-brown text-3xl'
                   : 'text-app-black text-xl'
               }  font-bold`}>
-              ${pricePerNight} /nuit
+              {pricePerNight} &euro; /nuit
             </h3>
           </div>
         </div>

@@ -16,6 +16,11 @@ export const ROUTE_LOGIN = '/login';
 export const ROUTE_REGISTER = '/register';
 export const ROUTE_RESET_PASSWORD = '/reset-password';
 
+//Errors 
+export const ROUTE_404 = '/404';
+export const ROUTE_500 = '/500';
+
+
 //Initial State
 export const INITIAL_STATE = {};
 export const UPDATE_DATA = "UPDATE_DATA";
@@ -145,7 +150,7 @@ export const PAYMENT_METHOD = {
 export type GitePreview = {
   notReserved?: boolean;
   className?: string;
-  pictureURL: string;
+  pictureURL: any;
   name: string;
   rate: number;
   address: string;
