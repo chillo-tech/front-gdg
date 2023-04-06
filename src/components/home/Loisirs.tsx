@@ -16,13 +16,11 @@ function Loisirs() {
                 Loisirs et commodités
               </h2>
             </div>
-            <div className="container gap-6 grid px-2 md:grid-cols-4 justify-between">
-            
+            <div className="container items-center gap-6 grid md:grid-cols-4 justify-between">
               {entreprise.loisirs.map((loisir: any) => (
                 <article key={`gdg-loisir-${loisir.id}`}>
-                   <ImageDisplay image={loisir.images} wrapperClasses="h-48 rounded-lg overflow-hidden"/>
-
-                  <div className="flex justify-between items-center h-12 text-xl">
+                  <ImageDisplay image={loisir.images} wrapperClasses="h-64 md:h-48 rounded-lg overflow-hidden"/>
+                  <div className="flex justify-between items-center md:h-12 h-20 text-xl">
                    <h3 className='text-xl !font-thin pt-2'>{loisir.libelle}</h3>
                    <p className='font-black text-right w-24'>{loisir.distance} km</p>
                   </div>

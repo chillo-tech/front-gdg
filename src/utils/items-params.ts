@@ -32,7 +32,7 @@ revue.item.M,
 revue.item.nom,
 revue.item.prenom
 `;
-const MENU =  `${base},slug`;
+const MENU =  `${base},${image},slug,display`;
 const ENTREPRISE =  `id,nom,abstrait,description,${loisirs},${adresse},${contact},${image},${revue}`;
 const PARTIAL_SPACES = `${base},${image},${prix}`;
 

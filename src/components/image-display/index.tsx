@@ -4,19 +4,22 @@ import React, {useState} from 'react'
 
 function ImageDisplay({
   image,
-  wrapperClasses = 'h-full',
+  local = false,
+  wrapperClasses = 'h-full relative',
   imageClasses
 }: any) {
+  console.log(image);
+  
   const [isImageLoading, setLoading] = useState(true);
 
-  const loaderProp =({ src }: {src: string}) => {
+  const loaderProp =({ src}: {src: string}) => {
     return src;
   }
   return (
-    <div className={classNames('relative', wrapperClasses)}>
+    <span className={classNames('block', wrapperClasses)}>
       <Image 
         loader={loaderProp}
-        src={`${process.env.API_URL}/assets/${image.id}`} 
+        src={`${local ? `${image.path}`: `${process.env.API_URL}/assets/${image.id}`}`} 
         alt={image.title} 
         fill={true}
         className={
@@ -30,7 +33,7 @@ function ImageDisplay({
         }
         onLoadingComplete={() => setLoading(false)}
       />
-    </div>
+    </span>
   )
 }
 
