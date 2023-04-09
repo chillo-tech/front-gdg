@@ -148,13 +148,16 @@ export const PAYMENT_METHOD = {
 
 //Gite 
 export type GitePreview = {
+  router?: any,
+  data?: any,
   notReserved?: boolean;
+  basePath?: string;
   className?: string;
-  pictureURL: any;
-  name: string;
-  rate: number;
-  address: string;
-  pricePerNight: number;
-  status: 'available' | 'unavailable';
-  shouldBePaidInAdvance: boolean;
+  pictureURL?: any;
+  name?: string;
+  rate?: number;
+  address?: string;
+  pricePerNight?: number;
+  status?: 'available' | 'unavailable';
+  shouldBePaidInAdvance?: boolean;
 }

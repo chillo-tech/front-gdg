@@ -9,7 +9,7 @@ function SpaceCard({data}: any) {
          data?.images?.length ? (
           <ImageDisplay 
             image={data.images[0].directus_files_id} 
-            wrapperClasses="rounded-lg overflow-hidden h-full" 
+            wrapperClasses="rounded-lg overflow-hidden h-full relative" 
           />) : null
       }
       <div className="left-0 top-0 flex flex-col justify-end absolute py-4 px-6 bg-app-black/40 w-full h-full rounded-lg text-app-white">

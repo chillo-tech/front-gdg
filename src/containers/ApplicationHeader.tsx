@@ -15,7 +15,7 @@ function ApplicationHeader() {
 
   const {
     updateData,
-    state: { entreprise, menus },
+    state: { headerClasses = 'absolute', entreprise, menus },
   } = useContext(ApplicationContext);
   const [isOpen, setIsOpen] = React.useState(false);
   useQuery<any>({
@@ -32,13 +32,14 @@ function ApplicationHeader() {
   const router = useRouter();
   
   return (
-    <header className='w-full bg-white md:opacity-90'>
+    <header className={classNames('w-full bg-white md:opacity-90 z-50',headerClasses )}>
       <div className="container flex justify-between items-center">
         <Link href={'/'} className='pt-8 pb-8 md:py-2 block'>
           <ImageDisplay 
-              image={{path: 'assets/images/logo.png', title: `${entreprise ? entreprise.nom: 'gite de la gare'}`}} 
+              image={{path: '/assets/images/logo.png', title: `${entreprise ? entreprise.nom: 'gite de la gare'}`}} 
               local={true}
-              wrapperClasses="h-16 w-44 rounded-lg overflow-hidden" 
+              unoptimized
+              wrapperClasses="h-16 w-44 rounded-lg overflow-hidden relative" 
           />
         </Link>
         <button
@@ -63,7 +64,7 @@ function ApplicationHeader() {
                   <RxCross1 />
                 </button>
                 </li>
-                <div className='flex'>
+                <div className='flex flex-col md:flex-row'>
                 {menus
                   .filter((menu:any) => menu.display)
                   .sort((a: any, b: any) =>
@@ -73,7 +74,7 @@ function ApplicationHeader() {
                     <li key={`footer-${menu.id}-item`} className='px-4'>
                       <NavLink
                         active={`${menu.slug}` === router.pathname}
-                        href={`${menu.slug}`}>
+                        href={`/${menu.slug}`}>
                         {menu.libelle}
                       </NavLink>
                       

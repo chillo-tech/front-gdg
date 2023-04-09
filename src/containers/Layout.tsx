@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
-import Header from './Header';
 import Footer from './Footer';
 import { useQuery } from 'react-query';
 import { fetchData } from '@/services';
@@ -10,10 +9,11 @@ import ApplicationHeader from './ApplicationHeader';
 import PageHeader from '@/components/PageHeader';
 
 function Layout({
-  children,
+  isAccueil = false,
+  children
 }: {
   children: any;
-  headerTitle: string;
+  isAccueil?: boolean;
   headerChildren?: any;
 }) {
   const context = useContext(ApplicationContext);
@@ -41,7 +41,7 @@ function Layout({
       </Head>
       <section className="w-full selection:bg-app-yellow selection:text-white min-h-screen relative bg-white flex flex-col justify-between items-center">
         <ApplicationHeader />
-        <PageHeader />
+        <PageHeader isAccueil={isAccueil}/>
         <main className="w-full bg-white">{children}</main>
         <Footer />
       </section>

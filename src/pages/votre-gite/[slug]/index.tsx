@@ -148,7 +148,6 @@ function DetailsGite({ slug }: { slug: string }) {
 
 export async function getServerSideProps(context: any) {
   const { params } = context;
-  console.log(params);
   return {
     props: {
       ...params,

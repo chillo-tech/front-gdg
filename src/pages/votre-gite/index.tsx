@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import SubTitle from '@/components/texts/SubTitle';
 import Layout from '@/containers/Layout';
-import SearchBar from '@/containers/SearchBar';
-import { APP_NAME, HEADER_VOTRE_GITE, PARTIAL_SPACES } from '@/utils';
+import { APP_NAME, PARTIAL_SPACES } from '@/utils';
 import Head from 'next/head';
 import Card from '@/components/gite-card/Card';
 import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
@@ -26,14 +24,7 @@ function VotreGite() {
   });
 
   return (
-    <Layout
-      headerTitle={HEADER_VOTRE_GITE.title}
-      headerChildren={
-        <>
-          <SubTitle subtitle={HEADER_VOTRE_GITE} />
-          <SearchBar />
-        </>
-      }>
+    <Layout isAccueil={false}>
       <Head>
         <title> {APP_NAME} | Votre gite</title>
       </Head>

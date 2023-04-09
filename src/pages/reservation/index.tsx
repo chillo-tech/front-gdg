@@ -111,7 +111,6 @@ function Reservation() {
             Total :{' '}
             <strong className="inline-block text-3xl font-extrabold text-app-black">
               {spaces.reduce((sum: number, gite: any) => {
-                console.log(gite?.prix[0]?.prix_id?.valeur);
                 let value: number = +gite?.prix[0]?.prix_id?.valeur;
                 if (!value) return sum;
                 return sum + value;

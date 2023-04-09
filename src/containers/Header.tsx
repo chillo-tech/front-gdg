@@ -68,6 +68,7 @@ const Header = ({ children, headerTitle }: Props) => {
                   width={160}
                   src="/assets/images/logo.png"
                   alt="logo Gite de la Gare"
+                  unoptimized
                 />
               </div>
             </div>

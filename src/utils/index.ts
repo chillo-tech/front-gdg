@@ -2,6 +2,10 @@ import { ROUTE_404, ROUTE_ACCUEIL, ROUTE_CONTACT, ROUTE_NOUS_CONNAITRE, ROUTE_RE
 
 export * from './constants';
 export * from './items-params';
+export const capitalize = (data: string): string => {
+  return (data && data.length) ? `${data[0].toUpperCase()}${data.slice(1).toLocaleLowerCase()}` : '';
+
+}
 
 export const slugify = (text: string): string => {
   return text

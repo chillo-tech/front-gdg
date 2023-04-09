@@ -1,40 +1,34 @@
 import { GitePreview, ROUTE_VOTRE_GITE, slugify } from '@/utils';
 import Link from 'next/link';
 import React from 'react';
-import Button from '../buttons/Button';
-import RatingStar from '../RatingStar';
+import ImageDisplay from '../image-display';
 
 function Card({
-  pictureURL,
-  address,
-  name,
-  pricePerNight,
-  rate
-}: GitePreview) {
+  data,
+  router,
+  basePath}: GitePreview) {
 
   return (
     <>
-      <div
-        className={`hidden md:flex md:flex-col relative bg-blend-multiply col-span-4 h-96 rounded-lg text-white overflow-hidden bg-center bg-cover bg-no-repeat`}
-        style={{ backgroundImage: `url(${process.env.API_URL}${pictureURL})` }}>
+      <Link href={`${basePath}/${data.slug}`}
+        className={`relative overflow-hidden block h-96 rounded-lg text-white overflow-hidden flex-col mb-4 relative`}>
+        <ImageDisplay image={data.images[0].directus_files_id}/>
         <div
-          className="z-50 w-full h-full flex flex-col justify-end items-center pb-6"
+          className="absolute inset-0 z-10 w-full h-full flex flex-col justify-end items-center pb-6"
           style={{
             background: `transparent linear-gradient(180deg, #29292900 0%, #292929 100%) 0% 0% no-repeat padding-box`,
           }}>
-          <Link href={`${ROUTE_VOTRE_GITE}/${slugify(name)}`}>{name}</Link>
-          <RatingStar rate={rate} />
-          <span className="text-app-sm-white text-sm opacity-60">
-            {address}
-          </span>
-          <h3 className="font-bold mt-2 text-3xl">{pricePerNight} &euro; /nuit</h3>
-          <Button
-            title="Réserver maintenant"
-            className="mt-4 border-2 border-app-yellow rounded-md text-app-yellow hover:bg-app-yellow hover:text-white"
-            onClick={() => {}}
-          />
+          <h2 className="font-light mt-2 text-xl">{data.libelle}</h2>
+          {/*<RatingStar rate={rate} />*/}
+         
+          <h3 className="font-bold mt-2 text-3xl">{data.prix[0]} &euro; /nuit</h3>
+          <button
+            type='button'
+            className="outline-yellow-button relative z-40 py-3 px-20 mt-2"
+            onClick={(e) => {e.preventDefault();router.push(`${basePath}/${data.slug}`)}}
+          >Réserver maintenant</button>
         </div>
-      </div>
+      </Link>
     </>
   );
 }

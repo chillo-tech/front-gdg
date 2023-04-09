@@ -10,7 +10,7 @@ import Loisirs from '@/components/home/Loisirs';
 
 export default function Home() {
   return (
-    <Layout headerTitle={HEADER_ACCUEIL.title} headerChildren={<SearchBar />}>
+    <Layout isAccueil={true}>
       <Head>
         <>
           <title>{APP_NAME}</title>

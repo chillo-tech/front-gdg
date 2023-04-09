@@ -9,7 +9,6 @@ import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 const ContactPage = () => {
   return (
     <Layout
-      headerTitle={HEADER_CONTACT.title}
       headerChildren={<SubTitle subtitle={HEADER_CONTACT} />}>
       <Head>
         <title> {APP_NAME} | Contactez-nous</title>
