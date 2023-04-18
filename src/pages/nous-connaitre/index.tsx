@@ -7,9 +7,7 @@ import React from 'react';
 
 function NousConnaitre() {
   return (
-    <Layout
-      headerTitle={HEADER_NOUS_CONNAITRE.title}
-      headerChildren={<SubTitle subtitle={HEADER_NOUS_CONNAITRE} />}>
+    <Layout>
       <Head>
         <title> {APP_NAME} | Nous Connaître</title>
       </Head>

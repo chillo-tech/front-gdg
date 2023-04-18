@@ -1,22 +1,30 @@
 import { isDate, parse } from 'date-fns';
-import { ROUTE_404, ROUTE_ACCUEIL, ROUTE_CONTACT, ROUTE_NOUS_CONNAITRE, ROUTE_RESERVATION, ROUTE_VOTRE_GITE } from './constants';
+import {
+  ROUTE_404,
+  ROUTE_ACCUEIL,
+  ROUTE_CONTACT,
+  ROUTE_NOUS_CONNAITRE,
+  ROUTE_RESERVATION,
+  ROUTE_VOTRE_GITE,
+} from './constants';
 
 export * from './constants';
 export * from './items-params';
 export const capitalize = (data: string): string => {
-  return (data && data.length) ? `${data[0].toUpperCase()}${data.slice(1).toLocaleLowerCase()}` : '';
+  return data && data.length ? `${data[0].toUpperCase()}${data.slice(1).toLocaleLowerCase()}` : '';
+};
 
-}
-
-export const slugify = (text: string): string => {
+export const slugify = (text?: string): string => {
   return text
-    .toLowerCase()
-    .trim()
-    .replace(/[é,è,ê]/g, 'e')
-    .replace(/[à]/g, 'a')
-    .replace(/[î]/g, 'i')
-    .split(' ')
-    .join('-');
+    ? text
+        .toLowerCase()
+        .trim()
+        .replace(/[é,è,ê]/g, 'e')
+        .replace(/[à]/g, 'a')
+        .replace(/[î]/g, 'i')
+        .split(' ')
+        .join('-')
+    : '';
 };
 
 export const toTitle = (text: string): string => {
@@ -42,11 +50,10 @@ export const parseURL = (url: string): URL_DATA => {
   };
 
   //Verify is the last parameter is a number
-  if (+urlParams[urlParams.length - 1])
-    urlData.index = +urlParams[urlParams.length - 1];
+  if (+urlParams[urlParams.length - 1]) urlData.index = +urlParams[urlParams.length - 1];
 
   //Find out which route corresponds
-  switch(urlParams[0]) {
+  switch (urlParams[0]) {
     case 'accueil':
       urlData.route = ROUTE_ACCUEIL;
       break;
@@ -79,13 +86,13 @@ export const parseURL = (url: string): URL_DATA => {
 };
 
 export const parseDateString = (value: any, originalValue: any) => {
-  const parsedDate = isDate(value) ? value : parse(value, "yyyy-MM-dd", new Date());
+  const parsedDate = isDate(value) ? value : parse(value, 'yyyy-MM-dd', new Date());
   return parsedDate;
-}
+};
 
 export const todayDate = () => {
   const nowAsString = new Date().toISOString().slice(0, 10);
   const date = new Date(nowAsString);
-  date.setDate(date.getDate()-1);
+  date.setDate(date.getDate() - 1);
   return date;
-}
+};

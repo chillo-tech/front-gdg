@@ -57,17 +57,10 @@ function DetailsGite({ slug }: { slug: string }) {
   if (!HEADER_DETAILS?.title || !gite) return null; // TODO: Loader
 
   return (
-    <Layout
-      headerTitle={HEADER_DETAILS.title}
-      headerChildren={
-        <>
-          <SubTitle subtitle={HEADER_DETAILS} />
-          <SearchBar />
-        </>
-      }>
+    <Layout>
       <Head>
         <title>
-          {APP_NAME} | {HEADER_DETAILS.title}
+          {`${APP_NAME} | ${HEADER_DETAILS.title}`}
         </title>
       </Head>
       <div className="flex flex-col items-center justify-start gap-8 w-full h-screen py-8 bg-app-light-yellow text-app-black">
