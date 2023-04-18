@@ -56,19 +56,6 @@ function Details({id}:{id: number}) {
         <section className="bg-app-light-yellow text-app-black">
           <div className="flex flex-col items-center justify-start gap-8 w-full py-8">
             <ImageSlider images={data?.images}/>
-            <div className="container flex items-center justify-end gap-4">
-              <button>
-                <BsArrowLeftShort
-                  className={`w-7 h-7 rounded-full text-app-yellow hover:text-white hover:bg-app-yellow border-2 border-app-yellow`}
-                />
-              </button>
-              <button>
-                <BsArrowRightShort
-                  className={`w-7 h-7 rounded-full bg-app-yellow text-white border-2 border-app-yellow`}
-                />
-              </button>
-            </div>
-            
             <div className="w-full text-center">
               <div className="flex justify-center my-2 mx-4 gap-4 items-center">
                 <span className="h-[2px] w-20 md:w-40 bg-app-yellow rounded block"></span>
