@@ -1,3 +1,4 @@
+import ImageSlider from '@/components/ImageSlider';
 import Metadata from '@/components/Metadata';
 import RenderHtmlContent from '@/components/RenderHtmlContent';
 import Loisirs from '@/components/home/Loisirs';
@@ -54,6 +55,7 @@ function Details({id}:{id: number}) {
       <Layout>
         <section className="bg-app-light-yellow text-app-black">
           <div className="flex flex-col items-center justify-start gap-8 w-full py-8">
+            <ImageSlider images={data?.images}/>
             <div className="container flex items-center justify-end gap-4">
               <button>
                 <BsArrowLeftShort
@@ -66,13 +68,7 @@ function Details({id}:{id: number}) {
                 />
               </button>
             </div>
-            <div className="container h-128 relative">
-              <ImageDisplay
-                image={data?.images[3].directus_files_id}
-                imageClasses="object-cover"
-                wrapperClasses="w-full h-full relative border-8 border-white rounded-lg overflow-hidden"
-              />
-            </div>
+            
             <div className="w-full text-center">
               <div className="flex justify-center my-2 mx-4 gap-4 items-center">
                 <span className="h-[2px] w-20 md:w-40 bg-app-yellow rounded block"></span>

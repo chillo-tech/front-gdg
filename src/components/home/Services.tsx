@@ -21,10 +21,10 @@ function Services({classes='bg-app-light-yellow', displayTitle = true}: any) {
                 </div>
               ) : null
             }
-            <div className="container items-center grid md:grid-cols-6 justify-center gap-6">
+            <div className="container items-center grid grid-cols-2 md:grid-cols-6 justify-center gap-6">
               {entreprise.services.slice(0, 6).map((service: any) => (
                 <article key={`gdg-service-${service.id}`} className='flex flex-col border border-app-yellow rounded-full w-40 h-40 items-center justify-center'>
-                  <ImageDisplay image={service.image_service} wrapperClasses="h-64 md:h-10 w-10 rounded-lg overflow-hidden relative"/>
+                  <ImageDisplay image={service.image_service} wrapperClasses="h-10 w-10 rounded-lg overflow-hidden relative"/>
                    <h3 className='text-md !font-thin pt-2 text-center'>{service.nom_service}</h3>
                 </article>
               ))}
