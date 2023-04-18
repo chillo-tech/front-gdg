@@ -1,9 +1,10 @@
+@import url("./fonts/index.css");
+@import url("./custom.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url("./fonts/index.css");
-@import url("./custom.css");
 
 @layer base {
   .outline-yellow-button {

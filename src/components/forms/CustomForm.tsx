@@ -96,7 +96,7 @@ function ContactForm({
   return (
     <div
       className={classNames(
-        'w-full md:w-10/12 mx-auto bg-app-beige',
+        'container bg-app-beige',
         className
       )}>
       <form

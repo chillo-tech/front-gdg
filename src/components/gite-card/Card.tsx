@@ -10,7 +10,7 @@ function Card({
 
   return (
     <>
-      <Link href={`${basePath}/${data.slug}`}
+      <Link href={`/nos-chambres/${data.slug}`}
         className={`relative overflow-hidden block h-96 rounded-lg text-white overflow-hidden flex-col mb-4 relative`}>
         <ImageDisplay image={data.images[0].directus_files_id}/>
         <div
@@ -21,11 +21,11 @@ function Card({
           <h2 className="font-light mt-2 text-xl">{data.libelle}</h2>
           {/*<RatingStar rate={rate} />*/}
          
-          <h3 className="font-bold mt-2 text-3xl">{data.prix[0]} &euro; /nuit</h3>
+          <h3 className="font-bold mt-2 text-3xl">{data?.types[0].type_id?.prix[0]?.item?.valeur} &euro; /nuit</h3>
           <button
             type='button'
             className="outline-yellow-button relative z-40 py-3 px-20 mt-2"
-            onClick={(e) => {e.preventDefault();router.push(`${basePath}/${data.slug}`)}}
+            onClick={(e) => {e.preventDefault();router.push(`/reservation`)}}
           >Réserver maintenant</button>
         </div>
       </Link>

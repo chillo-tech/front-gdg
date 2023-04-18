@@ -1,3 +1,4 @@
+import { isDate, parse } from 'date-fns';
 import { ROUTE_404, ROUTE_ACCUEIL, ROUTE_CONTACT, ROUTE_NOUS_CONNAITRE, ROUTE_RESERVATION, ROUTE_VOTRE_GITE } from './constants';
 
 export * from './constants';
@@ -76,3 +77,15 @@ export const parseURL = (url: string): URL_DATA => {
 
   return urlData;
 };
+
+export const parseDateString = (value: any, originalValue: any) => {
+  const parsedDate = isDate(value) ? value : parse(value, "yyyy-MM-dd", new Date());
+  return parsedDate;
+}
+
+export const todayDate = () => {
+  const nowAsString = new Date().toISOString().slice(0, 10);
+  const date = new Date(nowAsString);
+  date.setDate(date.getDate()-1);
+  return date;
+}

@@ -6,16 +6,16 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'sm': '640px',
+      sm: '640px',
       // => @media (min-width: 640px) { ... }
 
-      'md': '768px',
+      md: '768px',
       // => @media (min-width: 768px) { ... }
 
-      'lg': '1000px',
+      lg: '1000px',
       // => @media (min-width: 1024px) { ... }
 
-      'xl': '1280px',
+      xl: '1280px',
       // => @media (min-width: 1280px) { ... }
 
       '2xl': '1280px',
@@ -25,6 +25,9 @@ module.exports = {
       body: ['HelveticaNeue', 'sans-serif'],
     },
     extend: {
+      height: {
+        128: '32rem',
+      },
       backgroundImage: {
         header: "url('/assets/images/bg-header.png')",
         contact: "url('/assets/images/bg-contact.png')",
@@ -41,12 +44,12 @@ module.exports = {
       },
       gridTemplateRows: {
         // Simple 8 row grid
-        '8': 'repeat(8, minmax(0, 1fr))',
-        '9': 'repeat(9, minmax(0, 1fr))',
-        '10': 'repeat(10, minmax(0, 1fr))',
+        8: 'repeat(8, minmax(0, 1fr))',
+        9: 'repeat(9, minmax(0, 1fr))',
+        10: 'repeat(10, minmax(0, 1fr))',
 
         // Complex site-specific row configuration
-        'layout': '200px minmax(900px, 1fr) 100px',
+        layout: '200px minmax(900px, 1fr) 100px',
       },
       colors: {
         'app-light-yellow': '#FFD75E26',
@@ -60,7 +63,7 @@ module.exports = {
         'app-white': '#F6F6F6',
         'app-small-black': '#29292955',
         'app-xs-black': '#29292924',
-        'app-sm-white': '#F6F6F6'
+        'app-sm-white': '#F6F6F6',
       },
     },
   },

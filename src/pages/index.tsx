@@ -12,10 +12,8 @@ export default function Home() {
   return (
     <Layout isAccueil={true}>
       <Head>
-        <>
-          <title>{APP_NAME}</title>
+          <title> {`${APP_NAME} | Bienvenue`}</title>
           <meta name="description" content={APP_DESCRIPTION} />
-        </>
       </Head>
       <Loisirs />
       <Description />

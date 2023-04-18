@@ -3,27 +3,27 @@ import ImageDisplay from './image-display'
 import { ApplicationContext } from '@/context/ApplicationContext';
 import SearchBar from '@/containers/SearchBar';
 import AppBreadcrumb from './AppBreadcrumb';
+import classNames from 'classnames';
 
-function PageHeader({isAccueil = false}: any) {
+function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: any) {
 
-  const {state: { pageHeader }} = useContext(ApplicationContext);
-  
+  const {state: { pageHeader,entreprise }} = useContext(ApplicationContext);
   return (
     <>
     {
-      pageHeader ? (
+      (pageHeader || entreprise) ? (
       <section className='relative mb-2 w-full'>
         
         <ImageDisplay 
           wrapperClasses='w-full h-full absolute z-10 overflow-hidden'
           imageClasses='object-cover'
-          image={pageHeader.images[0].directus_files_id}
+          image={pageHeader ? pageHeader.images[0].directus_files_id : entreprise.images[0].directus_files_id}
         />
-        <div className="container relative z-30 py-44 text-white flex flex-col justify-center items-center px-20 mt-20">
-          <div className="w-full bg-[rgba(0,0,0,0.5)] px-10 py-10 rounded-2xl">
+        <div className={classNames(containerClasses, "container relative z-30 text-white flex flex-col justify-center items-center px-4 md:px-20 mt-20")}>
+          <div className="w-full bg-[rgba(0,0,0,0.5)] px-4 md:px-10 py-2 md:py-10 rounded-2xl">
              {isAccueil ? (
                 <> 
-                 <h1 className='text-4xl break-before-avoid text-center w-full text-white font-thin'>
+                 <h1 className='text-2xl md:text-4xl break-before-avoid text-center w-full text-white font-thin'>
                    <span className="block"> Bienvenue sur notre gite </span>
                    <span className="block">Heureux de vous compter parmis nous</span>
                  </h1>
@@ -37,9 +37,6 @@ function PageHeader({isAccueil = false}: any) {
               <AppBreadcrumb />
              </>
              )}
-              <div>
-                
-              </div>
           </div>
         </div>
      </section>

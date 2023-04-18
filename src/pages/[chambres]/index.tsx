@@ -1,4 +1,5 @@
 import Metadata from '@/components/Metadata';
+import Contact from '@/components/forms/Contact';
 import Card from '@/components/gite-card/Card';
 import Layout from '@/containers/Layout';
 import { ApplicationContext } from '@/context/ApplicationContext';
@@ -30,17 +31,17 @@ function Espaces() {
   return (
     <>
       <Metadata entry={data?.metadonnees[0]}/>
-      <Layout>
+      <Layout containerClasses={ data?.formulaire ? 'py-10': 'md:py-32 py-20'}>
         { data ? (
           <section className='container grid md:grid-cols-3 gap-6'>
             {data.espaces
-            .filter((item: any) => item.espace_id.prix.length)
+            .filter((item: any) => item.espace_id.types && item.espace_id.types.length)
             .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
             .map((gite: any, index: number) => {
               return (
                 <Card
                   data={gite.espace_id}
-                  basePath={asPath}
+                  basePath='/nos-chambres'
                   router = {router}
                   key={`gite-${index}`}
                 />
@@ -52,6 +53,7 @@ function Espaces() {
             <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-app-yellow"></div>
           </div>
         )}
+        {data?.formulaire === 'CONTACT' ? (<Contact />): null}
       </Layout>
     </>
   );
@@ -59,7 +61,16 @@ function Espaces() {
 
 export async function getServerSideProps(context: any) {
   const { params } = context;
+  const {chambres} = params;
 
+  if (chambres.indexOf('reservation') > -1) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: "/reservation"
+      }
+    }
+  }
   let uri: URL_DATA = {
     route: ROUTE_404,
     label: '404',
@@ -67,7 +78,7 @@ export async function getServerSideProps(context: any) {
   };
 
   try {
-    uri = parseURL(params?.espaces);
+    uri = parseURL(params?.chambres);
   } catch (e) {
     console.log(e);
   }

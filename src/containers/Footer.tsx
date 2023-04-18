@@ -10,6 +10,9 @@ import Input from '@/components/forms/inputs/Input';
 import Button from '@/components/buttons/Button';
 import Image from 'next/image';
 import { ApplicationContext } from '@/context/ApplicationContext';
+import ImageDisplay from '@/components/image-display';
+import Newsletter from './Newsletter';
+import Debug from '@/components/Debug';
 
 export type Email = {
   email: string;
@@ -62,11 +65,11 @@ const Footer = () => {
                   {
                     (entreprise && entreprise.contact) ? (
                     <li>
-                      <Link href={`tel:${entreprise.contact[0].item.telephone}`} className="py-5 flex items-center justify-center">
+                      <Link href={`tel:${entreprise.contact[0].item?.telephone}`} className="py-5 flex items-center justify-center">
                         <span className="mr-2 rounded-full p-2 border-2 border-white">
                           <HiPhone />
                         </span>
-                        {entreprise.contact[0].item.telephone}
+                        {entreprise.contact[0].item?.telephone}
                       </Link>
                     </li>
                     ) : null
@@ -74,41 +77,29 @@ const Footer = () => {
           </ul>
         ): null}
       </div>
-      <div className="flex flex-col gap-4 items-center w-[95%] md:w-[80%] h-[85%] md:pt-2">
-        <div className="flex flex-col flex-1 w-full md:w-[70%] my-4">
-          <span className="text-md w-full text-[#FFFFFF80]">
-            Connectez vous pour recevoir nos actualités
-          </span>
-          <div className="flex items-end md:items-center gap-2 w-full border-b-2 border-[#FFFFFF40] my-2 pb-2">
-            <Input
-              type="email"
-              className='flex-1 mb-0 md:mb-0 my-0'
-              contentClassName="rounded-none border-none text-white placeholder-white px-0"
-              error={errors?.email}
-              name="email"
-              placeholder="Votre email"
-              register={register}
-            />
-            <Button className='bg-app-yellow' type='submit' title='Envoyer' />
-          </div>
-        </div>
-        <div className="flex flex-col items-center w-full border-t-2 border-[#FFFFFF80] pt-4">
-          <div className="h-full w-44 flex items-end">
-            <Image
-            width={150} height={120}
-              src="/assets/images/logo-blanc.png"
-              alt="logo Gite de la Gare"
-            />
-          </div>
-        </div>
+      
+      <Newsletter />
+
+      <div className="container flex justify-center items-center">
+        <Link href={'/'} className='pt-8 pb-8 md:py-2 block'>
+          <ImageDisplay
+              image={{path: "/assets/images/logo-blanc.png", title: `Le gite de la gare`}} 
+              local={true}
+              unoptimized
+              wrapperClasses="h-16 w-44 rounded-lg overflow-hidden relative" 
+          />
+        </Link>
       </div>
-      {(entreprise && entreprise.contact) ? (
-      <Link href={`tel:${entreprise.contact[0].item.telephone}`} className="flex items-center justify-center bg-app-yellow w-full py-2 mt-2 md:hidden">
-        <span className="mr-2 rounded-full p-2 border-2 border-white">
-          <HiPhone />
-        </span>
-        {entreprise.contact[0].item.telephone}
-      </Link>
+      {(entreprise && entreprise.contacts) ? (
+        <>
+
+        <Link href={`tel:${entreprise.contacts[0]?.telephone}`} className="flex items-center justify-center bg-app-yellow w-full py-2 mt-2 md:hidden">
+          <span className="mr-2 rounded-full p-2 border-2 border-white">
+            <HiPhone />
+          </span>
+          {entreprise.contacts[0]?.telephone}
+        </Link>
+        </>
       ): null }
     </footer>
   );

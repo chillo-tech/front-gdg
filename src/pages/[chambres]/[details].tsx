@@ -1,10 +1,13 @@
-import Debug from '@/components/Debug';
 import Metadata from '@/components/Metadata';
+import RenderHtmlContent from '@/components/RenderHtmlContent';
+import Loisirs from '@/components/home/Loisirs';
 import ImageDisplay from '@/components/image-display';
 import Layout from '@/containers/Layout';
 import { ApplicationContext } from '@/context/ApplicationContext';
 import { fetchData } from '@/services';
 import { MENUFULL } from '@/utils';
+import classNames from 'classnames';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs';
@@ -23,10 +26,19 @@ function Details() {
   const [data, setData] = useState<any>();
   useQuery<any>({
     queryKey: ['espaces', asPath],
+    enabled: asPath !== '[details]',
     queryFn: () =>
       fetchData({
         path: `espace/${asPath.substring(asPath.lastIndexOf('-') + 1)}`,
-        fields: `*,${MENUFULL}`,
+        fields: `
+        types.type_id.id,
+        types.type_id.libelle,
+        types.type_id.description,
+        types.type_id.prix.item.valeur,
+        types.type_id.prix.item.date,
+        abstrait,
+        description,
+        ${MENUFULL}`,
       }),
     onSuccess: (data) => {
       setData(data.data.data);
@@ -38,9 +50,9 @@ function Details() {
     <>
       <Metadata entry={data?.metadonnees[0]} />
       <Layout>
-        <section className="container">
-          <div className="flex flex-col items-center justify-start gap-8 w-full h-screen py-8 bg-app-light-yellow text-app-black">
-            <div className="flex w-11/12 md:w-3/4 justify-end gap-5">
+        <section className="bg-app-light-yellow text-app-black">
+          <div className="flex flex-col items-center justify-start gap-8 w-full py-8">
+            <div className="container flex items-center justify-end gap-4">
               <button>
                 <BsArrowLeftShort
                   className={`w-7 h-7 rounded-full text-app-yellow hover:text-white hover:bg-app-yellow border-2 border-app-yellow`}
@@ -52,26 +64,43 @@ function Details() {
                 />
               </button>
             </div>
-            <div className="container h-80">
+            <div className="container h-128 relative">
               <ImageDisplay
                 image={data?.images[3].directus_files_id}
-                imageClasses="object-contain"
-                wrapperClasses="w-full h-full relative border-4 border-white rounded-lg"
+                imageClasses="object-cover"
+                wrapperClasses="w-full h-full relative border-8 border-white rounded-lg overflow-hidden"
               />
             </div>
             <div className="w-full text-center">
-              <span className="text-md text-app-brown opacity-50">{data?.address}</span>
               <div className="flex justify-center my-2 mx-4 gap-4 items-center">
                 <span className="h-[2px] w-20 md:w-40 bg-app-yellow rounded block"></span>
-                <h3 className="font-bold text-3xl">${data?.pricePerNight} /nuit</h3>
+                <h3 className="font-bold text-3xl">{data?.types[0].type_id?.prix[0]?.item?.valeur} euros / nuit</h3>
                 <span className="h-[2px] w-20 md:w-40 bg-app-yellow rounded block"></span>
               </div>
-              <span className="text-md text-app-black opacity-50">Nombre de chambre: 03</span>
+              <h1 className="text-md text-app-black mb-6 text-3xl">{data?.libelle}</h1>
+              <div className="text-md text-app-black opacity-50 mb-10">
+                <RenderHtmlContent  classes="container text-lg" content={data?.abstrait}/>
+              </div>
+              <Link
+                  className={classNames('bg-app-yellow text-white px-10 py-3 text-xl shadow-lg font-thin')}
+                  href='/reservation'>
+                  Réserver
+                </Link>
             </div>
           </div>
-          <div className="flex flex-col pt-14 mb-12 items-center font-thin text-center">
-            <h2 className="w-full text-4xl">Description</h2>
+        </section>
+        <section className='bg-white'>
+          <div className="flex flex-col items-center font-thin text-center pt-10 pb-0">
+            <RenderHtmlContent  classes="container text-lg text-app-black opacity-50" content={data?.description}/>
           </div>
+        </section>
+        <Loisirs classes='bg-white' displayTitle={false}/>
+        <section className='flex justify-center items-center pb-10'>
+          <Link
+            className={classNames('bg-app-yellow text-white px-10 py-3 text-xl shadow-lg font-thin')}
+            href='/reservation'>
+            Réserver
+          </Link>
         </section>
       </Layout>
     </>
@@ -82,9 +111,14 @@ export default Details;
 
 export async function getServerSideProps(context: any) {
   const { params } = context;
-  return {
-    props: {
-      ...params,
-    }, // will be passed to the page component as props
-  };
+  const {details} = params;
+  console.log(params);
+  
+  
+    return {
+      redirect: {
+        permanent: true,
+        destination: `/nos-chambres/${details}`
+      }
+    }
 }

@@ -11,6 +11,7 @@ function Spaces() {
     queryKey: ['nos_espaces'],
     onSuccess: (data) => {
       setSpaces(data.data.data);
+      
     },
     queryFn: () =>
       fetchData({
@@ -28,7 +29,7 @@ function Spaces() {
         {spaces?.length ? (
           <section className="flex flex-col md:flex-row shrink gap-5 justify-between py-9">
             {spaces
-              .filter((item: any) => item.prix.length)
+              .filter((item: any) => item.types && item.types.length)
               .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
               .slice(0, 4)
               .map((item: any, index: any) => (
@@ -37,9 +38,9 @@ function Spaces() {
           </section>
         ) : null}
         <Link
-          href="/espaces"
+          href="/reservation"
           className="yellow-button mt-3 mx-auto block w-52 uppercase font-bold">
-          Tout voir
+          Réserver
         </Link>
       </div>
     </section>

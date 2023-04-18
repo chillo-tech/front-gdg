@@ -10,9 +10,11 @@ import PageHeader from '@/components/PageHeader';
 
 function Layout({
   isAccueil = false,
+  containerClasses,
   children
 }: {
   children: any;
+  containerClasses?: string,
   isAccueil?: boolean;
   headerChildren?: any;
 }) {
@@ -34,14 +36,12 @@ function Layout({
   return (
     <>
       <Head>
-        <>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
-        </>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="w-full selection:bg-app-yellow selection:text-white min-h-screen relative bg-white flex flex-col justify-between items-center">
         <ApplicationHeader />
-        <PageHeader isAccueil={isAccueil}/>
+        <PageHeader isAccueil={isAccueil} containerClasses={containerClasses}/>
         <main className="w-full bg-white">{children}</main>
         <Footer />
       </section>

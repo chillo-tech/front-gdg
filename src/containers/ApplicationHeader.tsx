@@ -81,14 +81,14 @@ function ApplicationHeader() {
                     </li>
                   ))}
                 </div>
-                {entreprise && entreprise.contact ? (
+                {entreprise && entreprise.contacts ? (
                   <Link
-                    href={`tel:${entreprise.contact[0].item.telephone}`}
+                    href={`tel:${entreprise.contacts[0]?.telephone}`}
                     className="w-full bg-app-yellow px-3 md:py-7 py-5 flex items-center justify-center text-app-white">
                     <span className="mr-2 rounded-full p-2 border-2 border-white">
                       <HiPhone />
                     </span>
-                    {entreprise.contact[0].item.telephone}
+                    {entreprise.contacts[0]?.telephone}
                   </Link>
                 ) : null}
               </ul>

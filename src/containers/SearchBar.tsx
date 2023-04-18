@@ -1,121 +1,141 @@
-import React from 'react';
-import { ROUTE_ACCUEIL } from '@/utils';
+import React, { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import Select from '@/components/forms/inputs/Select';
-import Button from '@/components/buttons/Button';
-import classNames from 'classnames';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { date, object,number,array,string } from "yup";
 import { HiOutlineSearch } from 'react-icons/hi';
+import { parseDateString, todayDate} from '@/utils';
 
-export type SearchParams = {
-  localisation: string;
-  amount: number;
+type FormData = {
+  debut?: string;
+  jours?: string;
+  personnes?: string;
+  options: any[]
 };
 
-export const LOCALISATIONS = [
-  {
-    label: 'Localisation1',
-    value: 'Localisation1',
-  },
-  {
-    label: 'Localisation2',
-    value: 'Localisation2',
-  },
-];
-
-export const AMOUNTS = [
-  {
-    label: '400$ - 500$',
-    value: 400,
-  },
-  {
-    label: '500$ - 600$',
-    value: 600,
-  },
-];
-
-const schema = yup
-  .object({
-    localisation: yup.string().trim(),
-    amount: yup.number(),
+const schema = object({
+    debut: date().typeError('Quand arrivez vous ?')
+            .required("Sélectionner une date de début")
+            .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
+    jours: string().typeError('Combien de jours serez vous des nôtres ?').required('Combien de jours serez vous des nôtres ? '),
+    personnes: string().typeError('Combien serez vous ?').required("Combien serez vous ?")
   })
   .required();
 
 function SearchBar() {
   const router = useRouter();
 
-  const onSubmit = async (data: SearchParams) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    sessionStorage.setItem("RESERVATION", JSON.stringify(data));
+    router.push('/reservation')
   };
 
-  const onError = (errors: any, e: any) => console.log({ errors });
-
-  const handleError = (error: any) => {
-    error.preventDefault();
-    router.push(ROUTE_ACCUEIL);
-  };
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm<SearchParams>({
+  const { register, control, handleSubmit, formState, watch, setValue }  = useForm<FormData>({
     mode: 'onChange',
     resolver: yupResolver(schema),
+    defaultValues: {personnes: '2', debut: new Date().toISOString().split('T')[0]}
   });
+  const { fields, append, remove } = useFieldArray({ name: 'options', control });
+
+  const { errors } = formState;
 
   return (
-    <div className="bg-white p-3 md:p-0 md:px-3 mt-10 rounded-lg w-11/12 md:flex justify-between items-center">
-      <div className="flex-1 md:pr-4 md:mr-4 md:border-r-2 md:border-gray-300">
-        <Select
-          register={register}
-          label="Localisation"
-          name={'localisation'}
-          placeholder="Sélectionner"
-          values={LOCALISATIONS}
-        />
-      </div>
-      <div className="flex-1">
-        <Select
-          label="Montant"
-          register={register}
-          name={'amount'}
-          placeholder="Sélectionner"
-          values={AMOUNTS}
-        />
-      </div>
-      <div className="w-full  md:w-60 my-4 md:my-0 flex justify-center items-center">
-        <button
-          type={'submit'}
-          className={classNames(
-            `  bg-app-yellow
-                flex
-                justify-center
-                items-center
-                w-4/6
-                md:w-full
-                h-full
-                uppercase
-                font-semibold
-                rounded-md
-                border-0
-                py-2
-                md:py-4
-                transition
-                hover:bg-opacity-80
-                `
-          )}>
-          <div>
-            <HiOutlineSearch className="inline-block mb-1 mr-1.5" />
-            Chercher
+    <>
+      <section className='bg-white py-3 px-3 mt-4 md:mt-10 rounded-lg'>
+        <form onSubmit={handleSubmit(onSubmit)} className='grid md:grid-cols-4 gap-2'>
+          <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2" >
+            <div className="flex flex-col md:col-span-2">
+              <label className="text-app-black font-semibold" htmlFor='debut'>
+                Date d&lsquo;arrivée
+              </label>
+              <input 
+                {...register('debut')} 
+                min={todayDate().toISOString().split('T')[0]}
+                type="date" id="date" className='border border-gray-300 rounded-lg text-xl text-app-black' />
+              <p className='text-red-700 text-center'>{errors.debut?.message}</p>
+            </div> 
+            <div className="flex flex-col md:col-span-2">
+              <label className="text-app-black font-semibold" htmlFor='jours'>
+                Nuits
+              </label>
+              <select {...register('jours')} id="jours" className='border border-gray-300 rounded-lg text-xl text-app-black'>
+                <option value="">Sélectionner le nombre de jours</option>
+                {
+                  Array.from(Array(15).keys())
+                  .filter(key => key !== 0)
+                  .map(option => (              
+                    <option value={option} key={`option-${option}`}>{`${option} ${option === 1 ? 'nuit': 'nuits'}`}</option>
+                  ))
+                }
+              </select>
+              <p className='text-red-700 text-center'>{errors.jours?.message}</p>
+            </div> 
+            <div className="flex flex-col md:col-span-2">
+              <label className="text-app-black font-semibold" htmlFor='personnes'>
+                Personnes
+              </label>
+              <select  {...register('personnes')} id="personnes" className='border border-gray-300 rounded-lg text-xl text-app-black'>
+                <option value="">Sélectionner le nombre de personnes</option>
+                {
+                  Array.from(Array(15).keys())
+                  .filter(key => key !== 0)
+                  .map(option => (              
+                    <option value={option} key={`option-${option}`}>{`${option} ${option === 1 ? 'personne': 'personnes'}`}</option>
+                  ))
+                }
+              </select>
+              <p className='text-red-700 text-center'>{errors.personnes?.message}</p>
+            </div> 
+            {/*
+            <div className="md:col-span-6 relative text-app-black md:h-1">
+            <div className="items-wrapper text-app-black md:absolute md:left-0 md:top-0 md:right-0 bg-gray-100 px-2 py-2">
+              {fields.map((item, i) => (
+                        <div className="grid grid-cols-3 gap-4 items-center" key={`options.${i}`}>
+                            <h5 className="card-title text-right text-xl font-bold">Ticket {i + 1}</h5>
+                            <div className="flex flex-col">
+                              <label className="text-app-black font-semibold" htmlFor={`options.${i}.adultes`}>
+                                Adultes
+                              </label>
+                              <input 
+                                type="number" 
+                                id={`options.${i}.adultes`} 
+                                readOnly 
+                                className='border border-gray-300 rounded-lg text-xl text-app-black' 
+                                {...register(`options.${i}.adultes`)} 
+                              />
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-app-black font-semibold" htmlFor={`options.${i}.enfants`}>
+                                Enfants
+                              </label>
+                              <input 
+                                type="number" 
+                                id={`options.${i}.enfants`} 
+                                readOnly 
+                                className='border border-gray-300 rounded-lg text-xl text-app-black' 
+                                {...register(`options.${i}.enfants`)} 
+                              />
+                            </div>
+                        </div>
+                ))}
+            </div>
+           
+            </div> 
+            */}
+            
           </div>
-        </button>
-      </div>
-    </div>
+          <div className="flex flex-col">
+            <label className="hidden md:block text-white font-semibold">
+              Date
+            </label>
+            <button className='bg-app-yellow py-2 rounded-lg text-xl !text-app-black uppercase flex items-center justify-center'>
+              <HiOutlineSearch className="inline-block mr-2" />
+              <span className="text-app-black">Chercher</span>
+            </button>
+          </div>
+        </form>
+      </section>
+    </>
   );
 }
 
