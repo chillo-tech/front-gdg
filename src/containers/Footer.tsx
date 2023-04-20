@@ -53,7 +53,7 @@ const Footer = () => {
 
   const {state:{menus, entreprise}} = useContext(ApplicationContext);
   return (
-    <footer className="w-full flex flex-col items-center justify-center pt-6 md:pb-10 bg-app-black text-white">
+    <footer className="w-full flex flex-col gap-4 md:gap-10 items-center justify-center pt-6 md:pb-10 bg-app-black text-white">
       <div className="container flex items-center justify-center">
         {menus ? (
           <ul className='flex flex-col md:flex-row items-center justify-center'>

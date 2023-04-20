@@ -91,7 +91,7 @@ function Details() {
         </section>
         <section className='bg-white'>
           <div className="flex flex-col items-center font-thin text-center pt-10 pb-0">
-            <RenderHtmlContent  classes="container text-lg text-app-black opacity-50" content={data?.description}/>
+            <RenderHtmlContent classes="container text-lg text-app-black bg-red-500" content={data?.description}/>
           </div>
         </section>
         <Loisirs classes='bg-white' displayTitle={false}/>

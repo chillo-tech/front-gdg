@@ -109,6 +109,7 @@ const Header = ({ children, headerTitle }: Props) => {
                   .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
                   .map((item: any, index: any) => (
                     <NavLink
+                      onClick={(_e: React.MouseEvent) => setIsOpen(false)}
                       active={parseURL(item.slug).route === pathname}
                       href={`${item.slug}`}
                       key={`memu-${index}-${item.id}`}>

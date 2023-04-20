@@ -77,7 +77,7 @@ function Contact() {
       <Head>
         <title> {`${APP_NAME} | Contactez nous`}</title>
       </Head>
-      <div className="container py-5 px-20">
+      <div className="container py-14 md:px-20">
         {mutation.isError ? (
           <Message
             type="error"

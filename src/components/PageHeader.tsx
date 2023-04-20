@@ -4,6 +4,7 @@ import { ApplicationContext } from '@/context/ApplicationContext';
 import SearchBar from '@/containers/SearchBar';
 import AppBreadcrumb from './AppBreadcrumb';
 import classNames from 'classnames';
+import { toTitle } from '@/utils';
 
 function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: any) {
 
@@ -12,7 +13,7 @@ function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: an
     <>
     {
       (pageHeader || entreprise) ? (
-      <section className='relative mb-2 w-full'>
+      <section className='relative pt-5 mb-2 w-full'>
         
         <ImageDisplay 
           wrapperClasses='w-full h-full absolute z-10 overflow-hidden'
@@ -32,7 +33,7 @@ function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: an
              ): (
               <> 
               <h1 className='text-5xl break-before-avoid text-center w-full text-white font-thin'>
-               {pageHeader?.titre}
+               {toTitle(pageHeader?.titre)}
               </h1>
               <AppBreadcrumb />
              </>

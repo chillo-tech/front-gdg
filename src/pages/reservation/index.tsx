@@ -160,7 +160,7 @@ function Reservation() {
       <Head>
         <title>{`${APP_NAME} | réservation`}</title>
       </Head>
-      <div className="container py-5 px-20">
+      <div className="container py-5 md:px-20">
         <h1 className="w-full text-4xl pb-0">Votre réservation</h1>
         {mutation.isError ? (
           <Message
@@ -182,7 +182,7 @@ function Reservation() {
         ) : null}
         {mutation.isIdle ? (
           <form onSubmit={handleSubmit(onSubmit)} className="">
-            <div className="grid md:grid-cols-3 mt-2 gap-2">
+            <div className="grid md:grid-cols-3 mt-2 gap-2 w-11/12 md:w-full">
               <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
                 <div className="flex flex-col md:col-span-2">
                   <label className="text-xl mb-2 font-semibold" htmlFor="debut">
@@ -251,7 +251,7 @@ function Reservation() {
                     <article
                       key={`${space.id}-${index}`}
                       className={classNames(
-                        'text-app-black flex border shadow-lg rounded-lg relative'
+                        'text-app-black flex border shadow-lg rounded-lg relative w-2/3 md:w-auto'
                       )}
                     >
                       {space?.images?.length ? (

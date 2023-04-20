@@ -71,6 +71,14 @@ export async function getServerSideProps(context: any) {
       }
     }
   }
+  if (chambres.indexOf('nous-connaitre') > -1) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: "/nous-connaitre"
+      }
+    }
+  }
   let uri: URL_DATA = {
     route: ROUTE_404,
     label: '404',

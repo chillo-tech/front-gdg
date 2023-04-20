@@ -73,7 +73,7 @@ function Contact() {
   });
 
   return (
-    <div className="container py-5 px-40">
+    <div className="container py-10 md:px-40">
       {mutation.isError ? (
         <Message
           type="error"

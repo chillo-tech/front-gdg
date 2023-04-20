@@ -37,7 +37,7 @@ function Newsletter() {
     resolver: yupResolver(schema),
   });
   return (
-    <div className="container px-40">
+    <div className="container md:px-40">
       <h2 className="text-md w-full text-[#FFFFFF80]">
         Connectez vous pour recevoir nos actualités
       </h2>

@@ -42,7 +42,7 @@ function Layout({
       <section className="w-full selection:bg-app-yellow selection:text-white min-h-screen relative bg-white flex flex-col justify-between items-center">
         <ApplicationHeader />
         <PageHeader isAccueil={isAccueil} containerClasses={containerClasses}/>
-        <main className="w-full bg-white">{children}</main>
+        <main className="w-full bg-white md:py-10">{children}</main>
         <Footer />
       </section>
     </>
