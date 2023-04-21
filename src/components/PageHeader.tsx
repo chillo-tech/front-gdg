@@ -24,7 +24,7 @@ function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: an
           <div className="w-full bg-[rgba(0,0,0,0.5)] px-4 md:px-10 py-2 md:py-10 rounded-2xl">
              {isAccueil ? (
                 <> 
-                 <h1 className='text-2xl md:text-4xl break-before-avoid text-center w-full text-white font-thin'>
+                 <h1 className='text-3xl md:text-4xl text-center w-full text-white font-thin'>
                    <span className="block"> Bienvenue sur notre gite </span>
                    <span className="block">Heureux de vous compter parmis nous</span>
                  </h1>
@@ -32,7 +32,7 @@ function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: an
                 </>
              ): (
               <> 
-              <h1 className='text-5xl break-before-avoid text-center w-full text-white font-thin'>
+              <h1 className='text-3xl md:text-4xl text-center w-full text-white font-thin'>
                {toTitle(pageHeader?.titre)}
               </h1>
               <AppBreadcrumb />

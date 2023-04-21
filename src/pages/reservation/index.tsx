@@ -161,7 +161,7 @@ function Reservation() {
         <title>{`${APP_NAME} | réservation`}</title>
       </Head>
       <div className="container py-5 md:px-20">
-        <h1 className="w-full text-4xl pb-0">Votre réservation</h1>
+        <h1 className="w-full text-2xl md:text-4xl pb-0">Votre réservation</h1>
         {mutation.isError ? (
           <Message
             type="error"
@@ -181,8 +181,8 @@ function Reservation() {
           />
         ) : null}
         {mutation.isIdle ? (
-          <form onSubmit={handleSubmit(onSubmit)} className="">
-            <div className="grid md:grid-cols-3 mt-2 gap-2 w-11/12 md:w-full">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid md:grid-cols-3 mt-2 gap-2 w-full">
               <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
                 <div className="flex flex-col md:col-span-2">
                   <label className="text-xl mb-2 font-semibold" htmlFor="debut">
@@ -193,7 +193,7 @@ function Reservation() {
                     min={todayDate().toISOString().split('T')[0]}
                     type="date"
                     id="date"
-                    className="border border-gray-300 rounded-lg text-xl"
+                    className="w-full border border-gray-300 rounded-lg text-xl"
                   />
                   <p className="text-red-700 text-center">{errors?.reservation?.debut?.message}</p>
                 </div>
@@ -241,8 +241,8 @@ function Reservation() {
                 </div>
               </div>
             </div>
-            <h2 className="w-full text-4xl pb-2 mt-6">Votre logement</h2>
-            <div className="grid md:grid-cols-2 gap-4">
+            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">Votre logement</h2>
+            <div className="grid md:grid-cols-2 gap-4 overflow-hidden">
               {spaces
                 .filter((item: any) => item.types && item.types.length)
                 .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))
@@ -251,14 +251,14 @@ function Reservation() {
                     <article
                       key={`${space.id}-${index}`}
                       className={classNames(
-                        'text-app-black flex border shadow-lg rounded-lg relative w-2/3 md:w-auto'
+                        'text-app-black flex flex-col md:flex-row border shadow-lg rounded-lg relative md:w-auto'
                       )}
                     >
                       {space?.images?.length ? (
                         <ImageDisplay
                           image={space.images[0].directus_files_id}
                           imageClasses="object-cover"
-                          wrapperClasses="rounded-l-lg overflow-hidden w-96 h-64 relative"
+                          wrapperClasses="md:rounded-r-none rounded-r-lg rounded-l-lg overflow-hidden h-52 w-full md:w-96 md:h-64 relative"
                         />
                       ) : null}
                       <div className="flex flex-col justify-between p-4 rounded-lg w-full">
@@ -293,9 +293,9 @@ function Reservation() {
                 })}
             </div>
             <p className="text-red-700 text-center mt-4">{errors?.reservation?.types?.message}</p>
-            <h2 className="w-full text-4xl pb-2 mt-6">Vos informations</h2>
+            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">Vos informations</h2>
             <div className="p-4 bg-app-beige">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 md:gap-4">
                 <div className="w-full relative mb-4">
                   <label className="text-app-black text-xs" htmlFor="prenom">
                     Votre prénom
@@ -331,7 +331,7 @@ function Reservation() {
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 md:gap-4">
                 <div className="w-full relative mb-4">
                   <label className="text-app-black text-xs" htmlFor="telephone">
                     Votre téléphone

@@ -22,7 +22,7 @@ function AppBreadcrumb() {
 		return [{ href: "/", text: "Accueil" }, ...crumblist];
 	}, [router.asPath]);
 	return (
-		<div className="text-ellipsis truncate text-xl py-8 container overflow-hidden flex items-center justify-center">
+		<div className="text-ellipsis truncate text-md py-4 container overflow-hidden flex items-center justify-center">
 			<ul className="text-app-yellow font-extralight inline-flex mx-auto">
 		  {breadcrumbs
 			.map((item: any, key: number) =>

@@ -33,7 +33,7 @@ function Espaces() {
       <Metadata entry={data?.metadonnees[0]}/>
       <Layout containerClasses={ data?.formulaire ? 'py-10': 'md:py-32 py-20'}>
         { data ? (
-          <section className='container grid md:grid-cols-3 gap-6'>
+          <section className='container grid md:grid-cols-3 gap-6 mt-10 md:mt-0'>
             {data.espaces
             .filter((item: any) => item.espace_id.types && item.espace_id.types.length)
             .sort((a: any, b: any) => (a.ordre > b.ordre ? 1 : -1))

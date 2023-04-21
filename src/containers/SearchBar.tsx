@@ -51,7 +51,7 @@ function SearchBar() {
               <input 
                 {...register('debut')} 
                 min={todayDate().toISOString().split('T')[0]}
-                type="date" id="date" className='border border-gray-300 rounded-lg text-xl text-app-black' />
+                type="date" id="date" className='w-full border border-gray-300 rounded-lg text-xl text-app-black' />
               <p className='text-red-700 text-center'>{errors.debut?.message}</p>
             </div> 
             <div className="flex flex-col md:col-span-2">
