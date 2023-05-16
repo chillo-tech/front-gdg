@@ -16,8 +16,11 @@ import Message from '@/components/Message';
 type FormData = {
   reservation: {
     debut?: Date;
+    fin?: Date;
     jours?: string;
     personnes?: string;
+    personnesAdultes?: string;
+    personnesEnfants?: string;
     types: any[];
     message?: string;
     client: {
@@ -36,10 +39,22 @@ const schema = object({
       .required('Sélectionner une date de début')
       .transform(parseDateString)
       .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
+    fin: date()
+      .typeError('Quand nous quitterez vous ?')
+      .required('Sélectionner une date de fin')
+      .transform(parseDateString),
     jours: string()
       .typeError('Combien de jours serez vous des nôtres ?')
       .required('Combien de jours serez vous des nôtres ? '),
-    personnes: string().typeError('Combien serez vous ?').required('Combien serez vous ?'),
+    personnes: string()
+      .typeError('Combien serez vous ?')
+      .required('Combien serez vous ?'),
+    personnesAdultes: string()
+      .typeError('Combien d\'adultes ?')
+      .required('Combien d\'adultes ?'),
+    personnesEnfants: string()
+      .typeError('Combien d\'enfants ?')
+      .required('Combien d\'enfants ?'),
     message: string(),
     types: array()
       .of(
@@ -64,7 +79,10 @@ const schema = object({
       email: string().required('Ce champ est requis').email('Email invalide'),
       telephone: string()
         .required('Le téléphone est requis')
-        .matches(/^[0-9]+$/, 'Le téléphone invalide il ne doit comporter que des chiffres')
+        .matches(
+          /^[0-9]+$/,
+          'Le téléphone invalide il ne doit comporter que des chiffres'
+        )
         .min(9, 'Le téléphone invalide il ne doit comporter que des chiffres')
         .max(15, 'Le téléphone invalide il ne doit comporter que des chiffres'),
     }).required(),
@@ -94,24 +112,37 @@ function Reservation() {
   const { errors } = formState;
 
   const onSubmit = (data: any) => {
-    let { message, jours, personnes, debut, client, types } = data['reservation'];
+    let { message, jours, personnes, personnesEnfants, personnesAdultes, debut, fin, client, types } =
+      data['reservation'];
     types = types
-    .filter((value: any, index: number, self: any) =>
-        index === self.findIndex((t: any) => t.id === value.id)
-    ).map((type: any) => ({reservation_id: "+", type_id: {id: Number(type.id)}}));
+      .filter(
+        (value: any, index: number, self: any) =>
+          index === self.findIndex((t: any) => t.id === value.id)
+      )
+      .map((type: any) => ({
+        reservation_id: '+',
+        type_id: { id: Number(type.id) },
+      }));
     mutation.mutate({
       message,
       jours,
       personnes,
+      personnesAdultes,
+      personnesEnfants,
       debut,
+      fin,
       client,
-      types: {create: types}
+      types: { create: types },
     });
   };
 
-{create: [{reservation_id: "+", type_id: {id: 1}}]}
-{create: [{reservation_id: "+", type_id: {id: 1}}]}
-  
+  {
+    create: [{ reservation_id: '+', type_id: { id: 1 } }];
+  }
+  {
+    create: [{ reservation_id: '+', type_id: { id: 1 } }];
+  }
+
   const onError = (errors: any, e: any) => null;
 
   const handleError = (error: any) => {
@@ -128,8 +159,11 @@ function Reservation() {
     if (reservation) {
       const reservationObject = JSON.parse(reservation);
       setValue('reservation.debut', reservationObject['debut'].split('T')[0]);
+      setValue('reservation.fin', reservationObject['fin'].split('T')[0]);
       setValue('reservation.jours', reservationObject['jours']);
       setValue('reservation.personnes', reservationObject['personnes']);
+      setValue('reservation.personnesEnfants', reservationObject['personnesEnfants']);
+      setValue('reservation.personnesAdultes', reservationObject['personnesAdultes']);
     }
   }, [setValue]);
   const [selectedSpaces, setSelectedSpaces] = useState<any>([]);
@@ -195,7 +229,24 @@ function Reservation() {
                     id="date"
                     className="w-full border border-gray-300 rounded-lg text-xl"
                   />
-                  <p className="text-red-700 text-center">{errors?.reservation?.debut?.message}</p>
+                  <p className="text-red-700 text-center">
+                    {errors?.reservation?.debut?.message}
+                  </p>
+                </div>
+                <div className="flex flex-col md:col-span-2">
+                  <label className="text-xl mb-2 font-semibold" htmlFor="fin">
+                    Date de départ
+                  </label>
+                  <input
+                    {...register('reservation.fin')}
+                    min={todayDate().toISOString().split('T')[0]}
+                    type="date"
+                    id="date"
+                    className="w-full border border-gray-300 rounded-lg text-xl"
+                  />
+                  <p className="text-red-700 text-center">
+                    {errors?.reservation?.fin?.message}
+                  </p>
                 </div>
                 <div className="flex flex-col md:col-span-2">
                   <label className="text-xl mb-2 font-semibold" htmlFor="jours">
@@ -204,33 +255,41 @@ function Reservation() {
                   <select
                     {...register('reservation.jours')}
                     id="jours"
-                    className="border border-gray-300 rounded-lg text-xl"
-                  >
+                    className="border border-gray-300 rounded-lg text-xl">
                     <option value="">Sélectionner le nombre de jours</option>
                     {Array.from(Array(15).keys())
                       .filter((key) => key !== 0)
                       .map((option) => (
-                        <option value={option} key={`option-${option}`}>{`${option} ${
+                        <option
+                          value={option}
+                          key={`option-${option}`}>{`${option} ${
                           option === 1 ? 'nuit' : 'nuits'
                         }`}</option>
                       ))}
                   </select>
-                  <p className="text-red-700 text-center">{errors?.reservation?.jours?.message}</p>
+                  <p className="text-red-700 text-center">
+                    {errors?.reservation?.jours?.message}
+                  </p>
                 </div>
                 <div className="flex flex-col md:col-span-2">
-                  <label className="text-xl mb-2 font-semibold" htmlFor="personnes">
+                  <label
+                    className="text-xl mb-2 font-semibold"
+                    htmlFor="personnes">
                     Personnes
                   </label>
                   <select
                     {...register('reservation.personnes')}
                     id="personnes"
-                    className="border border-gray-300 rounded-lg text-xl"
-                  >
-                    <option value="">Sélectionner le nombre de personnes</option>
+                    className="border border-gray-300 rounded-lg text-xl">
+                    <option value="">
+                      Sélectionner le nombre de personnes
+                    </option>
                     {Array.from(Array(15).keys())
                       .filter((key) => key !== 0)
                       .map((option) => (
-                        <option value={option} key={`option-${option}`}>{`${option} ${
+                        <option
+                          value={option}
+                          key={`option-${option}`}>{`${option} ${
                           option === 1 ? 'personne' : 'personnes'
                         }`}</option>
                       ))}
@@ -239,9 +298,65 @@ function Reservation() {
                     {errors?.reservation?.personnes?.message}
                   </p>
                 </div>
+                <div className="flex flex-col md:col-span-2">
+                  <label
+                    className="text-xl mb-2 font-semibold"
+                    htmlFor="personnesAdultes">
+                    Adultes
+                  </label>
+                  <select
+                    {...register('reservation.personnesAdultes')}
+                    id="personnesAdultes"
+                    className="border border-gray-300 rounded-lg text-xl">
+                    <option value="">
+                      Nombre de personnes adultes
+                    </option>
+                    {Array.from(Array(15).keys())
+                      .filter((key) => key !== 0)
+                      .map((option) => (
+                        <option
+                          value={option}
+                          key={`option-${option}`}>{`${option} ${
+                          option === 1 ? 'personne' : 'personnes'
+                        }`}</option>
+                      ))}
+                  </select>
+                  <p className="text-red-700 text-center">
+                    {errors?.reservation?.personnesAdultes?.message}
+                  </p>
+                </div>
+                <div className="flex flex-col md:col-span-2">
+                  <label
+                    className="text-xl mb-2 font-semibold"
+                    htmlFor="personnesEnfants">
+                    Enfants
+                  </label>
+                  <select
+                    {...register('reservation.personnesEnfants')}
+                    id="personnesEnfants"
+                    className="border border-gray-300 rounded-lg text-xl">
+                    <option value="">
+                      Nombre d'enfants
+                    </option>
+                    {Array.from(Array(15).keys())
+                      .filter((key) => key !== 0)
+                      .map((option) => (
+                        <option
+                          value={option}
+                          key={`option-${option}`}>{`${option} ${
+                          option === 1 ? 'personne' : 'personnes'
+                        }`}</option>
+                      ))}
+                  </select>
+                  <p className="text-red-700 text-center">
+                    {errors?.reservation?.personnesEnfants?.message}
+                  </p>
+                </div>
               </div>
             </div>
-            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">Votre logement</h2>
+            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">
+              Votre logement
+            </h2>
             <div className="grid md:grid-cols-2 gap-4 overflow-hidden">
               {spaces
                 .filter((item: any) => item.types && item.types.length)
@@ -252,8 +367,7 @@ function Reservation() {
                       key={`${space.id}-${index}`}
                       className={classNames(
                         'text-app-black flex flex-col md:flex-row border shadow-lg rounded-lg relative md:w-auto'
-                      )}
-                    >
+                      )}>
                       {space?.images?.length ? (
                         <ImageDisplay
                           image={space.images[0].directus_files_id}
@@ -263,26 +377,29 @@ function Reservation() {
                       ) : null}
                       <div className="flex flex-col justify-between p-4 rounded-lg w-full">
                         <div className="flex flex-col justify-between">
-                          <h3 className="text-xl font-semibold">{space?.libelle}</h3>
+                          <h3 className="text-xl font-semibold">
+                            {space?.libelle}
+                          </h3>
                           <h4 className="font-extrabold text-2xl my-1 text-app-brown">
-                            {space?.types[0].type_id?.prix[0]?.item?.valeur} &euro;/nuit
+                            {space?.types[0].type_id?.prix[0]?.item?.valeur}{' '}
+                            &euro;/nuit
                           </h4>
                         </div>
                         <div className="flex items-center justify-end">
-                          {selectedSpaces.find((item: any) => item.id === space.id) == null ? (
+                          {selectedSpaces.find(
+                            (item: any) => item.id === space.id
+                          ) == null ? (
                             <button
                               type="button"
                               className="bg-app-yellow text-app-brown py-2 px-6 rounded-md text-xl"
-                              onClick={() => toggleType('ADD', space)}
-                            >
+                              onClick={() => toggleType('ADD', space)}>
                               Réserver
                             </button>
                           ) : (
                             <button
                               type="button"
                               className="bg-app-xs-black text-app-black py-2 px-6 rounded-md text-xl"
-                              onClick={() => toggleType('REMOVE', space)}
-                            >
+                              onClick={() => toggleType('REMOVE', space)}>
                               Annuler
                             </button>
                           )}
@@ -292,8 +409,12 @@ function Reservation() {
                   );
                 })}
             </div>
-            <p className="text-red-700 text-center mt-4">{errors?.reservation?.types?.message}</p>
-            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">Vos informations</h2>
+            <p className="text-red-700 text-center mt-4">
+              {errors?.reservation?.types?.message}
+            </p>
+            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">
+              Vos informations
+            </h2>
             <div className="p-4 bg-app-beige">
               <div className="grid md:grid-cols-2 md:gap-4">
                 <div className="w-full relative mb-4">
@@ -379,8 +500,7 @@ function Reservation() {
                     className={classNames(
                       'w-full text-left px-0 py-2 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-app-yellow'
                     )}
-                    {...register('reservation.message')}
-                  ></textarea>
+                    {...register('reservation.message')}></textarea>
                 </div>
               </div>
               <div className="flex items-center justify-center">

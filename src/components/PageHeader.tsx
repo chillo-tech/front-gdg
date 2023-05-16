@@ -21,7 +21,7 @@ function PageHeader({isAccueil = false, containerClasses = 'md:py-32 py-20'}: an
           image={pageHeader ? pageHeader.images[0].directus_files_id : entreprise.images[0].directus_files_id}
         />
         <div className={classNames(containerClasses, "container relative z-30 text-white flex flex-col justify-center items-center px-4 md:px-20 mt-20")}>
-          <div className="w-full bg-[rgba(0,0,0,0.5)] px-4 md:px-10 py-2 md:py-10 rounded-2xl">
+          <div className="w-full bg-[rgba(0,0,0,0.5)] px-4 md:px-10 py-6 md:py-10 rounded-2xl">
              {isAccueil ? (
                 <> 
                  <h1 className='text-3xl md:text-4xl text-center w-full text-white font-thin'>
