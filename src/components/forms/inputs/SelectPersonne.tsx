@@ -21,10 +21,6 @@ function SelectPersonne({
     HTMLInputElement | undefined | null
   > = useRef();
   
-  const panel: MutableRefObject<
-    HTMLElement | undefined | null
-  > = useRef();
-
   const [showFields, setShowFields] = useState<any>(false);
 
   const [nombresVoyageurs, setNombresVoyageurs] = useState(0);
@@ -65,11 +61,11 @@ function SelectPersonne({
 
     const hidePanel = (event : any) => { setShowFields(false); };
 
-    panel?.current?.addEventListener('focusout', hidePanel);
+    // panel?.current?.addEventListener('focusout', hidePanel);
 
-    return () => {
-      panel?.current?.removeEventListener('focusout', hidePanel);
-    }
+    // return () => {
+    //   panel?.current?.removeEventListener('focusout', hidePanel);
+    // }
 
   }, [])
 
@@ -88,7 +84,6 @@ function SelectPersonne({
         {nombresVoyageurs} Voyageurs
       </button>
       <div
-        ref={panel}
         className={
           showFields
             ? 'absolute top-full mt-4 border border-gray-300 left-0 bg-white z-10 rounded-lg flex flex-col py-6 px-4 space-y-8 h-128 overflow-y-scroll overflow-x-hidden'
