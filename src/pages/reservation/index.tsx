@@ -6,21 +6,23 @@ import { useMutation, useQuery } from 'react-query';
 import { fetchData } from '@/services';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { date, object, array, string } from 'yup';
+import { date, object, array, string, number } from 'yup';
 import ImageDisplay from '@/components/image-display';
 import classNames from 'classnames';
 import { sendData } from '@/services';
 import { useRouter } from 'next/router';
 import Message from '@/components/Message';
+import SelectPersonne from '@/components/forms/inputs/SelectPersonne';
 
 type FormData = {
   reservation: {
     debut?: Date;
     fin?: Date;
-    jours?: string;
-    personnes?: string;
-    personnesAdultes?: string;
-    personnesEnfants?: string;
+    personnes?: {
+      nombresVoyageurs?: string;
+      nombresEnfants?: string;
+      enfants: any[];
+    };
     types: any[];
     message?: string;
     client: {
@@ -43,18 +45,17 @@ const schema = object({
       .typeError('Quand nous quitterez vous ?')
       .required('Sélectionner une date de fin')
       .transform(parseDateString),
-    jours: string()
-      .typeError('Combien de jours serez vous des nôtres ?')
-      .required('Combien de jours serez vous des nôtres ? '),
-    personnes: string()
+    personnes: object({
+      nombresVoyageurs: string().required(),
+      nombresEnfants: string().notRequired(),
+      enfants: array().of(
+        object().shape({
+          age: string().required(),
+        })
+      ).notRequired()
+    })
       .typeError('Combien serez vous ?')
       .required('Combien serez vous ?'),
-    personnesAdultes: string()
-      .typeError('Combien d\'adultes ?')
-      .required('Combien d\'adultes ?'),
-    personnesEnfants: string()
-      .typeError('Combien d\'enfants ?')
-      .required('Combien d\'enfants ?'),
     message: string(),
     types: array()
       .of(
@@ -92,6 +93,7 @@ const schema = object({
 function Reservation() {
   const router = useRouter();
   const [spaces, setSpaces] = useState([]);
+
   useQuery<any>({
     queryKey: ['nos_types'],
     onSuccess: (data) => {
@@ -112,8 +114,7 @@ function Reservation() {
   const { errors } = formState;
 
   const onSubmit = (data: any) => {
-    let { message, jours, personnes, personnesEnfants, personnesAdultes, debut, fin, client, types } =
-      data['reservation'];
+    let { message, personnes, debut, fin, client, types } = data['reservation'];
     types = types
       .filter(
         (value: any, index: number, self: any) =>
@@ -125,10 +126,7 @@ function Reservation() {
       }));
     mutation.mutate({
       message,
-      jours,
       personnes,
-      personnesAdultes,
-      personnesEnfants,
       debut,
       fin,
       client,
@@ -136,12 +134,9 @@ function Reservation() {
     });
   };
 
-  {
-    create: [{ reservation_id: '+', type_id: { id: 1 } }];
-  }
-  {
-    create: [{ reservation_id: '+', type_id: { id: 1 } }];
-  }
+  // {
+  //   create: [{ reservation_id: '+', type_id: { id: 1 } }];
+  // }
 
   const onError = (errors: any, e: any) => null;
 
@@ -160,12 +155,10 @@ function Reservation() {
       const reservationObject = JSON.parse(reservation);
       setValue('reservation.debut', reservationObject['debut'].split('T')[0]);
       setValue('reservation.fin', reservationObject['fin'].split('T')[0]);
-      setValue('reservation.jours', reservationObject['jours']);
-      setValue('reservation.personnes', reservationObject['personnes']);
-      setValue('reservation.personnesEnfants', reservationObject['personnesEnfants']);
-      setValue('reservation.personnesAdultes', reservationObject['personnesAdultes']);
+      setValue('reservation.personnes', reservationObject['personnes']); // Ref : https://www.skyscanner.fr/
     }
   }, [setValue]);
+
   const [selectedSpaces, setSelectedSpaces] = useState<any>([]);
   const toggleType = (action: string, space: any) => {
     if (action === 'ADD') {
@@ -182,7 +175,7 @@ function Reservation() {
       setSelectedSpaces((prev: any[]) => {
         const data = prev.filter((item) => item.id !== space.id);
         setValue(
-          'reservation.types',
+          'reservation.types', // TODO : Personnes ref for enfants
           data.map((entry: any) => entry.types[0].type_id)
         );
         return data;
@@ -195,7 +188,7 @@ function Reservation() {
         <title>{`${APP_NAME} | réservation`}</title>
       </Head>
       <div className="container py-5 md:px-20">
-        <h1 className="w-full text-2xl md:text-4xl pb-0">Votre réservation</h1>
+        <h1 className="w-full text-2xl md:text-4xl pb-0 mb-4">Votre réservation</h1>
         {mutation.isError ? (
           <Message
             type="error"
@@ -248,113 +241,16 @@ function Reservation() {
                     {errors?.reservation?.fin?.message}
                   </p>
                 </div>
-                <div className="flex flex-col md:col-span-2">
-                  <label className="text-xl mb-2 font-semibold" htmlFor="jours">
-                    Nuits
-                  </label>
-                  <select
-                    {...register('reservation.jours')}
-                    id="jours"
-                    className="border border-gray-300 rounded-lg text-xl">
-                    <option value="">Sélectionner le nombre de jours</option>
-                    {Array.from(Array(15).keys())
-                      .filter((key) => key !== 0)
-                      .map((option) => (
-                        <option
-                          value={option}
-                          key={`option-${option}`}>{`${option} ${
-                          option === 1 ? 'nuit' : 'nuits'
-                        }`}</option>
-                      ))}
-                  </select>
-                  <p className="text-red-700 text-center">
-                    {errors?.reservation?.jours?.message}
-                  </p>
-                </div>
-                <div className="flex flex-col md:col-span-2">
-                  <label
-                    className="text-xl mb-2 font-semibold"
-                    htmlFor="personnes">
-                    Personnes
-                  </label>
-                  <select
-                    {...register('reservation.personnes')}
-                    id="personnes"
-                    className="border border-gray-300 rounded-lg text-xl">
-                    <option value="">
-                      Sélectionner le nombre de personnes
-                    </option>
-                    {Array.from(Array(15).keys())
-                      .filter((key) => key !== 0)
-                      .map((option) => (
-                        <option
-                          value={option}
-                          key={`option-${option}`}>{`${option} ${
-                          option === 1 ? 'personne' : 'personnes'
-                        }`}</option>
-                      ))}
-                  </select>
-                  <p className="text-red-700 text-center">
-                    {errors?.reservation?.personnes?.message}
-                  </p>
-                </div>
-                <div className="flex flex-col md:col-span-2">
-                  <label
-                    className="text-xl mb-2 font-semibold"
-                    htmlFor="personnesAdultes">
-                    Adultes
-                  </label>
-                  <select
-                    {...register('reservation.personnesAdultes')}
-                    id="personnesAdultes"
-                    className="border border-gray-300 rounded-lg text-xl">
-                    <option value="">
-                      Nombre de personnes adultes
-                    </option>
-                    {Array.from(Array(15).keys())
-                      .filter((key) => key !== 0)
-                      .map((option) => (
-                        <option
-                          value={option}
-                          key={`option-${option}`}>{`${option} ${
-                          option === 1 ? 'personne' : 'personnes'
-                        }`}</option>
-                      ))}
-                  </select>
-                  <p className="text-red-700 text-center">
-                    {errors?.reservation?.personnesAdultes?.message}
-                  </p>
-                </div>
-                <div className="flex flex-col md:col-span-2">
-                  <label
-                    className="text-xl mb-2 font-semibold"
-                    htmlFor="personnesEnfants">
-                    Enfants
-                  </label>
-                  <select
-                    {...register('reservation.personnesEnfants')}
-                    id="personnesEnfants"
-                    className="border border-gray-300 rounded-lg text-xl">
-                    <option value="">
-                      Nombre d'enfants
-                    </option>
-                    {Array.from(Array(15).keys())
-                      .filter((key) => key !== 0)
-                      .map((option) => (
-                        <option
-                          value={option}
-                          key={`option-${option}`}>{`${option} ${
-                          option === 1 ? 'personne' : 'personnes'
-                        }`}</option>
-                      ))}
-                  </select>
-                  <p className="text-red-700 text-center">
-                    {errors?.reservation?.personnesEnfants?.message}
-                  </p>
-                </div>
+                <SelectPersonne
+                  errorMessage={errors?.reservation?.personnes?.message}
+                  setValue={setValue}
+                  formKey={'reservation.personnes'}
+                  id="personnes"
+                  register={register}
+                />
               </div>
             </div>
-            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">
+            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6 mb-4">
               Votre logement
             </h2>
             <div className="grid md:grid-cols-2 gap-4 overflow-hidden">
@@ -412,7 +308,7 @@ function Reservation() {
             <p className="text-red-700 text-center mt-4">
               {errors?.reservation?.types?.message}
             </p>
-            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6">
+            <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6 mb-4">
               Vos informations
             </h2>
             <div className="p-4 bg-app-beige">

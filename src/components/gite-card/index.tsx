@@ -2,7 +2,6 @@ import React from 'react';
 import { BsCheck } from 'react-icons/bs';
 import { GitePreview, ROUTE_VOTRE_GITE, slugify } from '@/utils';
 import classNames from 'classnames';
-import Image from 'next/image';
 import Button from '../buttons/Button';
 import RatingStar from '../RatingStar';
 import Link from 'next/link';
