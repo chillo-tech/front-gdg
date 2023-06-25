@@ -159,7 +159,7 @@ function SelectPersonne({
                 id={`age-enfant-${index + 1}`}
                 name={`age-enfant-${index + 1}`}
                 className="w-full border border-gray-300 rounded-lg text-xl">
-                <option value="">Sélectionner l'âge</option>
+                <option disabled value="">Sélectionner l'âge</option>
                 {Array.from(Array(16).keys()).map((option) => (
                   <option value={option} key={`option-${option}`}>
                     {' '}
