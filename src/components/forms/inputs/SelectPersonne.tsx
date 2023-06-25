@@ -56,18 +56,21 @@ function SelectPersonne({
     // TODO: Submit data
   };
 
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (panelRef.current && !panelRef.current?.contains(event?.target as Node)) {
+        setShowFields(false);
+      }
+    };
 
-    const hidePanel = (event : any) => { setShowFields(false); };
+    document.addEventListener('mousedown', handleClickOutside);
 
-    // panel?.current?.addEventListener('focusout', hidePanel);
-
-    // return () => {
-    //   panel?.current?.removeEventListener('focusout', hidePanel);
-    // }
-
-  }, [])
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [panelRef]);
 
   return (
     <div className="relative flex flex-col md:col-span-2 text-black">
@@ -84,6 +87,8 @@ function SelectPersonne({
         {nombresVoyageurs} Voyageurs
       </button>
       <div
+        ref={panelRef}
+        id='panelContent'
         className={
           showFields
             ? 'absolute top-full mt-4 border border-gray-300 left-0 bg-white z-10 rounded-lg flex flex-col py-6 px-4 space-y-8 h-128 overflow-y-scroll overflow-x-hidden'
