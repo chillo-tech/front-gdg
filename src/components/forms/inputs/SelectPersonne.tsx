@@ -158,13 +158,13 @@ function SelectPersonne({
                 onClick={() => setShowFields(!showFields)}
                 className="font-semibold"
                 htmlFor={`age-enfant-${index + 1}`}>
-                Âge de l'enfant n°{index + 1}
+                Âge de l&apos;enfant n°{index + 1}
               </label>
               <select
                 id={`age-enfant-${index + 1}`}
                 name={`age-enfant-${index + 1}`}
                 className="w-full border border-gray-300 rounded-lg text-xl">
-                <option disabled value="">Sélectionner l'âge</option>
+                <option disabled value="">Sélectionner l&apos;âge</option>
                 {Array.from(Array(16).keys()).map((option) => (
                   <option value={option} key={`option-${option}`}>
                     {' '}
