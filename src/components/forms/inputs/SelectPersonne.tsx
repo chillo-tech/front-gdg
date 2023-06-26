@@ -109,7 +109,7 @@ function SelectPersonne({
               </button>
               <input
                 {...register(`${formKey}.nombresAdultes`)}
-                readonly
+                readOnly
                 className="border-none w-10 aspect-square"
                 type="text"
                 value={nombresAdultes}
@@ -136,7 +136,7 @@ function SelectPersonne({
               </button>
               <input
                 {...register(`${formKey}.nombresEnfants`)}
-                readonly
+                readOnly
                 className="border-none w-10 aspect-square"
                 type="text"
                 value={nombresEnfants}
