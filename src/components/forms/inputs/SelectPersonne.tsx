@@ -153,7 +153,7 @@ function SelectPersonne({
 
         <div className="mb-4 w-full flex-1 space-y-8">
           {Array.from(Array(nombresEnfants).keys()).map((index) => (
-            <div className="space-y-2">
+            <div key={`child-${index}`} className="space-y-2">
               <label
                 onClick={() => setShowFields(!showFields)}
                 className="font-semibold"
