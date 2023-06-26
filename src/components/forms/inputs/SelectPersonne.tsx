@@ -14,7 +14,7 @@ function SelectPersonne({
   setValue?: any;
 }) {
 
-  const nombresVoyageursInput: MutableRefObject<
+  const nombresAdultesInput: MutableRefObject<
     HTMLInputElement | undefined | null
   > = useRef();
   const nombresEnfantsInput: MutableRefObject<
@@ -23,17 +23,17 @@ function SelectPersonne({
   
   const [showFields, setShowFields] = useState<any>(false);
 
-  const [nombresVoyageurs, setNombresVoyageurs] = useState(0);
+  const [nombresAdultes, setNombresAdultes] = useState(0);
   const [nombresEnfants, setNombresEnfants] = useState(0);
 
   const onAddPeople = () => {
-    if (nombresVoyageursInput.current)
-      nombresVoyageursInput.current.value = '0';
+    if (nombresAdultesInput.current)
+      nombresAdultesInput.current.value = '0';
   };
 
   const incrementAdult = () => {
     // TODO: Increment the number of adult
-    setNombresVoyageurs(nombresVoyageurs + 1);
+    setNombresAdultes(nombresAdultes + 1);
   };
 
   const incrementChild = () => {
@@ -43,7 +43,7 @@ function SelectPersonne({
 
   const decrementAdult = () => {
     // TODO: Increment the number of adult
-    setNombresVoyageurs(nombresVoyageurs <= 0 ? 0 : nombresVoyageurs - 1);
+    setNombresAdultes(nombresAdultes <= 0 ? 0 : nombresAdultes - 1);
   };
 
   const decrementChild = () => {
@@ -84,14 +84,14 @@ function SelectPersonne({
         type="button"
         onClick={() => setShowFields(!showFields)}
         className="w-full h-full text-left py-2 px-4 border border-gray-300 rounded-lg text-xl">
-        {nombresVoyageurs} Voyageurs
+        {nombresAdultes + nombresEnfants} Voyageurs
       </button>
       <div
         ref={panelRef}
         id='panelContent'
         className={
           showFields
-            ? 'absolute top-full mt-4 border border-gray-300 left-0 bg-white z-10 rounded-lg flex flex-col py-6 px-4 space-y-8 h-128 overflow-y-scroll overflow-x-hidden'
+            ? 'absolute top-full mt-4 border border-gray-300 left-0 bg-white z-10 rounded-lg flex flex-col py-6 px-4 space-y-8 max-h-[30rem] overflow-y-scroll overflow-x-hidden'
             : 'hidden'
         }>
         <div className="w-full flex-1 space-y-8">
@@ -108,11 +108,11 @@ function SelectPersonne({
                 <span className="inline-flex h-full">-</span>
               </button>
               <input
-                {...register(`${formKey}.nombresVoyageurs`)}
+                {...register(`${formKey}.nombresAdultes`)}
                 readonly
                 className="border-none w-10 aspect-square"
                 type="text"
-                value={nombresVoyageurs}
+                value={nombresAdultes}
               />
               <button
                 type="button"
