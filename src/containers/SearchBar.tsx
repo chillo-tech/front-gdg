@@ -10,11 +10,12 @@ import SelectPersonne from '@/components/forms/inputs/SelectPersonne';
 type FormData = {
   debut?: string;
   jours?: string;
-  personnes?: {
-    nombresVoyageurs?: string;
-    nombresEnfants?: string;
-    enfants: any[];
-  };
+  personnes: [
+    {
+      type: 'adulte' | 'enfant';
+      age?: string;
+    }
+  ];
   options: any[];
 };
 
@@ -26,17 +27,14 @@ const schema = object({
   jours: string()
     .typeError('Combien de jours serez vous des nôtres ?')
     .required('Combien de jours serez vous des nôtres ? '),
-  personnes: object({
-    nombresVoyageurs: string().required(),
-    nombresEnfants: string().notRequired(),
-    enfants: array()
-      .of(
-        object().shape({
-          age: string().required(),
-        })
-      )
-      .notRequired(),
-  })
+
+  personnes: array()
+    .of(
+      object().shape({
+        type: string().oneOf(['adulte', 'enfant']).required(),
+        age: string(),
+      })
+    )
     .typeError('Combien serez vous ?')
     .required('Combien serez vous ?'),
 }).required();
@@ -55,6 +53,7 @@ function SearchBar() {
       resolver: yupResolver(schema),
       defaultValues: { debut: new Date().toISOString().split('T')[0] },
     });
+
   const { fields, append, remove } = useFieldArray({
     name: 'options',
     control,
@@ -109,10 +108,9 @@ function SearchBar() {
             </div>
             <SelectPersonne
               errorMessage={errors?.personnes?.message}
-              setValue={setValue}
+              control={control}
               formKey={'personnes'}
               id="personnes"
-              register={register}
             />
           </div>
           <div className="flex flex-col">

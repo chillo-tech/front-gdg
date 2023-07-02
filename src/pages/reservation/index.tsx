@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { useMutation, useQuery } from 'react-query';
 import { fetchData } from '@/services';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { date, object, array, string, number } from 'yup';
 import ImageDisplay from '@/components/image-display';
 import classNames from 'classnames';
@@ -18,11 +18,14 @@ type FormData = {
   reservation: {
     debut?: Date;
     fin?: Date;
-    personnes?: {
-      nombresVoyageurs?: string;
-      nombresEnfants?: string;
-      enfants: any[];
-    };
+
+    personnes: [
+      {
+        type: 'adulte' | 'enfant';
+        age?: string;
+      }
+    ];
+
     types: any[];
     message?: string;
     client: {
@@ -45,17 +48,17 @@ const schema = object({
       .typeError('Quand nous quitterez vous ?')
       .required('Sélectionner une date de fin')
       .transform(parseDateString),
-    personnes: object({
-      nombresVoyageurs: string().required(),
-      nombresEnfants: string().notRequired(),
-      enfants: array().of(
+
+    personnes: array()
+      .of(
         object().shape({
-          age: string().required(),
+          type: string().oneOf(['adulte', 'enfant']).required(),
+          age: string(),
         })
-      ).notRequired()
-    })
+      )
       .typeError('Combien serez vous ?')
       .required('Combien serez vous ?'),
+
     message: string(),
     types: array()
       .of(
@@ -107,10 +110,11 @@ function Reservation() {
       }),
   });
 
-  const { register, handleSubmit, formState, setValue } = useForm<FormData>({
+  const { control, register, handleSubmit, formState, setValue } = useForm<FormData>({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
+
   const { errors } = formState;
 
   const onSubmit = (data: any) => {
@@ -155,7 +159,6 @@ function Reservation() {
       const reservationObject = JSON.parse(reservation);
       setValue('reservation.debut', reservationObject['debut'].split('T')[0]);
       setValue('reservation.fin', reservationObject['fin'].split('T')[0]);
-      setValue('reservation.personnes', reservationObject['personnes']); // Ref : https://www.skyscanner.fr/
     }
   }, [setValue]);
 
@@ -175,7 +178,7 @@ function Reservation() {
       setSelectedSpaces((prev: any[]) => {
         const data = prev.filter((item) => item.id !== space.id);
         setValue(
-          'reservation.types', // TODO : Personnes ref for enfants
+          'reservation.types',
           data.map((entry: any) => entry.types[0].type_id)
         );
         return data;
@@ -188,7 +191,9 @@ function Reservation() {
         <title>{`${APP_NAME} | réservation`}</title>
       </Head>
       <div className="container py-5 md:px-20">
-        <h1 className="w-full text-2xl md:text-4xl pb-0 mb-4">Votre réservation</h1>
+        <h1 className="w-full text-2xl md:text-4xl pb-0 mb-4">
+          Votre réservation
+        </h1>
         {mutation.isError ? (
           <Message
             type="error"
@@ -243,10 +248,9 @@ function Reservation() {
                 </div>
                 <SelectPersonne
                   errorMessage={errors?.reservation?.personnes?.message}
-                  setValue={setValue}
+                  control={control}
                   formKey={'reservation.personnes'}
                   id="personnes"
-                  register={register}
                 />
               </div>
             </div>
