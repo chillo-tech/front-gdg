@@ -71,11 +71,13 @@ function SelectPersonne({
   errorMessage,
   id,
   formKey,
+  setValue,
 }: {
   control: Control<any, any>;
   errorMessage?: string;
   id?: string;
   formKey: string;
+  setValue: any;
 }) {
   const { register, handleSubmit } = useForm();
 
@@ -109,7 +111,7 @@ function SelectPersonne({
 
   const deletePerson = (type: string) => {
     for (let i = fields.length - 1; i >= 0; i--) {
-      const f : any = fields[i];
+      const f: any = fields[i];
       // If it's the target person : adulte | enfant
       if (f?.type === type) {
         remove(i);
@@ -127,6 +129,23 @@ function SelectPersonne({
 
   const submitData = (data: any) => {
     setShowFields(false);
+
+    if (!data) return;
+
+    let objKeys = formKey.split('.');
+
+    let sendData = data;
+    
+    for (let key of objKeys) {
+      if (!sendData) return;
+
+      sendData = sendData[`${key}`];
+      // Find the array of personnes
+      if (key?.search('person') != -1) {
+        setValue(`${formKey}`, sendData);
+        break;
+      }
+    }
   };
 
   const panelRef = useRef<HTMLDivElement>(null);
@@ -138,6 +157,7 @@ function SelectPersonne({
         !panelRef.current?.contains(event?.target as Node)
       ) {
         setShowFields(false);
+        handleSubmit((data) => submitData(data))();
       }
     };
 

@@ -111,6 +111,7 @@ function SearchBar() {
               control={control}
               formKey={'personnes'}
               id="personnes"
+              setValue={setValue}
             />
           </div>
           <div className="flex flex-col">

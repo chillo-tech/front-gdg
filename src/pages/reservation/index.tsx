@@ -53,7 +53,7 @@ const schema = object({
       .of(
         object().shape({
           type: string().oneOf(['adulte', 'enfant']).required(),
-          age: string(),
+          age: string().optional(),
         })
       )
       .typeError('Combien serez vous ?')
@@ -71,11 +71,11 @@ const schema = object({
             .required('Identifiant invalide')
             .min(1, 'Identifiant invalide'),
         })
-      )
-      .test({
-        message: 'Quel type de logement pourrait vous convenir ?',
-        test: (arr) => (arr ? arr.length > 0 : false),
-      }),
+      ),
+      // .test({
+      //   message: 'Quel type de logement pourrait vous convenir ?',
+      //   test: (arr) => (arr ? arr.length > 0 : false),
+      // }),
 
     client: object({
       prenom: string().typeError('Votre prénom').required('Votre prénom '),
@@ -251,6 +251,7 @@ function Reservation() {
                   control={control}
                   formKey={'reservation.personnes'}
                   id="personnes"
+                  setValue={setValue}
                 />
               </div>
             </div>
