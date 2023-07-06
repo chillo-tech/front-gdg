@@ -30,7 +30,7 @@ const PersonInput = ({
     name: `${formKey}.${index}.age`,
   });
 
-  if (value.type === 'adulte') {
+  if (value.type === 'ADULTE') {
     return (
       <input
         className="hidden"
@@ -53,6 +53,7 @@ const PersonInput = ({
       />
       <select
         id={`age-enfant-${index + 1}`}
+        defaultValue={value?.age ?? 0}
         {...register(`${formKey}.${index}.age` as const)}
         className="w-full border border-gray-300 rounded-lg text-xl">
         {Array.from(Array(16).keys()).map((option) => (
@@ -88,26 +89,27 @@ function SelectPersonne({
 
   const [showFields, setShowFields] = useState<any>(false);
 
-  const [nombresAdultes, setNombresAdultes] = useState(0);
+  const [nombresAdultes, setNombresAdultes] = useState(
+    fields?.reduce((acc, field: any) => {
+      return acc + (field?.type === 'ADULTE' ? 1 : 0);
+    }, 0)
+  );
 
   const [nombresEnfants, setNombresEnfants] = useState(0);
 
-  const incrementAdult = () => {
-    append({ type: 'adulte' });
-    setNombresAdultes(nombresAdultes + 1);
-  };
+  useEffect(() => {
+    setNombresEnfants(
+      fields?.reduce((acc, field: any) => {
+        return acc + (field?.type === 'ENFANT' ? 1 : 0);
+      }, 0)
+    );
 
-  const incrementChild = () => {
-    append({ type: 'enfant', age: '0' });
-    setNombresEnfants(nombresEnfants + 1);
-  };
-
-  const decrementAdult = () => {
-    if (nombresAdultes > 0) {
-      setNombresAdultes(nombresAdultes - 1);
-      deletePerson('adulte');
-    }
-  };
+    setNombresAdultes(
+      fields?.reduce((acc, field: any) => {
+        return acc + (field?.type === 'ADULTE' ? 1 : 0);
+      }, 0)
+    );
+  }, [fields]);
 
   const deletePerson = (type: string) => {
     for (let i = fields.length - 1; i >= 0; i--) {
@@ -120,10 +122,27 @@ function SelectPersonne({
     }
   };
 
+  const incrementAdult = () => {
+    append({ type: 'ADULTE' });
+    // setNombresAdultes(nombresAdultes + 1);
+  };
+
+  const incrementChild = () => {
+    append({ type: 'ENFANT', age: '0' });
+    // setNombresEnfants(nombresEnfants + 1);
+  };
+
+  const decrementAdult = () => {
+    if (nombresAdultes > 0) {
+      // setNombresAdultes(nombresAdultes - 1);
+      deletePerson('ADULTE');
+    }
+  };
+
   const decrementChild = () => {
     if (nombresEnfants > 0) {
-      setNombresEnfants(nombresEnfants - 1);
-      deletePerson('enfant');
+      // setNombresEnfants(nombresEnfants - 1);
+      deletePerson('ENFANT');
     }
   };
 
@@ -135,7 +154,7 @@ function SelectPersonne({
     let objKeys = formKey.split('.');
 
     let sendData = data;
-    
+
     for (let key of objKeys) {
       if (!sendData) return;
 

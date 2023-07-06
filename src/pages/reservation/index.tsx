@@ -21,7 +21,7 @@ type FormData = {
 
     personnes: [
       {
-        type: 'adulte' | 'enfant';
+        type: 'ADULTE' | 'ENFANT';
         age?: string;
       }
     ];
@@ -52,7 +52,7 @@ const schema = object({
     personnes: array()
       .of(
         object().shape({
-          type: string().oneOf(['adulte', 'enfant']).required(),
+          type: string().oneOf(['ADULTE', 'ENFANT']).required(),
           age: string().optional(),
         })
       )
@@ -71,11 +71,11 @@ const schema = object({
             .required('Identifiant invalide')
             .min(1, 'Identifiant invalide'),
         })
-      ),
-      // .test({
-      //   message: 'Quel type de logement pourrait vous convenir ?',
-      //   test: (arr) => (arr ? arr.length > 0 : false),
-      // }),
+      )
+      .test({
+        message: 'Quel type de logement pourrait vous convenir ?',
+        test: (arr) => (arr ? arr.length > 0 : false),
+      }),
 
     client: object({
       prenom: string().typeError('Votre prénom').required('Votre prénom '),
@@ -110,31 +110,41 @@ function Reservation() {
       }),
   });
 
-  const { control, register, handleSubmit, formState, setValue } = useForm<FormData>({
-    mode: 'onChange',
-    resolver: yupResolver(schema),
+  const { control, register, handleSubmit, formState, setValue } =
+    useForm<FormData>({
+      mode: 'onChange',
+      resolver: yupResolver(schema),
+    });
+
+  const mutation = useMutation({
+    mutationFn: (message: any) => sendData('/reservations', message),
   });
 
   const { errors } = formState;
 
   const onSubmit = (data: any) => {
     let { message, personnes, debut, fin, client, types } = data['reservation'];
+
     types = types
-      .filter(
+      ?.filter(
         (value: any, index: number, self: any) =>
           index === self.findIndex((t: any) => t.id === value.id)
       )
-      .map((type: any) => ({
-        reservation_id: '+',
+      ?.map((type: any) => ({
+        // reservation_id: '+', 
         type_id: { id: Number(type.id) },
       }));
+
+    debut = debut.toISOString().split('T')[0];
+    fin = fin.toISOString().split('T')[0];
+
     mutation.mutate({
-      message,
-      personnes,
       debut,
       fin,
+      message,
       client,
-      types: { create: types },
+      voyageurs: personnes,
+      types_espaces: types
     });
   };
 
@@ -149,16 +159,14 @@ function Reservation() {
     router.push('/');
   };
 
-  const mutation = useMutation({
-    mutationFn: (message: any) => sendData('/reservation', message),
-  });
-
   useEffect(() => {
     const reservation = sessionStorage.getItem('RESERVATION');
     if (reservation) {
       const reservationObject = JSON.parse(reservation);
-      setValue('reservation.debut', reservationObject['debut'].split('T')[0]);
-      setValue('reservation.fin', reservationObject['fin'].split('T')[0]);
+
+      setValue('reservation.debut', reservationObject['debut']?.split('T')[0]);
+      setValue('reservation.fin', reservationObject['fin']?.split('T')[0]);
+      setValue('reservation.personnes', reservationObject['personnes']);
     }
   }, [setValue]);
 
@@ -224,7 +232,7 @@ function Reservation() {
                     {...register('reservation.debut')}
                     min={todayDate().toISOString().split('T')[0]}
                     type="date"
-                    id="date"
+                    id="date_debut"
                     className="w-full border border-gray-300 rounded-lg text-xl"
                   />
                   <p className="text-red-700 text-center">
@@ -239,7 +247,7 @@ function Reservation() {
                     {...register('reservation.fin')}
                     min={todayDate().toISOString().split('T')[0]}
                     type="date"
-                    id="date"
+                    id="date_fin"
                     className="w-full border border-gray-300 rounded-lg text-xl"
                   />
                   <p className="text-red-700 text-center">

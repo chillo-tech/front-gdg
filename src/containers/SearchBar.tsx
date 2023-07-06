@@ -4,15 +4,16 @@ import { useRouter } from 'next/router';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { array, date, object, string } from 'yup';
 import { HiOutlineSearch } from 'react-icons/hi';
-import { todayDate } from '@/utils';
+import { parseDateString, todayDate } from '@/utils';
 import SelectPersonne from '@/components/forms/inputs/SelectPersonne';
 
 type FormData = {
-  debut?: string;
-  jours?: string;
+  debut?: Date;
+  fin?: Date;
+
   personnes: [
     {
-      type: 'adulte' | 'enfant';
+      type: 'ADULTE' | 'ENFANT';
       age?: string;
     }
   ];
@@ -23,15 +24,18 @@ const schema = object({
   debut: date()
     .typeError('Quand arrivez vous ?')
     .required('Sélectionner une date de début')
+    .transform(parseDateString)
     .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
-  jours: string()
-    .typeError('Combien de jours serez vous des nôtres ?')
-    .required('Combien de jours serez vous des nôtres ? '),
+
+  fin: date()
+    .typeError('Quand nous quitterez vous ?')
+    .required('Sélectionner une date de fin')
+    .transform(parseDateString),
 
   personnes: array()
     .of(
       object().shape({
-        type: string().oneOf(['adulte', 'enfant']).required(),
+        type: string().oneOf(['ADULTE', 'ENFANT']).required(),
         age: string(),
       })
     )
@@ -47,11 +51,10 @@ function SearchBar() {
     router.push('/reservation');
   };
 
-  const { register, control, handleSubmit, formState, watch, setValue } =
+  const { register, control, handleSubmit, formState, setValue } =
     useForm<FormData>({
       mode: 'onChange',
       resolver: yupResolver(schema),
-      defaultValues: { debut: new Date().toISOString().split('T')[0] },
     });
 
   const { fields, append, remove } = useFieldArray({
@@ -76,7 +79,7 @@ function SearchBar() {
                 {...register('debut')}
                 min={todayDate().toISOString().split('T')[0]}
                 type="date"
-                id="date"
+                id="date_debut"
                 className="w-full border border-gray-300 rounded-lg text-xl text-app-black"
               />
               <p className="text-red-700 text-center">
@@ -84,26 +87,18 @@ function SearchBar() {
               </p>
             </div>
             <div className="flex flex-col md:col-span-2">
-              <label className="text-app-black font-semibold" htmlFor="jours">
-                Nuits
+              <label className="text-app-black font-semibold" htmlFor="debut">
+                Date de départ
               </label>
-              <select
-                {...register('jours')}
-                id="jours"
-                className="border border-gray-300 rounded-lg text-xl text-app-black">
-                <option value="">Sélectionner le nombre de jours</option>
-                {Array.from(Array(15).keys())
-                  .filter((key) => key !== 0)
-                  .map((option) => (
-                    <option
-                      value={option}
-                      key={`option-${option}`}>{`${option} ${
-                      option === 1 ? 'nuit' : 'nuits'
-                    }`}</option>
-                  ))}
-              </select>
+              <input
+                {...register('fin')}
+                min={todayDate().toISOString().split('T')[0]}
+                type="date"
+                id="date_fin"
+                className="w-full border border-gray-300 rounded-lg text-xl text-app-black"
+              />
               <p className="text-red-700 text-center">
-                {errors.jours?.message}
+                {errors.fin?.message}
               </p>
             </div>
             <SelectPersonne

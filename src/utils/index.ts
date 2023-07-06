@@ -93,6 +93,6 @@ export const parseDateString = (value: any, originalValue: any) => {
 export const todayDate = () => {
   const nowAsString = new Date().toISOString().slice(0, 10);
   const date = new Date(nowAsString);
-  date.setDate(date.getDate() - 1);
+  date.setDate(date.getDate() - 1); // result in the current date set to the day before
   return date;
 };
