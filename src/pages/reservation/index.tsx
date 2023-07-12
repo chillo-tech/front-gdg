@@ -131,7 +131,7 @@ function Reservation() {
           index === self.findIndex((t: any) => t.id === value.id)
       )
       ?.map((type: any) => ({
-        // reservation_id: '+', 
+        // reservation_id: '+',
         type_id: { id: Number(type.id) },
       }));
 
@@ -144,7 +144,7 @@ function Reservation() {
       message,
       client,
       voyageurs: personnes,
-      types_espaces: types
+      types_espaces: types,
     });
   };
 
@@ -164,8 +164,15 @@ function Reservation() {
     if (reservation) {
       const reservationObject = JSON.parse(reservation);
 
-      setValue('reservation.debut', reservationObject['debut']?.split('T')[0]);
-      setValue('reservation.fin', reservationObject['fin']?.split('T')[0]);
+      if (reservationObject['debut'])
+        setValue(
+          'reservation.debut',
+          reservationObject['debut']?.split('T')[0]
+        );
+
+      if (reservationObject['fin'])
+        setValue('reservation.fin', reservationObject['fin']?.split('T')[0]);
+
       setValue('reservation.personnes', reservationObject['personnes']);
     }
   }, [setValue]);
