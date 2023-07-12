@@ -200,7 +200,7 @@ function SelectPersonne({
       <button
         type="button"
         onClick={() => setShowFields(!showFields)}
-        className="w-full h-full text-left py-2 px-4 border border-gray-300 rounded-lg text-xl">
+        className="w-full text-left py-2 px-4 border border-gray-300 rounded-lg text-xl">
         {nombresAdultes + nombresEnfants} Voyageurs
       </button>
       <div

@@ -44,7 +44,17 @@ const schema = object({
       .required('Sélectionner une date de début')
       .transform(parseDateString)
       .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
+
     fin: date()
+      .when(
+        'debut',
+        (debut, yup) =>
+          debut &&
+          yup.min(
+            debut,
+            "La date de départ ne peut pas être avant celle d'arrivée."
+          )
+      )
       .typeError('Quand nous quitterez vous ?')
       .required('Sélectionner une date de fin')
       .transform(parseDateString),
