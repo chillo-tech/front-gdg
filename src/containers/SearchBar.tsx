@@ -1,11 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { array, date, object, string } from 'yup';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { parseDateString, todayDate } from '@/utils';
 import SelectPersonne from '@/components/forms/inputs/SelectPersonne';
+
+import moment from 'moment';
+
+moment.locale('fr', {
+  months:
+    'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split(
+      '_'
+    ),
+  monthsShort:
+    'Janv._Févr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._Déc.'.split('_'),
+  monthsParseExact: true,
+  weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
+  weekdaysShort: 'Dim._Lun._Mar._Mer._Jeu._Ven._Sam.'.split('_'),
+  weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
+  weekdaysParseExact: true,
+  longDateFormat: {
+    LT: 'HH:mm',
+    LTS: 'HH:mm:ss',
+    L: 'DD/MM/YYYY',
+    LL: 'D MMMM YYYY',
+    LLL: 'D MMMM YYYY HH:mm',
+    LLLL: 'dddd D MMMM YYYY HH:mm',
+  },
+  calendar: {
+    sameDay: '[Aujourd’hui à] LT',
+    nextDay: '[Demain à] LT',
+    nextWeek: 'dddd [à] LT',
+    lastDay: '[Hier à] LT',
+    lastWeek: 'dddd [dernier à] LT',
+    sameElse: 'L',
+  },
+  relativeTime: {
+    future: 'dans %s',
+    past: 'il y a %s',
+    s: 'quelques secondes',
+    m: 'une minute',
+    mm: '%d minutes',
+    h: 'une heure',
+    hh: '%d heures',
+    d: 'un jour',
+    dd: '%d jours',
+    M: 'un mois',
+    MM: '%d mois',
+    y: 'un an',
+    yy: '%d ans',
+  },
+});
+
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+//@ts-ignore
+import { DateRangePicker } from 'react-dates';
 
 type FormData = {
   debut?: Date;
@@ -55,21 +107,20 @@ const schema = object({
 function SearchBar() {
   const router = useRouter();
 
+  const [_startDate, setStartDate] = useState<any>(null);
+  const [_endDate, setEndDate] = useState<any>(null);
+  const [focusedInput, setFocusedInput] = useState(null);
+
   const onSubmit = async (data: FormData) => {
     sessionStorage.setItem('RESERVATION', JSON.stringify(data));
     router.push('/reservation');
   };
 
-  const { register, control, handleSubmit, formState, setValue } =
+  const { control, handleSubmit, formState, setValue, watch } =
     useForm<FormData>({
       mode: 'onChange',
       resolver: yupResolver(schema),
     });
-
-  const { fields, append, remove } = useFieldArray({
-    name: 'options',
-    control,
-  });
 
   const { errors } = formState;
 
@@ -80,33 +131,40 @@ function SearchBar() {
           onSubmit={handleSubmit(onSubmit)}
           className="grid md:grid-cols-4 gap-2">
           <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
-            <div className="flex flex-col md:col-span-2">
-              <label className="text-app-black font-semibold" htmlFor="debut">
-                Date d&lsquo;arrivée
+            <div className="flex flex-col md:col-span-3 pr-2">
+              <label className={`font-semibold text-black`}>
+                Date d'arrivée et de départ
               </label>
-              <input
-                {...register('debut')}
-                min={todayDate().toISOString().split('T')[0]}
-                type="date"
-                id="date_debut"
-                className="w-full border border-gray-300 rounded-lg text-xl text-app-black"
+              <DateRangePicker
+                showDefaultInputIcon={true}
+                block={true}
+                numberOfMonths={1}
+                hideKeyboardShortcutsPanel={true}
+                keepOpenOnDateSelect={true}
+                minDate={moment()}
+                displayFormat="D/M/Y"
+                startDate={_startDate}
+                startDatePlaceholderText="Arrivée"
+                startDateId="debut"
+                endDate={_endDate}
+                endDatePlaceholderText="Départ"
+                endDateId="fin"
+                onDatesChange={({ startDate, endDate }: any) => {
+                  setValue('debut', startDate?.toDate());
+                  setStartDate(startDate);
+
+                  setValue('fin', endDate?.toDate());
+                  setEndDate(endDate);
+
+                  console.log(`Starting date ${_startDate}`);
+                  console.log(`Ending date ${_endDate}`);
+                }}
+                focusedInput={focusedInput}
+                onFocusChange={(focusedInput: any) => {
+                  console.log(`Focused input : ${focusedInput}`);
+                  setFocusedInput(focusedInput);
+                }}
               />
-              <p className="text-red-700 text-center">
-                {errors.debut?.message}
-              </p>
-            </div>
-            <div className="flex flex-col md:col-span-2">
-              <label className="text-app-black font-semibold" htmlFor="debut">
-                Date de départ
-              </label>
-              <input
-                {...register('fin')}
-                min={todayDate().toISOString().split('T')[0]}
-                type="date"
-                id="date_fin"
-                className="w-full border border-gray-300 rounded-lg text-xl text-app-black"
-              />
-              <p className="text-red-700 text-center">{errors.fin?.message}</p>
             </div>
             <SelectPersonne
               errorMessage={errors?.personnes?.message}

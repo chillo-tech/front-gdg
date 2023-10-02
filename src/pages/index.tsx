@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import { APP_DESCRIPTION, APP_NAME, HEADER_ACCUEIL } from '@/utils/constants';
+import { APP_DESCRIPTION, APP_NAME } from '@/utils/constants';
 import Layout from '@/containers/Layout';
 import Spaces from '@/components/home/Spaces';
-import SearchBar from '@/containers/SearchBar';
 import Description from '@/components/home/Description';
 import AvisUtilisateurs from '@/components/home/AvisUtilisateurs';
 import NousTrouver from '@/components/home/NousTrouver';

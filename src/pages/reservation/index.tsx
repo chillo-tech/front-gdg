@@ -5,14 +5,65 @@ import Head from 'next/head';
 import { useMutation, useQuery } from 'react-query';
 import { fetchData } from '@/services';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { date, object, array, string, number } from 'yup';
+import { useForm } from 'react-hook-form';
+import { date, object, array, string } from 'yup';
 import ImageDisplay from '@/components/image-display';
 import classNames from 'classnames';
 import { sendData } from '@/services';
 import { useRouter } from 'next/router';
 import Message from '@/components/Message';
 import SelectPersonne from '@/components/forms/inputs/SelectPersonne';
+import moment from 'moment';
+
+moment.locale('fr', {
+  months:
+    'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split(
+      '_'
+    ),
+  monthsShort:
+    'Janv._Févr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._Déc.'.split('_'),
+  monthsParseExact: true,
+  weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
+  weekdaysShort: 'Dim._Lun._Mar._Mer._Jeu._Ven._Sam.'.split('_'),
+  weekdaysMin: 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
+  weekdaysParseExact: true,
+  longDateFormat: {
+    LT: 'HH:mm',
+    LTS: 'HH:mm:ss',
+    L: 'DD/MM/YYYY',
+    LL: 'D MMMM YYYY',
+    LLL: 'D MMMM YYYY HH:mm',
+    LLLL: 'dddd D MMMM YYYY HH:mm',
+  },
+  calendar: {
+    sameDay: '[Aujourd’hui à] LT',
+    nextDay: '[Demain à] LT',
+    nextWeek: 'dddd [à] LT',
+    lastDay: '[Hier à] LT',
+    lastWeek: 'dddd [dernier à] LT',
+    sameElse: 'L',
+  },
+  relativeTime: {
+    future: 'dans %s',
+    past: 'il y a %s',
+    s: 'quelques secondes',
+    m: 'une minute',
+    mm: '%d minutes',
+    h: 'une heure',
+    hh: '%d heures',
+    d: 'un jour',
+    dd: '%d jours',
+    M: 'un mois',
+    MM: '%d mois',
+    y: 'un an',
+    yy: '%d ans',
+  },
+});
+
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+//@ts-ignore
+import { DateRangePicker } from 'react-dates';
 
 type FormData = {
   reservation: {
@@ -106,6 +157,9 @@ const schema = object({
 function Reservation() {
   const router = useRouter();
   const [spaces, setSpaces] = useState([]);
+  const [_startDate, setStartDate] = useState<any>(null);
+  const [_endDate, setEndDate] = useState<any>(null);
+  const [focusedInput, setFocusedInput] = useState(null);
 
   useQuery<any>({
     queryKey: ['nos_types'],
@@ -120,7 +174,7 @@ function Reservation() {
       }),
   });
 
-  const { control, register, handleSubmit, formState, setValue } =
+  const { control, register, handleSubmit, formState, setValue, watch } =
     useForm<FormData>({
       mode: 'onChange',
       resolver: yupResolver(schema),
@@ -158,12 +212,6 @@ function Reservation() {
     });
   };
 
-  // {
-  //   create: [{ reservation_id: '+', type_id: { id: 1 } }];
-  // }
-
-  const onError = (errors: any, e: any) => null;
-
   const handleError = (error: any) => {
     error.preventDefault();
     router.push('/');
@@ -174,14 +222,21 @@ function Reservation() {
     if (reservation) {
       const reservationObject = JSON.parse(reservation);
 
-      if (reservationObject['debut'])
+      if (reservationObject['debut']) {
         setValue(
           'reservation.debut',
-          reservationObject['debut']?.split('T')[0]
+          moment(reservationObject['debut']?.split('T')[0]).toDate()
         );
+        setStartDate(moment(reservationObject['debut']?.split('T')[0]));
+      }
 
-      if (reservationObject['fin'])
-        setValue('reservation.fin', reservationObject['fin']?.split('T')[0]);
+      if (reservationObject['fin']) {
+        setValue(
+          'reservation.fin',
+          moment(reservationObject['fin']?.split('T')[0]).toDate()
+        );
+        setEndDate(moment(reservationObject['fin']?.split('T')[0]));
+      }
 
       setValue('reservation.personnes', reservationObject['personnes']);
     }
@@ -210,6 +265,7 @@ function Reservation() {
       });
     }
   };
+
   return (
     <Layout containerClasses="py-10">
       <Head>
@@ -241,35 +297,41 @@ function Reservation() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid md:grid-cols-3 mt-2 gap-2 w-full">
               <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
-                <div className="flex flex-col md:col-span-2">
-                  <label className="text-xl mb-2 font-semibold" htmlFor="debut">
-                    Date d&lsquo;arrivée
+                <div className="flex flex-col md:col-span-2 pr-2">
+                  <label className={`text-xl mb-2 font-semibold`}>
+                    Date d'arrivée et de départ
                   </label>
-                  <input
-                    {...register('reservation.debut')}
-                    min={todayDate().toISOString().split('T')[0]}
-                    type="date"
-                    id="date_debut"
-                    className="w-full border border-gray-300 rounded-lg text-xl"
+                  <DateRangePicker
+                    showDefaultInputIcon={true}
+                    block={true}
+                    numberOfMonths={1}
+                    hideKeyboardShortcutsPanel={true}
+                    keepOpenOnDateSelect={true}
+                    renderCalendarInfo={() => <span className="text-md font-semibold inline-block m-6">Here we should write the price ?</span>}
+                    minDate={moment()}
+                    displayFormat="D/M/Y"
+                    startDate={_startDate}
+                    startDatePlaceholderText="Arrivée"
+                    startDateId="reservation.debut"
+                    endDate={_endDate}
+                    endDatePlaceholderText="Départ"
+                    endDateId="reservation.fin"
+                    onDatesChange={({ startDate, endDate }: any) => {
+                      setValue('reservation.debut', startDate?.toDate());
+                      setStartDate(startDate);
+
+                      setValue('reservation.fin', endDate?.toDate());
+                      setEndDate(endDate);
+
+                      console.log(`Starting date ${_startDate}`);
+                      console.log(`Ending date ${_endDate}`);
+                    }}
+                    focusedInput={focusedInput}
+                    onFocusChange={(focusedInput: any) => {
+                      console.log(`Focused input : ${focusedInput}`);
+                      setFocusedInput(focusedInput);
+                    }}
                   />
-                  <p className="text-red-700 text-center">
-                    {errors?.reservation?.debut?.message}
-                  </p>
-                </div>
-                <div className="flex flex-col md:col-span-2">
-                  <label className="text-xl mb-2 font-semibold" htmlFor="fin">
-                    Date de départ
-                  </label>
-                  <input
-                    {...register('reservation.fin')}
-                    min={todayDate().toISOString().split('T')[0]}
-                    type="date"
-                    id="date_fin"
-                    className="w-full border border-gray-300 rounded-lg text-xl"
-                  />
-                  <p className="text-red-700 text-center">
-                    {errors?.reservation?.fin?.message}
-                  </p>
                 </div>
                 <SelectPersonne
                   errorMessage={errors?.reservation?.personnes?.message}
