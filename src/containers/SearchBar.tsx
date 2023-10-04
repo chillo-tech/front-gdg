@@ -11,11 +11,11 @@ import moment from 'moment';
 
 moment.locale('fr', {
   months:
-    'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split(
+    'Janvier_F&eacute;vrier_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_D&eacute;cembre'.split(
       '_'
     ),
   monthsShort:
-    'Janv._Févr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._Déc.'.split('_'),
+    'Janv._F&eacute;vr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._D&eacute;c.'.split('_'),
   monthsParseExact: true,
   weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
   weekdaysShort: 'Dim._Lun._Mar._Mer._Jeu._Ven._Sam.'.split('_'),
@@ -75,7 +75,7 @@ type FormData = {
 const schema = object({
   debut: date()
     .typeError('Quand arrivez vous ?')
-    .required('Sélectionner une date de début')
+    .required('S&eacute;lectionner une date de d&eacute;but')
     .transform(parseDateString)
     .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
 
@@ -86,11 +86,11 @@ const schema = object({
         debut &&
         yup.min(
           debut,
-          "La date de départ ne peut pas être avant celle d'arrivée."
+          "La date de d&eacute;part ne peut pas être avant celle d'arriv&eacute;e."
         )
     )
     .typeError('Quand nous quitterez vous ?')
-    .required('Sélectionner une date de fin')
+    .required('S&eacute;lectionner une date de fin')
     .transform(parseDateString),
 
   personnes: array()
@@ -133,7 +133,7 @@ function SearchBar() {
           <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
             <div className="flex flex-col md:col-span-3 pr-2">
               <label className={`font-semibold text-black`}>
-                Date d'arrivée et de départ
+                Date d&apos;arriv&eacute;e et de d&eacute;part
               </label>
               <DateRangePicker
                 showDefaultInputIcon={true}
@@ -144,10 +144,10 @@ function SearchBar() {
                 minDate={moment()}
                 displayFormat="D/M/Y"
                 startDate={_startDate}
-                startDatePlaceholderText="Arrivée"
+                startDatePlaceholderText="Arriv&eacute;e"
                 startDateId="debut"
                 endDate={_endDate}
-                endDatePlaceholderText="Départ"
+                endDatePlaceholderText="D&eacute;part"
                 endDateId="fin"
                 onDatesChange={({ startDate, endDate }: any) => {
                   setValue('debut', startDate?.toDate());

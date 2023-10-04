@@ -17,11 +17,11 @@ import moment from 'moment';
 
 moment.locale('fr', {
   months:
-    'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split(
+    'Janvier_F&eacute;vrier_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_D&eacute;cembre'.split(
       '_'
     ),
   monthsShort:
-    'Janv._Févr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._Déc.'.split('_'),
+    'Janv._F&eacute;vr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._D&eacute;c.'.split('_'),
   monthsParseExact: true,
   weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
   weekdaysShort: 'Dim._Lun._Mar._Mer._Jeu._Ven._Sam.'.split('_'),
@@ -92,7 +92,7 @@ const schema = object({
   reservation: object({
     debut: date()
       .typeError('Quand arrivez vous ?')
-      .required('Sélectionner une date de début')
+      .required('S&eacute;lectionner une date de d&eacute;but')
       .transform(parseDateString)
       .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
 
@@ -103,11 +103,11 @@ const schema = object({
           debut &&
           yup.min(
             debut,
-            "La date de départ ne peut pas être avant celle d'arrivée."
+            "La date de d&eacute;part ne peut pas être avant celle d'arriv&eacute;e."
           )
       )
       .typeError('Quand nous quitterez vous ?')
-      .required('Sélectionner une date de fin')
+      .required('S&eacute;lectionner une date de fin')
       .transform(parseDateString),
 
     personnes: array()
@@ -139,17 +139,17 @@ const schema = object({
       }),
 
     client: object({
-      prenom: string().typeError('Votre prénom').required('Votre prénom '),
+      prenom: string().typeError('Votre pr&eacute;nom').required('Votre pr&eacute;nom '),
       nom: string().typeError('Votre nom').required('Votre nom'),
       email: string().required('Ce champ est requis').email('Email invalide'),
       telephone: string()
-        .required('Le téléphone est requis')
+        .required('Le t&eacute;l&eacute;phone est requis')
         .matches(
           /^[0-9]+$/,
-          'Le téléphone invalide il ne doit comporter que des chiffres'
+          'Le t&eacute;l&eacute;phone invalide il ne doit comporter que des chiffres'
         )
-        .min(9, 'Le téléphone invalide il ne doit comporter que des chiffres')
-        .max(15, 'Le téléphone invalide il ne doit comporter que des chiffres'),
+        .min(9, 'Le t&eacute;l&eacute;phone invalide il ne doit comporter que des chiffres')
+        .max(15, 'Le t&eacute;l&eacute;phone invalide il ne doit comporter que des chiffres'),
     }).required(),
   }).required(),
 }).required();
@@ -269,17 +269,17 @@ function Reservation() {
   return (
     <Layout containerClasses="py-10">
       <Head>
-        <title>{`${APP_NAME} | réservation`}</title>
+        <title>{`${APP_NAME} | r&eacute;servation`}</title>
       </Head>
       <div className="container py-5 md:px-20">
         <h1 className="w-full text-2xl md:text-4xl pb-0 mb-4">
-          Votre réservation
+          Votre r&eacute;servation
         </h1>
         {mutation.isError ? (
           <Message
             type="error"
-            firstMessage="Une erreur est survenue, nous allons la résoudre sous peu"
-            secondMessage="N'hésitez pas à nous passer un coup de fil"
+            firstMessage="Une erreur est survenue, nous allons la r&eacute;soudre sous peu"
+            secondMessage="N'h&eacute;sitez pas à nous passer un coup de fil"
             action={handleError}
             actionLabel="Retourner à l'accueil"
           />
@@ -288,7 +288,7 @@ function Reservation() {
           <Message
             type="success"
             firstMessage="Nous avons reçu votre message."
-            secondMessage="Une réponse personnalisée vous sera apportée dans les meilleurs délais."
+            secondMessage="Une r&eacute;ponse personnalis&eacute;e vous sera apport&eacute;e dans les meilleurs d&eacute;lais."
             action={handleError}
             actionLabel="Retourner à l'accueil"
           />
@@ -299,7 +299,7 @@ function Reservation() {
               <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
                 <div className="flex flex-col md:col-span-2 pr-2">
                   <label className={`text-xl mb-2 font-semibold`}>
-                    Date d'arrivée et de départ
+                    Date d&apos;arriv&eacute;e et de d&eacute;part &;
                   </label>
                   <DateRangePicker
                     showDefaultInputIcon={true}
@@ -311,10 +311,10 @@ function Reservation() {
                     minDate={moment()}
                     displayFormat="D/M/Y"
                     startDate={_startDate}
-                    startDatePlaceholderText="Arrivée"
+                    startDatePlaceholderText="Arriv&eacute;e"
                     startDateId="reservation.debut"
                     endDate={_endDate}
-                    endDatePlaceholderText="Départ"
+                    endDatePlaceholderText="D&eacute;part"
                     endDateId="reservation.fin"
                     onDatesChange={({ startDate, endDate }: any) => {
                       setValue('reservation.debut', startDate?.toDate());
@@ -381,7 +381,7 @@ function Reservation() {
                               type="button"
                               className="bg-app-yellow text-app-brown py-2 px-6 rounded-md text-xl"
                               onClick={() => toggleType('ADD', space)}>
-                              Réserver
+                              R&eacute;server
                             </button>
                           ) : (
                             <button
@@ -407,7 +407,7 @@ function Reservation() {
               <div className="grid md:grid-cols-2 md:gap-4">
                 <div className="w-full relative mb-4">
                   <label className="text-app-black text-xs" htmlFor="prenom">
-                    Votre prénom
+                    Votre pr&eacute;nom
                   </label>
                   <input
                     type="text"
@@ -443,12 +443,12 @@ function Reservation() {
               <div className="grid md:grid-cols-2 md:gap-4">
                 <div className="w-full relative mb-4">
                   <label className="text-app-black text-xs" htmlFor="telephone">
-                    Votre téléphone
+                    Votre t&eacute;l&eacute;phone
                   </label>
                   <input
                     type="text"
                     id="telephone"
-                    placeholder="Votre téléphone"
+                    placeholder="Votre t&eacute;l&eacute;phone"
                     className={classNames(
                       'w-full text-left px-0 py-2 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-app-yellow'
                     )}
@@ -479,7 +479,7 @@ function Reservation() {
               <div className="grid">
                 <div className="w-full relative mb-4">
                   <label className="text-app-black text-xs" htmlFor="message">
-                    Si vous avez des précisions, transmettez les nous
+                    Si vous avez des pr&eacute;cisions, transmettez les nous
                   </label>
                   <textarea
                     rows={5}

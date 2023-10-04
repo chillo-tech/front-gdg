@@ -12,7 +12,6 @@ import {
 const PersonInput = ({
   index,
   control,
-  update,
   formKey,
   value,
   register,
@@ -24,11 +23,6 @@ const PersonInput = ({
   value: any;
   register: UseFormRegister<FieldValues>;
 }) => {
-  const age = useWatch({
-    control,
-    defaultValue: value?.age,
-    name: `${formKey}.${index}.age`,
-  });
 
   if (value.type === 'ADULTE') {
     return (
@@ -70,7 +64,6 @@ const PersonInput = ({
 function SelectPersonne({
   control,
   errorMessage,
-  id,
   formKey,
   setValue,
 }: {
@@ -82,7 +75,7 @@ function SelectPersonne({
 }) {
   const { register, handleSubmit } = useForm();
 
-  const { fields, append, prepend, remove, update } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name: `${formKey}`,
   });
