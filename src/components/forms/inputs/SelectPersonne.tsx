@@ -23,7 +23,6 @@ const PersonInput = ({
   value: any;
   register: UseFormRegister<FieldValues>;
 }) => {
-
   if (value.type === 'ADULTE') {
     return (
       <input
@@ -181,7 +180,7 @@ function SelectPersonne({
   }, [panelRef]);
 
   return (
-    <div className="relative flex flex-col md:col-span-2 text-black">
+    <div className="relative flex flex-col md:col-span-3 text-black">
       <label
         onClick={() => setShowFields(!showFields)}
         className={` ${

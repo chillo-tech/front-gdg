@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Layout from '@/containers/Layout';
 import { APP_NAME, PARTIAL_SPACES, parseDateString, todayDate } from '@/utils';
@@ -17,11 +18,11 @@ import moment from 'moment';
 
 moment.locale('fr', {
   months:
-    'Janvier_F&eacute;vrier_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_D&eacute;cembre'.split(
+    'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split(
       '_'
     ),
   monthsShort:
-    'Janv._F&eacute;vr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._D&eacute;c.'.split('_'),
+    'Janv._Févr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._Déc.'.split('_'),
   monthsParseExact: true,
   weekdays: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
   weekdaysShort: 'Dim._Lun._Mar._Mer._Jeu._Ven._Sam.'.split('_'),
@@ -64,6 +65,7 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 //@ts-ignore
 import { DateRangePicker } from 'react-dates';
+import { number } from 'prop-types';
 
 type FormData = {
   reservation: {
@@ -88,11 +90,25 @@ type FormData = {
   };
 };
 
+type Price = {
+  item: {
+    valeur: string;
+    date: string;
+  };
+};
+
+type Space = {
+  id: number;
+  libelle: string;
+  description: string;
+  prix: Price[];
+};
+
 const schema = object({
   reservation: object({
     debut: date()
       .typeError('Quand arrivez vous ?')
-      .required('S&eacute;lectionner une date de d&eacute;but')
+      .required('Sélectionner une date de début')
       .transform(parseDateString)
       .min(todayDate(), "Votre date doit être à partir d'aujourd'hui"),
 
@@ -103,11 +119,11 @@ const schema = object({
           debut &&
           yup.min(
             debut,
-            "La date de d&eacute;part ne peut pas être avant celle d'arriv&eacute;e."
+            "La date de départ ne peut pas être avant celle d'arrivée."
           )
       )
       .typeError('Quand nous quitterez vous ?')
-      .required('S&eacute;lectionner une date de fin')
+      .required('Sélectionner une date de fin')
       .transform(parseDateString),
 
     personnes: array()
@@ -139,17 +155,17 @@ const schema = object({
       }),
 
     client: object({
-      prenom: string().typeError('Votre pr&eacute;nom').required('Votre pr&eacute;nom '),
+      prenom: string().typeError('Votre prénom').required('Votre prénom '),
       nom: string().typeError('Votre nom').required('Votre nom'),
       email: string().required('Ce champ est requis').email('Email invalide'),
       telephone: string()
-        .required('Le t&eacute;l&eacute;phone est requis')
+        .required('Le téléphone est requis')
         .matches(
           /^[0-9]+$/,
-          'Le t&eacute;l&eacute;phone invalide il ne doit comporter que des chiffres'
+          'Le téléphone invalide il ne doit comporter que des chiffres'
         )
-        .min(9, 'Le t&eacute;l&eacute;phone invalide il ne doit comporter que des chiffres')
-        .max(15, 'Le t&eacute;l&eacute;phone invalide il ne doit comporter que des chiffres'),
+        .min(9, 'Le téléphone invalide il ne doit comporter que des chiffres')
+        .max(15, 'Le téléphone invalide il ne doit comporter que des chiffres'),
     }).required(),
   }).required(),
 }).required();
@@ -160,6 +176,8 @@ function Reservation() {
   const [_startDate, setStartDate] = useState<any>(null);
   const [_endDate, setEndDate] = useState<any>(null);
   const [focusedInput, setFocusedInput] = useState(null);
+
+  const [totalCost, setTotalCost] = useState(0);
 
   useQuery<any>({
     queryKey: ['nos_types'],
@@ -179,6 +197,45 @@ function Reservation() {
       mode: 'onChange',
       resolver: yupResolver(schema),
     });
+
+  const spacesTypes: Space[] = watch('reservation.types');
+  const startingDate = watch('reservation.debut');
+  const endDate = watch('reservation.fin');
+
+  const computeTotalCost = (data: Space[], numberOfNigths: number = 1) => {
+    if (data) {
+      setTotalCost((_prevCost) => {
+        let cost: number = 0;
+
+        cost = data.reduce<number>((acc, curr) => {
+          return +curr.prix[0].item.valeur + acc;
+        }, 0);
+
+        return cost * numberOfNigths;
+      });
+    } else {
+      setTotalCost(0);
+    }
+  };
+
+  useEffect(() => {
+    console.log(startingDate);
+    console.log(endDate);
+
+    if (startingDate && endDate) {
+      let milliSecondsBetween = endDate.getTime() - startingDate.getTime();
+      // Convert to days
+      let days: number = milliSecondsBetween / 1000 / 60 / 60 / 24;
+      days = +days.toFixed(0);
+
+      computeTotalCost(spacesTypes, days);
+    } else {
+      computeTotalCost(spacesTypes);
+    }
+
+    if (startingDate && endDate)
+      console.log(moment(endDate).days() - moment(startingDate).days());
+  }, [spacesTypes, startingDate, endDate]);
 
   const mutation = useMutation({
     mutationFn: (message: any) => sendData('/reservations', message),
@@ -269,7 +326,7 @@ function Reservation() {
   return (
     <Layout containerClasses="py-10">
       <Head>
-        <title>{`${APP_NAME} | r&eacute;servation`}</title>
+        <title>{`${APP_NAME} | réservation`}</title>
       </Head>
       <div className="container py-5 md:px-20">
         <h1 className="w-full text-2xl md:text-4xl pb-0 mb-4">
@@ -278,8 +335,8 @@ function Reservation() {
         {mutation.isError ? (
           <Message
             type="error"
-            firstMessage="Une erreur est survenue, nous allons la r&eacute;soudre sous peu"
-            secondMessage="N'h&eacute;sitez pas à nous passer un coup de fil"
+            firstMessage="Une erreur est survenue, nous allons la résoudre sous peu"
+            secondMessage="N'hésitez pas à nous passer un coup de fil"
             action={handleError}
             actionLabel="Retourner à l'accueil"
           />
@@ -288,7 +345,7 @@ function Reservation() {
           <Message
             type="success"
             firstMessage="Nous avons reçu votre message."
-            secondMessage="Une r&eacute;ponse personnalis&eacute;e vous sera apport&eacute;e dans les meilleurs d&eacute;lais."
+            secondMessage="Une réponse personnalisée vous sera apportée dans les meilleurs délais."
             action={handleError}
             actionLabel="Retourner à l'accueil"
           />
@@ -299,7 +356,7 @@ function Reservation() {
               <div className="grid grid-cols-1 md:grid-cols-6 md:col-span-3 gap-4 md:gap-2">
                 <div className="flex flex-col md:col-span-2 pr-2">
                   <label className={`text-xl mb-2 font-semibold`}>
-                    Date d&apos;arriv&eacute;e et de d&eacute;part &;
+                    Date d&apos;arriv&eacute;e et de d&eacute;part
                   </label>
                   <DateRangePicker
                     showDefaultInputIcon={true}
@@ -307,14 +364,18 @@ function Reservation() {
                     numberOfMonths={1}
                     hideKeyboardShortcutsPanel={true}
                     keepOpenOnDateSelect={true}
-                    renderCalendarInfo={() => <span className="text-md font-semibold inline-block m-6">Here we should write the price ?</span>}
+                    renderCalendarInfo={() => (
+                      <span className="text-md font-semibold inline-block m-6">
+                        Prix total : {totalCost} &euro;
+                      </span>
+                    )}
                     minDate={moment()}
                     displayFormat="D/M/Y"
                     startDate={_startDate}
-                    startDatePlaceholderText="Arriv&eacute;e"
+                    startDatePlaceholderText="Arrivée"
                     startDateId="reservation.debut"
                     endDate={_endDate}
-                    endDatePlaceholderText="D&eacute;part"
+                    endDatePlaceholderText="Départ"
                     endDateId="reservation.fin"
                     onDatesChange={({ startDate, endDate }: any) => {
                       setValue('reservation.debut', startDate?.toDate());
@@ -322,9 +383,6 @@ function Reservation() {
 
                       setValue('reservation.fin', endDate?.toDate());
                       setEndDate(endDate);
-
-                      console.log(`Starting date ${_startDate}`);
-                      console.log(`Ending date ${_endDate}`);
                     }}
                     focusedInput={focusedInput}
                     onFocusChange={(focusedInput: any) => {
@@ -333,13 +391,15 @@ function Reservation() {
                     }}
                   />
                 </div>
-                <SelectPersonne
-                  errorMessage={errors?.reservation?.personnes?.message}
-                  control={control}
-                  formKey={'reservation.personnes'}
-                  id="personnes"
-                  setValue={setValue}
-                />
+                <div className="flex flex-col md:col-span-2 pr-2">
+                  <SelectPersonne
+                    errorMessage={errors?.reservation?.personnes?.message}
+                    control={control}
+                    formKey={'reservation.personnes'}
+                    id="personnes"
+                    setValue={setValue}
+                  />
+                </div>
               </div>
             </div>
             <h2 className="w-full text-2xl md:text-4xl pb-2 mt-6 mb-4">
@@ -448,7 +508,7 @@ function Reservation() {
                   <input
                     type="text"
                     id="telephone"
-                    placeholder="Votre t&eacute;l&eacute;phone"
+                    placeholder="Votre téléphone"
                     className={classNames(
                       'w-full text-left px-0 py-2 bg-transparent border-0 border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-app-yellow'
                     )}
